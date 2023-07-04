@@ -22,7 +22,7 @@ export const Mainpage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-2xl text-white uppercase bg-black text-transform:">
+    <div className="flex flex-col items-center justify-center min-h-screen text-2xl text-white uppercase bg-black">
       <h1 className={"mb-20 font-bold"}>PhiloBerry</h1>
       <ul className="mt-10vh">
         <Link

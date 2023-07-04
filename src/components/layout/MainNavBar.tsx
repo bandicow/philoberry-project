@@ -3,10 +3,14 @@ import classes from "./MainNavBar.module.css";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
+import { useSession } from "next-auth/react";
 
 function MainNavBar() {
   const [isSidebarOpen, setIstSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  // const [isSignin, setIsSignin] = useState(false);
+
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,7 +46,11 @@ function MainNavBar() {
                 <Link href="/sale">sale</Link>
               </li>
               <li>
-                <Link href="/signin">account</Link>
+                {!session ? (
+                  <Link href="/signin">로그인</Link>
+                ) : (
+                  <Link href="/account">계정정보</Link>
+                )}
               </li>
               <li>
                 <Link href="../addItem">add 제품</Link>

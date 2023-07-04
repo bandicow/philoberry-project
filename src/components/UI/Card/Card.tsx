@@ -9,6 +9,7 @@ interface CardProps {
 // interface CardProps {d
 //   children: ReactElement;
 // }
+
 // 여기서 맨 아래 div를 p로 하면 hydrate 에러 남
 const Card: React.FC<CardProps> = (props) => {
   return (
