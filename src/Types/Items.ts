@@ -15,3 +15,11 @@ export interface Items {
 export interface SaleItemProps {
   items: Items[];
 }
+
+/**
+ File은 웹 플랫폼에서 파일을 나타내는 내장 타입
+ */
+export interface onImageUpload {
+  onImageUpload: (file: File) => void;
+  inputRef: React.RefObject<HTMLInputElement>;
+}

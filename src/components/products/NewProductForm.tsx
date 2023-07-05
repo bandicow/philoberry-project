@@ -1,14 +1,16 @@
 "use client";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 
-import Card from "../UI/Card";
-import classes from "./NewMeetupForm.module.css";
+import Card from "../UI/Card/addCard";
+import classes from "./NewProductForm.module.css";
+import DragAndDropUploader from "../ImageUploader/DragAndDrop";
+import Image from "next/image";
 
-interface NewItemFormProps {
-  onAddItem: (itemData: ItemData_notId) => void;
+interface NewProductFormProps {
+  onAddProduct: (productData: ProductData_notId) => void;
 }
 
-interface ItemData_notId {
+interface ProductData_notId {
   name: string;
   imageurl: string;
   price: number;
@@ -18,7 +20,7 @@ interface ItemData_notId {
   createdAt: { $date: Date };
 }
 
-function NewItemForm(props: NewItemFormProps) {
+function NewProductForm(props: NewProductFormProps) {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const imageurlInputRef = useRef<HTMLInputElement>(null);
   const priceInputRef = useRef<HTMLInputElement>(null);
@@ -36,7 +38,7 @@ function NewItemForm(props: NewItemFormProps) {
     const enteredCategory = categoryInputRef.current!.value;
     const enteredStock = Number(stockInputRef.current?.value);
 
-    const itemData = {
+    const productData = {
       name: enteredName,
       imageurl: enteredImageurl,
       description: enteredDescription,
@@ -46,8 +48,22 @@ function NewItemForm(props: NewItemFormProps) {
       createdAt: { $date: new Date() },
     };
 
-    props.onAddItem(itemData);
+    props.onAddProduct(productData);
   }
+
+  /*드래그앤드롭 이미지 업로드 상태관리 */
+  const [selectedImage, setselectedImage] = useState<File | null>(null);
+
+  /*드래그앤드롭 이미지 업로드 핸들러 */
+  const ImageUploadHandler = (file: File) => {
+    setselectedImage(file);
+  };
+
+  /**
+ 선택된 이미지를 사용하여 제품 추가 로직을 처리합니다.
+ 예를 들면, 선택된 이미지를 서버로 업로드하고 제품 데이터와 함께 저장할 수 있습니다.
+   */
+  const handleSubmit = () => {};
 
   return (
     <Card>
@@ -60,10 +76,30 @@ function NewItemForm(props: NewItemFormProps) {
           <label htmlFor="Category">분류</label>
           <input type="text" required id="Category" ref={categoryInputRef} />
         </div>
-        <div className={classes.control}>
+        <div>
+          <DragAndDropUploader
+            onImageUpload={ImageUploadHandler}
+            inputRef={imageurlInputRef}
+          />
+          {selectedImage && (
+            <div className="flex items-center justify-center">
+              <h2>선택된 이미지</h2>
+              <Image
+                className="border border-gray-300 rounded-md "
+                src={URL.createObjectURL(selectedImage)}
+                alt="Selected"
+                width={400}
+                height={300}
+              />
+            </div>
+          )}
+          <button onClick={handleSubmit}>11</button>
+        </div>
+
+        {/* <div className={classes.control}>
           <label htmlFor="Imageurl">제품 사진</label>
           <input type="url" required id="Imageurl" ref={imageurlInputRef} />
-        </div>
+        </div> */}
         <div className={classes.control}>
           <label htmlFor="Price">가격</label>
           <input type="text" required id="Price" ref={priceInputRef} />
@@ -82,11 +118,11 @@ function NewItemForm(props: NewItemFormProps) {
           ></textarea>
         </div>
         <div className={classes.actions}>
-          <button>Add Meetup</button>
+          <button>제품 추가하기</button>
         </div>
       </form>
     </Card>
   );
 }
 
-export default NewItemForm;
+export default NewProductForm;

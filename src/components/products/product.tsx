@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Card from "../UI/Card";
 import classes from "./MeetupItem.module.css";
 import Link from "next/link";
+import Card from "../UI/Card/Card";
 
-interface ItemProps {
+interface ProductProps {
   name: string;
   id: string;
   description: string;
@@ -14,7 +14,7 @@ interface ItemProps {
   createdAt: Date | string;
 }
 
-function Item(props: ItemProps) {
+function Product(props: ProductProps) {
   return (
     <li className={classes.item}>
       <Card>
@@ -39,4 +39,4 @@ function Item(props: ItemProps) {
   );
 }
 
-export default Item;
+export default Product;

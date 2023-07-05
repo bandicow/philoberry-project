@@ -53,7 +53,7 @@ function MainNavBar() {
                 )}
               </li>
               <li>
-                <Link href="../addItem">add 제품</Link>
+                <Link href="../addproduct">add 제품</Link>
               </li>
             </ul>
           </nav>

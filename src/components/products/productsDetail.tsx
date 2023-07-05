@@ -1,8 +1,7 @@
 import Image from "next/image";
 import classes from "./MeetupDetail.module.css";
 
-
-interface ItemData {
+interface ProductData {
   name: string;
   id: string;
   imageurl: string;
@@ -13,8 +12,7 @@ interface ItemData {
   createdAt: Date;
 }
 
-
-export default function ItemDetail(props : ItemData) {
+export default function ItemDetail(props: ProductData) {
   return (
     <section className={classes.detail}>
       <Image src={props.imageurl} alt={props.name} />
@@ -24,4 +22,3 @@ export default function ItemDetail(props : ItemData) {
     </section>
   );
 }
-
