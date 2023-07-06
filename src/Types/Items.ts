@@ -12,6 +12,9 @@ export interface Items {
   url: string;
 }
 
+/**
+ id,name.category,color,stock,size,descritption,img,url
+ */
 export interface SaleItemProps {
   items: Items[];
 }

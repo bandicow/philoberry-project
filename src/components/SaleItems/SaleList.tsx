@@ -4,7 +4,7 @@ import SaleItem from "./SaleItem";
 //grid-cols-1 md:grid-cols-3
 const SaleList = (props: SaleItemProps) => {
   return (
-    <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
+    <ol className="grid grid-cols-1 m-0 md:grid-cols-3">
       {props.items.map((item) => (
         <SaleItem
           key={item.id}
@@ -19,7 +19,7 @@ const SaleList = (props: SaleItemProps) => {
           descritption={item.descritption}
         />
       ))}
-    </ul>
+    </ol>
   );
 };
 

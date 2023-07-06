@@ -12,11 +12,8 @@ const SaleItem = (props: Items) => {
   }
 
   return (
-    <li onClick={showDetailHandler} className="flex m-2 list-none">
+    <li onClick={showDetailHandler} className="flex">
       <SaleItemCard>
-        <h3 className="mb-2 text-xl font-semibold">{props.name}</h3>
-        <div>{props.descritption}</div>
-
         <div className="m-4">
           <div className="w-full overflow-hidden rounded-t-lg h-80">
             <Image
@@ -28,6 +25,8 @@ const SaleItem = (props: Items) => {
             />
           </div>
         </div>
+        <h3 className="mb-2 text-xl font-semibold">{props.name}</h3>
+        <div>{props.descritption}</div>
       </SaleItemCard>
     </li>
   );
