@@ -15,8 +15,8 @@ const Signin = () => {
   };
 
   useEffect(() => {
-    if (!session) {
-      router.push("/");
+    if (session) {
+      router.push("/", undefined, { shallow: true });
     }
   }, [session, router]);
 

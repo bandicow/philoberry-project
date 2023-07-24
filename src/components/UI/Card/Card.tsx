@@ -13,7 +13,7 @@ interface CardProps {
 // 여기서 맨 아래 div를 p로 하면 hydrate 에러 남
 const Card: React.FC<CardProps> = (props) => {
   return (
-    <div className="w-full text-base text-red-700 bg-white border border-black cursor-pointer hover:bg-red-100 active:bg-red-200">
+    <div className="w-full text-base text-red-700 bg-white cursor-pointer hover:bg-red-100 active:bg-red-200">
       <div className="text-gray-700">{props.children}</div>
     </div>
   );

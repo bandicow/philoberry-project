@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import ClientAccount from "../../src/components/ClientAccout/ClientAccount";
+import Admin from "../../src/components/ClientAccout/Admin";
 
 const Account = () => {
   const { data: session } = useSession();
@@ -32,7 +32,7 @@ const Account = () => {
   return (
     <div>
       <div className="text-4xl">
-        <ClientAccount ClientInfo={session} />
+        <Admin ClientInfo={session} />
       </div>
     </div>
   );

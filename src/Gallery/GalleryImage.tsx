@@ -2,40 +2,50 @@ import React from "react";
 import { GalleryImage } from "../Types/Client";
 import Image from "next/image";
 import GalleryCard from "../components/UI/Card/GalleryCard";
+import Card from "../components/UI/Card/Card";
+import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import {
+  faQuoteLeftAlt,
+  faQuoteRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 const GalleryImage = (props: GalleryImage) => {
+  const router = useRouter();
+
+  const showDetailHandler = () => {
+    router.push(
+      { pathname: "/gallery/[galleryId]", query: { galleyid: props.id } },
+      "/gallery/" + props.id
+    );
+  };
+
+  const QuoteLeftIcon: IconDefinition = faQuoteLeftAlt;
+  const QuoteRightIcon: IconDefinition = faQuoteRight;
+
   return (
-    <GalleryCard>
-      <Image
-        className="w-full rounded-md"
-        src={props.imageUrl}
-        alt={props.caption}
-        width={250}
-        height={250}
-      />
-
-      <div className="absolute inset-0 flex flex-col p-8 text-white test__body">
-        <div className="relative">
-          <a
-            className="absolute inset-0 test__link"
-            target="_blank"
-            href="/"
-          ></a>
-          <h1 className="mb-3 text-3xl font-bold test__title">{props.likes}</h1>
+    <li onClick={showDetailHandler} className="flex-col items-center">
+      <Card>
+        <div className="min-h-0 overflow-auto">
+          <Image
+            className="w-full rounded-md"
+            src={props.imageUrl}
+            alt={props.caption}
+            width={200}
+            height={100}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw"
+          />
         </div>
-        <div className="mt-auto">
-          <span className="px-4 py-1 text-black bg-white rounded-md test__tag bg-opacity-60">
-            {props.tags}
-          </span>
-        </div>
-      </div>
-
-      {/* <div className="">
-          <h2>{props.id}</h2>
+      </Card>
+      <Card>
+        <div className="flex flex-col items-center p-8 border text-slate-950 test__body">
+          <FontAwesomeIcon icon={QuoteLeftIcon} />
           <p>{props.caption}</p>
-          <p>{props.timestamp.toDateString()}</p>
-        </div> */}
-    </GalleryCard>
+          <FontAwesomeIcon icon={QuoteRightIcon} />
+        </div>
+      </Card>
+    </li>
   );
 };
 

@@ -31,13 +31,13 @@ const Sidebar = ({ onToggle, sidebarState }: SidebarProps) => {
           {/* Sidebar 내용 */}
           <ul className="flex flex-col items-center justify-start space-y-5">
             <li className="mt-5">
-              <Link href="/sale">sale</Link>
+              <Link href="/sale">색상 변경</Link>
             </li>
             <li className="">
-              <Link href="/signin">account</Link>
+              <Link href="/signin">작품 변경 (작품 소개글, 이미지)</Link>
             </li>
             <li className="">
-              <Link href="../addItem">add 제품</Link>
+              <Link href="../addItem">원래있던 제품 (판매여부)</Link>
             </li>
           </ul>
         </div>

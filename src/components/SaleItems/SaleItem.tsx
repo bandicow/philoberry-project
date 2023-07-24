@@ -7,9 +7,12 @@ import { useRouter } from "next/router";
 const SaleItem = (props: Items) => {
   const router = useRouter();
 
-  function showDetailHandler() {
-    router.push("/" + props.id);
-  }
+  const showDetailHandler = () => {
+    router.push(
+      { pathname: "/sale/[itemid]", query: { itemid: props.id } },
+      "/sale/" + props.id
+    );
+  };
 
   return (
     <li onClick={showDetailHandler} className="flex">

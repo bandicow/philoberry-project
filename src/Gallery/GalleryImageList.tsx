@@ -4,7 +4,7 @@ import { ClientGalleyImageProps } from "../Types/Client";
 
 const GalleryImageList = (props: ClientGalleyImageProps) => {
   return (
-    <ol className="h-full columns-3 md:columns-4 lg:columns-5">
+    <ol className="flex flex-col items-center w-full">
       {props.GallreyImg.map((imginfo) => (
         <GalleryImage
           key={imginfo.id}

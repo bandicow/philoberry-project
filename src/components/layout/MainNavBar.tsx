@@ -49,11 +49,8 @@ function MainNavBar() {
                 {!session ? (
                   <Link href="/signin">로그인</Link>
                 ) : (
-                  <Link href="/account">계정정보</Link>
+                  <Link href="/admin">갤러리 및 굿즈 관리</Link>
                 )}
-              </li>
-              <li>
-                <Link href="../addproduct">add 제품</Link>
               </li>
             </ul>
           </nav>
