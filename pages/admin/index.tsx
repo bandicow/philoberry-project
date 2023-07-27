@@ -3,9 +3,9 @@
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Admin from "../../src/components/ClientAccout/Admin";
+import AdminInfo from "../../src/components/AdminSettings/AdminInfo";
 
-const Account = () => {
+const Admin = () => {
   const { data: session } = useSession();
 
   const logoutRouter = useRouter();
@@ -32,10 +32,10 @@ const Account = () => {
   return (
     <div>
       <div className="text-4xl">
-        <Admin ClientInfo={session} />
+        <AdminInfo ClientInfo={session} />
       </div>
     </div>
   );
 };
 
-export default Account;
+export default Admin;

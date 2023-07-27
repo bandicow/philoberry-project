@@ -1,0 +1,7 @@
+# 모든 파일은 LF를 사용하도록 설정
+* text=auto
+
+# 개행 문자를 CRLF로 사용할 파일들
+*.txt text eol=crlf
+*.md text eol=crlf
+# 필요한 파일 확장자들을 추가

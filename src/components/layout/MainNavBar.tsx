@@ -3,14 +3,15 @@ import classes from "./MainNavBar.module.css";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 function MainNavBar() {
-  const [isSidebarOpen, setIstSidebarOpen] = useState(false);
+  // const [isSidebarOpen, setIstSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   // const [isSignin, setIsSignin] = useState(false);
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,9 +28,20 @@ function MainNavBar() {
   }, []);
 
   // 사이드바 토글
-  const toggleSidebar = () => {
-    setIstSidebarOpen(!isSidebarOpen);
+  // const toggleSidebar = () => {
+  //   setIstSidebarOpen(!isSidebarOpen);
+  // };
+
+  // 로그인
+  const SigninHandler = () => {
+    signIn();
   };
+
+  // status가 loading이면 true (구조분해 할당)
+  const loading = status === "loading";
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <nav className="fixed top-0 left-0 items-center w-full h-10 px-1 text-white uppercase bg-black border-b-2 border-gray-300 shadow-md z-99">
@@ -47,9 +59,9 @@ function MainNavBar() {
               </li>
               <li>
                 {!session ? (
-                  <Link href="/signin">로그인</Link>
+                  <button onClick={SigninHandler}>로그인</button>
                 ) : (
-                  <Link href="/admin">갤러리 및 굿즈 관리</Link>
+                  <Link href="/admin">관리자 설정</Link>
                 )}
               </li>
             </ul>
@@ -58,11 +70,13 @@ function MainNavBar() {
       )}
 
       {/* 모바일 버전 768 아래 */}
-      {isMobile && (
+      {/* {isMobile && (
         <Sidebar onToggle={toggleSidebar} sidebarState={isSidebarOpen} />
-      )}
+      )} */}
     </nav>
   );
 }
 
 export default MainNavBar;
+
+//////////////////////////////
