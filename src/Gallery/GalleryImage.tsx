@@ -1,18 +1,18 @@
 import React from "react";
 import { GalleryImage } from "../Types/Client";
 import Image from "next/image";
-import GalleryCard from "../components/UI/Card/GalleryCard";
 import Card from "../components/UI/Card/Card";
 import { useRouter } from "next/router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import {
-  faQuoteLeftAlt,
-  faQuoteRight,
-} from "@fortawesome/free-solid-svg-icons";
 
-const GalleryImage = (props: GalleryImage) => {
+interface GalleryProps {
+  images: GalleryImage[];
+}
+
+const GalleryImage: React.FC<GalleryProps> = (props) => {
+  //페이지 이동에 사용되지만 후에 모달로 변경예정
   const router = useRouter();
+
+  const;
 
   const showDetailHandler = () => {
     router.push(
@@ -21,28 +21,17 @@ const GalleryImage = (props: GalleryImage) => {
     );
   };
 
-  const QuoteLeftIcon: IconDefinition = faQuoteLeftAlt;
-  const QuoteRightIcon: IconDefinition = faQuoteRight;
-
   return (
     <li onClick={showDetailHandler} className="flex-col items-center">
       <Card>
-        <div className="min-h-0 overflow-auto">
+        <div className="w-[900px] h-[600px] overflow-hidden rounded-xl">
           <Image
-            className="w-full rounded-md"
+            className="w-full"
             src={props.imageUrl}
             alt={props.caption}
             width={200}
             height={100}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw"
           />
-        </div>
-      </Card>
-      <Card>
-        <div className="flex flex-col items-center p-8 border text-slate-950 test__body">
-          <FontAwesomeIcon icon={QuoteLeftIcon} />
-          <p>{props.caption}</p>
-          <FontAwesomeIcon icon={QuoteRightIcon} />
         </div>
       </Card>
     </li>

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import AdminInfo from "../../src/components/AdminSettings/AdminInfo";
 
 const Admin = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const logoutRouter = useRouter();
 

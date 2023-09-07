@@ -1,3 +1,5 @@
+// 모달로 변경 예정
+
 import React from "react";
 import Image from "next/image";
 import { DUMMY_GALLERY_IMAGE } from "../../src/DummyData/DummyData";

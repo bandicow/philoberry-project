@@ -1,5 +1,5 @@
 # 모든 파일은 LF를 사용하도록 설정
-* text=auto
+* text=auto eol=lf
 
 # 개행 문자를 CRLF로 사용할 파일들
 *.txt text eol=crlf
