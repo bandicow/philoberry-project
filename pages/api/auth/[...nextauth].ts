@@ -1,7 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
-// import { NaverProvider } from 'next-auth/providers/naver';
 
 export const authOptions: NextAuthOptions = {
   providers: [

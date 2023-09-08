@@ -37,6 +37,13 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={PaletteIcon} className={"mr-3"} />
           <Link href="/admin/changecolor">색상 변경</Link>
         </li>
+        <li
+          className={`w-full mt-5 ${isChangeColorPage ? "changecolor" : ""}`}
+          onClick={() => setIsChangeColorPage(true)}
+        >
+          <FontAwesomeIcon icon={PaletteIcon} className={"mr-3"} />
+          <Link href="/admin/uploadImage">이미지 업로드</Link>
+        </li>
         <li className="w-full" onClick={() => setIsChangeColorPage(false)}>
           <FontAwesomeIcon icon={ImageIcon} className={"mr-3"} />
           <Link href="/signin">작품 변경 (작품 소개글, 이미지)</Link>

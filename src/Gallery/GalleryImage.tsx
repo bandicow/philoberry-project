@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { GalleryImage } from "../Types/Client";
 import Image from "next/image";
 import Card from "../components/UI/Card/Card";
 import { useRouter } from "next/router";
+import GalleryModal from "./GalleryModal";
 
-interface GalleryProps {
-  images: GalleryImage[];
-}
-
-const GalleryImage: React.FC<GalleryProps> = (props) => {
-  //페이지 이동에 사용되지만 후에 모달로 변경예정
+const GalleryImage = (props: GalleryImage) => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const;
+  //모달창
+  const ModalOpen = () => {
+    setIsOpen(true);
+  };
+
+  const modalClose = () => {
+    setIsOpen(false);
+  };
 
   const showDetailHandler = () => {
     router.push(
@@ -22,19 +26,29 @@ const GalleryImage: React.FC<GalleryProps> = (props) => {
   };
 
   return (
-    <li onClick={showDetailHandler} className="flex-col items-center">
-      <Card>
-        <div className="w-[900px] h-[600px] overflow-hidden rounded-xl">
-          <Image
-            className="w-full"
-            src={props.imageUrl}
-            alt={props.caption}
-            width={200}
-            height={100}
-          />
+    <div>
+      <li onClick={ModalOpen} className="flex-col items-center">
+        <Card>
+          <div className="w-[900px] h-[600px] overflow-hidden rounded-xl">
+            <Image
+              className="w-full"
+              src={props.imageUrl}
+              alt={props.caption}
+              width={200}
+              height={100}
+            />
+          </div>
+        </Card>
+      </li>
+      {isOpen && (
+        <div
+          onClick={modalClose}
+          className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-60"
+        >
+          <GalleryModal caption={props.caption} />
         </div>
-      </Card>
-    </li>
+      )}
+    </div>
   );
 };
 

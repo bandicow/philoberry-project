@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { onImageUpload } from "../../Types/Items";
 
@@ -6,11 +6,29 @@ const DragAndDropUploader: React.FC<onImageUpload> = ({
   onImageUpload,
   inputRef,
 }) => {
+  //상태관리
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+
   // 의존성이 변치 않은 한 재사용으로 성능향상
+  // 추가적으로 파일이 이미지 파일만 가능하게 변경
   const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
+    async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
-      onImageUpload(file);
+      if (file && file.type.startsWith("image/")) {
+        setIsUploading(true);
+        setUploadError("");
+
+        try {
+          await onImageUpload(file);
+        } catch (error) {
+          setUploadError("Failed to upload image");
+        }
+
+        setIsUploading(false);
+      } else {
+        setUploadError("OK!");
+      }
     },
     [onImageUpload]
   );
@@ -39,6 +57,7 @@ const DragAndDropUploader: React.FC<onImageUpload> = ({
           이미지를 드래그앤 드롭하거나 클릭하여 업로드하세요.
         </p>
       )}
+      {isUploading ? <p>Loading...</p> : <p>{uploadError}</p>}
     </div>
   );
 };

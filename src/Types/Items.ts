@@ -24,5 +24,5 @@ export interface SaleItemProps {
  */
 export interface onImageUpload {
   onImageUpload: (file: File) => void;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }

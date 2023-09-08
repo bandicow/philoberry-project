@@ -11,7 +11,11 @@ import { GalleryImage } from "../Types/Client";
 const QuoteLeftIcon: IconDefinition = faQuoteLeftAlt;
 const QuoteRightIcon: IconDefinition = faQuoteRight;
 
-const GalleryModal = (props: GalleryImage) => {
+interface GalleryModalProps {
+  caption: string;
+}
+
+const GalleryModal = (props: GalleryModalProps) => {
   return (
     <div>
       <Card>

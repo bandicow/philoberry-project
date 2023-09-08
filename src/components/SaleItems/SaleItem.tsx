@@ -17,16 +17,15 @@ const SaleItem = (props: Items) => {
   return (
     <li onClick={showDetailHandler} className="flex">
       <SaleItemCard>
-        <div className="m-4">
-          <div className="w-full overflow-hidden rounded-t-lg h-80">
-            <Image
-              className="w-full"
-              src={props.img}
-              alt="이미지설명"
-              width={500}
-              height={500}
-            />
-          </div>
+        {/* <div className="w-full m-1 overflow-hidden rounded-t-lg h-80"> */}
+        <div className="w-full m-1 h-[250px] overflow-hidden rounded-xl">
+          <Image
+            className="w-full"
+            src={props.img}
+            alt="이미지설명"
+            width={500}
+            height={500}
+          />
         </div>
         <h3 className="mb-2 text-xl font-semibold">{props.name}</h3>
         <div>{props.descritption}</div>
