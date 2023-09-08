@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>PhilaBerry</title>
+        <title>PhiloBerry</title>
         <meta name="description" content="PhilaBerry 브랜드 사이트" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -22,9 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
       <QueryClientProvider client={queryClient}>
         <ProviderWrapper>
-          <div className="flex">
+          <div className={"flex h-full w-full"}>
             <Sidebar />
-            <Layout>
+            <Layout className={"h-full w-screen test"}>
               <Component {...pageProps} />
             </Layout>
           </div>
@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ProviderWrapper>
-        <Layout>
+        <Layout className={"h-full w-full"}>
           <Component {...pageProps} />
         </Layout>
       </ProviderWrapper>

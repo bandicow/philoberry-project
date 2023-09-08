@@ -18,7 +18,7 @@ const AdminInfo = (props: ClientAccountProps) => {
   return (
     <div className="flex">
       {/* <Sidebar /> */}
-      <div className="grid justify-center w-3/5 settings">
+      <div className="grid justify-center w-4/5 settings">
         <div className="grid grid-cols-4 gap-3">
           <div className="col-span-1 mr-10">
             <ProfileImage />

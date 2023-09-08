@@ -22,7 +22,7 @@ export interface SaleItemProps {
 /**
  File은 웹 플랫폼에서 파일을 나타내는 내장 타입
  */
-export interface onImageUpload {
-  onImageUpload: (file: File) => void;
+export interface onImageUploadProps {
+  onImagesUpload: (file: File[]) => Promise<void>;
   inputRef?: React.RefObject<HTMLInputElement>;
 }
