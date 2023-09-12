@@ -36,8 +36,10 @@ function MyApp() {
   // }
 
   return (
-    <div className="flex justify-center w-2/3 item-center">
-      <DragAndDropUploader onImagesUpload={handleMultipleUploads} />
+    <div className="flex justify-center w-full item-center">
+      <div>
+        <DragAndDropUploader onImagesUpload={handleMultipleUploads} />
+      </div>
     </div>
   );
 }

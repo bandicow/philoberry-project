@@ -18,16 +18,8 @@ const DragAndDropUploader: React.FC<onImageUploadProps> = ({
   //올린 이미지들
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
 
-  // 이미지 삭제
-  const upLoadedImageRemover = (index: number) => {
-    const updatedImages = [...uploadedImages];
-    updatedImages.splice(index, 1);
-    setUploadedImages(updatedImages);
-  };
-
   // 의존성이 변치 않은 한 재사용으로 성능향상
   // 추가적으로 파일이 이미지 파일만 가능하게 변경
-
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setUploadedImages((prev) => [...prev, ...acceptedFiles]);
   }, []);
@@ -48,6 +40,29 @@ const DragAndDropUploader: React.FC<onImageUploadProps> = ({
       await onImagesUpload(uploadedImages);
       setUploadedImages([]); // Clear uploaded images
       alert("Image(s) uploaded successfully!");
+    }
+  };
+
+  // 이미지 삭제
+  const upLoadedImageRemover = (index: number) => {
+    const updatedImages = [...uploadedImages];
+    updatedImages.splice(index, 1);
+    setUploadedImages(updatedImages);
+  };
+
+  //kb, mb 변환
+  const standardNum: 1024 = 1024;
+  const formAtBytes = (bytes: number) => {
+    if (bytes < standardNum) {
+      return bytes.toFixed(2) + "bytes";
+    }
+
+    if (bytes < standardNum ** 2) {
+      return (bytes / standardNum).toFixed(2) + "KB";
+    }
+
+    if (bytes < standardNum ** 3) {
+      return (bytes / standardNum ** 2).toFixed(2) + "MB";
     }
   };
 
@@ -72,22 +87,34 @@ const DragAndDropUploader: React.FC<onImageUploadProps> = ({
 
         {/* 업로드된 이미지들의 미리보기 및 삭제 버튼 */}
         {uploadedImages.length > 0 && (
-          <>
+          <div className="flex flex-col">
             <h3>내가 선택한 이미지 : </h3>
             {uploadedImages.map((imageFile, index) => (
-              <div key={index}>
-                {<div>{imageFile.name}</div>}
-                <Image
-                  src={URL.createObjectURL(imageFile)}
-                  alt={`Preview ${index}`}
-                  onClick={() => upLoadedImageRemover(index)}
-                  style={{ cursor: "pointer" }}
-                  width={100}
-                  height={100}
-                />
+              <div key={index} className="flex justify-between">
+                <div className="flex justify-center">
+                  <Image
+                    src={URL.createObjectURL(imageFile)}
+                    alt={`Preview ${index}`}
+                    onClick={() => upLoadedImageRemover(index)}
+                    style={{ cursor: "pointer" }}
+                    width={30}
+                    height={30}
+                  />
+                  <p>{imageFile.name}</p>
+                </div>
+                <p>{formAtBytes(imageFile.size)}</p>
               </div>
             ))}
-          </>
+          </div>
+        )}
+
+        {isDragActive && (
+          <button
+            type="button"
+            {...getRootProps({ onClick: (e) => e.stopPropagation() })}
+          >
+            Add More Images
+          </button>
         )}
       </div>
 

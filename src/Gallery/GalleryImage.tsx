@@ -12,10 +12,12 @@ const GalleryImage = (props: GalleryImage) => {
   //모달창
   const ModalOpen = () => {
     setIsOpen(true);
+    document.body.style.overflow = "hidden";
   };
 
   const modalClose = () => {
     setIsOpen(false);
+    document.body.style.overflow = "auto";
   };
 
   const showDetailHandler = () => {
