@@ -5,9 +5,9 @@ import Card from "../components/UI/Card/Card";
 import GalleryModal from "./GalleryModal";
 
 const GalleryImage = (props: GalleryImage) => {
+  //모달창 상태
   const [isOpen, setIsOpen] = useState(false);
-
-  //모달창
+  // 모달창 위치
 
   useEffect(() => {
     if (isOpen) {
@@ -20,9 +20,12 @@ const GalleryImage = (props: GalleryImage) => {
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
-
-  const modalOpen = () => setIsOpen(true);
+  const modalOpen = () => {
+    setIsOpen(true);
+  };
   const modalClose = () => setIsOpen(false);
+
+  // const top = window.scrollY + window.innerHeight / 2;
 
   return (
     <div>
@@ -42,12 +45,11 @@ const GalleryImage = (props: GalleryImage) => {
       {isOpen && (
         <div
           onClick={modalClose}
-          className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-60"
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
         >
           <div onClick={(e) => e.stopPropagation()}>
-            {" "}
             {/* Prevent event bubbling */}
-            <GalleryModal caption={props.caption} />
+            <GalleryModal imageUrl={props.imageUrl} caption={props.caption} />
           </div>
         </div>
       )}

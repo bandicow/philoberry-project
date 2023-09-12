@@ -5,7 +5,9 @@ import React, { ReactElement, ReactNode } from "react";
 
 interface CardProps {
   children: ReactNode;
+  extraCalssName?: string;
 }
+
 // interface CardProps {d
 //   children: ReactElement;
 // }
@@ -13,7 +15,9 @@ interface CardProps {
 // 여기서 맨 아래 div를 p로 하면 hydrate 에러 남
 const Card: React.FC<CardProps> = (props) => {
   return (
-    <div className="w-full mt-10 mb-10 text-base text-red-700 bg-white cursor-pointer hover:bg-red-100 active:bg-red-200 rounded-xl">
+    <div
+      className={`w-full mt-10 mb-10 text-base bg-white cursor-pointer ${props.extraCalssName} rounded-xl`}
+    >
       <div className="text-gray-700">{props.children}</div>
     </div>
   );

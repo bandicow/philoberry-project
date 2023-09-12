@@ -16,7 +16,7 @@ const SaleItem = (props: Items) => {
 
   return (
     <li onClick={showDetailHandler} className="flex">
-      <SaleItemCard>
+      <SaleItemCard extraCalssName="hover:bg-red-100 active:bg-red-200">
         {/* <div className="w-full m-1 overflow-hidden rounded-t-lg h-80"> */}
         <div className="w-full m-1 h-[250px] overflow-hidden rounded-xl">
           <Image
