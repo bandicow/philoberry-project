@@ -18,10 +18,12 @@ interface GalleryModalProps {
 const GalleryModal = (props: GalleryModalProps) => {
   return (
     <div>
+      <h1>좀 나와라~ 나와라이 예~</h1>
       <Card>
-        <div className="flex flex-col items-center p-8 border text-slate-950 test__body">
+        <div className="flex flex-col items-center p-8 text-white border test__body">
           <FontAwesomeIcon icon={QuoteLeftIcon} />
           <p>{props.caption}</p>
+          <div>test for show word</div>
           <FontAwesomeIcon icon={QuoteRightIcon} />
         </div>
       </Card>
