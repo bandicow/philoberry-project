@@ -10,7 +10,7 @@ interface LayoutProps {
 function Layout({ className, children, hideOnScroll }: LayoutProps) {
   return (
     <div className={className}>
-      <MainNavBar hideOnScroll={hideOnScroll} />
+      <MainNavBar hideOnScroll={true} />
       <main>{children}</main>
     </div>
   );
