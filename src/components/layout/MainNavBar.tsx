@@ -78,6 +78,9 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll }) => {
               <Link href="/sale">sale</Link>
             </li>
             <li>
+              <Link href="/prismatest">DB테스트</Link>
+            </li>
+            <li>
               {!session ? (
                 <button onClick={SigninHandler}>로그인</button>
               ) : (

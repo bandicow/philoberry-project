@@ -1,6 +1,8 @@
 import { GalleryImage } from "../Types/Client";
 import { Items } from "../Types/Items";
 
+// id :UUID로 자동생성
+
 export const DUMMY_ITEM: Items[] = [
   {
     id: "1",
@@ -9,9 +11,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "white",
     stock: 50,
     size: 105,
-    descritption: "This is a PillaBerry MantoMan Cloth!",
+    description: "This is a PillaBerry MantoMan Cloth!",
     img: "https://source.unsplash.com/random/20",
     url: "https://www.naver.com",
+    isSold: false,
   },
   {
     id: "2",
@@ -20,9 +23,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "gray",
     stock: 70,
     size: 90,
-    descritption: "This is a PillaBerry Cloth for Woman!",
+    description: "This is a PillaBerry Cloth for Woman!",
     img: "https://source.unsplash.com/random/21",
     url: "https://www.naver.com",
+    isSold: false,
   },
   {
     id: "3",
@@ -31,9 +35,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "silver",
     stock: 70,
     size: "Free",
-    descritption: "This is a PillaBerry Shinny Accessory!",
+    description: "This is a PillaBerry Shinny Accessory!",
     img: "https://source.unsplash.com/random/22",
     url: "https://www.naver.com",
+    isSold: false,
   },
   {
     id: "4",
@@ -42,9 +47,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "white",
     stock: 50,
     size: 105,
-    descritption: "This is a PillaBerry MantoMan Cloth!",
+    description: "This is a PillaBerry MantoMan Cloth!",
     img: "https://source.unsplash.com/random/?man",
     url: "https://www.naver.com",
+    isSold: false,
   },
   {
     id: "5",
@@ -53,9 +59,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "gray",
     stock: 70,
     size: 90,
-    descritption: "This is a PillaBerry Cloth for Woman!",
+    description: "This is a PillaBerry Cloth for Woman!",
     img: "https://source.unsplash.com/random/?girl",
     url: "https://www.naver.com",
+    isSold: false,
   },
   {
     id: "6",
@@ -64,9 +71,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "silver",
     stock: 70,
     size: "Free",
-    descritption: "This is a PillaBerry Shinny Accessory!",
+    description: "This is a PillaBerry Shinny Accessory!",
     img: "https://source.unsplash.com/random/?ring",
     url: "https://www.naver.com",
+    isSold: false,
   },
   {
     id: "7",
@@ -75,9 +83,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "white",
     stock: 50,
     size: 105,
-    descritption: "This is a PillaBerry MantoMan Cloth!",
+    description: "This is a PillaBerry MantoMan Cloth!",
     img: "https://source.unsplash.com/random/?boy",
     url: "https://www.naver.com",
+    isSold: false,
   },
   {
     id: "8",
@@ -86,9 +95,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "gray",
     stock: 70,
     size: 90,
-    descritption: "This is a PillaBerry Cloth for Woman!",
+    description: "This is a PillaBerry Cloth for Woman!",
     img: "https://source.unsplash.com/random/?women",
     url: "https://www.naver.com",
+    isSold: false,
   },
   {
     id: "9",
@@ -97,9 +107,10 @@ export const DUMMY_ITEM: Items[] = [
     color: "silver",
     stock: 70,
     size: "Free",
-    descritption: "This is a PillaBerry Shinny Accessory!",
+    description: "This is a PillaBerry Shinny Accessory!",
     img: "https://source.unsplash.com/random/?necklace",
     url: "https://www.naver.com",
+    isSold: false,
   },
 ];
 
@@ -117,6 +128,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/1",
     },
     tags: ["tag1", "tag2"],
+    isSold: false,
   },
   {
     id: "no2",
@@ -131,6 +143,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/2",
     },
     tags: ["tag3", "tag4"],
+    isSold: false,
   },
   {
     id: "no3",
@@ -145,6 +158,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/3",
     },
     tags: ["tag5", "tag6"],
+    isSold: false,
   },
   {
     id: "no4",
@@ -159,6 +173,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/4",
     },
     tags: ["tag7", "tag8"],
+    isSold: false,
   },
   {
     id: "no5",
@@ -167,6 +182,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
     likes: 0,
     comments: 0,
     timestamp: new Date("2021-09-05"),
+    isSold: false,
     user: {
       id: "no5",
       username: "no5",
@@ -187,6 +203,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/6",
     },
     tags: ["tag11", "tag12"],
+    isSold: false,
   },
   {
     id: "no7",
@@ -201,6 +218,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/7",
     },
     tags: ["tag13", "tag14"],
+    isSold: false,
   },
   {
     id: "no8",
@@ -215,6 +233,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/8",
     },
     tags: ["tag15", "tag16"],
+    isSold: false,
   },
   {
     id: "no9",
@@ -229,6 +248,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/9",
     },
     tags: ["tag17", "tag18"],
+    isSold: false,
   },
   {
     id: "no10",
@@ -243,6 +263,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/10",
     },
     tags: ["tag19", "tag20"],
+    isSold: false,
   },
   {
     id: "no11",
@@ -257,6 +278,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/11",
     },
     tags: ["tag21", "tag22"],
+    isSold: false,
   },
   {
     id: "no12",
@@ -271,6 +293,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/12",
     },
     tags: ["tag23", "tag24"],
+    isSold: false,
   },
   {
     id: "no13",
@@ -285,6 +308,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/13",
     },
     tags: ["tag25", "tag26"],
+    isSold: false,
   },
   {
     id: "no14",
@@ -299,6 +323,7 @@ export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
       profileImageUrl: "https://source.unsplash.com/random/14",
     },
     tags: ["tag27", "tag28"],
+    isSold: false,
   },
   // {
   //   작가사진: "https://source.unsplash.com/random/14",

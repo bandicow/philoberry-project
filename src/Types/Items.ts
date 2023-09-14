@@ -7,9 +7,10 @@ export interface Items {
   color: string;
   stock: number;
   size: number | string;
-  descritption: string;
+  description: string;
   img: string;
   url: string;
+  isSold: boolean;
 }
 
 /**

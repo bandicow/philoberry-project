@@ -25,6 +25,7 @@ export interface GalleryImage {
     profileImageUrl: string; // 사용자 프로필 이미지 URL
   };
   tags: string[]; // 이미지에 태그된 문자열 배열
+  isSold: boolean; // 판매 여부
 }
 
 /**
