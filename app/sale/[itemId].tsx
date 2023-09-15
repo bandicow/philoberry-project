@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import { DUMMY_ITEM } from "../../src/DummyData/DummyData";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
 const DetailItem = () => {
-  const router = useRouter();
+  const router = useSearchParams();
 
-  const { itemid } = router.query;
+  const itemid = router?.get("itemid");
 
   // id와 일치하는 더미 데이터 가져오기
   const PRODUCT = DUMMY_ITEM.find((item) => item.id === itemid);

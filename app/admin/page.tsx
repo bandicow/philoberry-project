@@ -2,11 +2,13 @@
 
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+
 import AdminInfo from "../../src/components/AdminSettings/AdminInfo";
+import Sidebar from "../../src/components/layout/Sidebar";
 
 const Admin = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const logoutRouter = useRouter();
 
@@ -32,6 +34,7 @@ const Admin = () => {
   return (
     <div>
       <div className="text-4xl">
+        <Sidebar />
         <AdminInfo ClientInfo={session} />
       </div>
     </div>

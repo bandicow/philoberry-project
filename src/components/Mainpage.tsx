@@ -1,3 +1,4 @@
+"use client"; // 지울예정
 import React, { useState } from "react";
 import Link from "next/link";
 

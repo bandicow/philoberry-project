@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { DUMMY_GALLERY_IMAGE } from "../../src/DummyData/DummyData";
-import { useRouter } from "next/router";
+import useRouter from "next/router";
 
 const GalleryDetail = () => {
   const router = useRouter();

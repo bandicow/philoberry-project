@@ -7,7 +7,7 @@ interface LayoutProps {
   className: string;
 }
 
-function Layout({ className, children, hideOnScroll }: LayoutProps) {
+function Layout({ className, children }: LayoutProps) {
   return (
     <div className={className}>
       <MainNavBar hideOnScroll={true} />

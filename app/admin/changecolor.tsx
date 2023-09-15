@@ -1,3 +1,5 @@
+"use client";
+
 import { SketchPicker, ColorResult } from "react-color";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";

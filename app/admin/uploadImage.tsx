@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import DragAndDropUploader from "../../src/components/ImageUploader/DragAndDrop";
 

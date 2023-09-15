@@ -1,16 +1,15 @@
-// "use Client";
+"use client";
 import classes from "./MainNavBar.module.css";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { NextPage } from "next";
 
 interface navbarScrollProps {
   hideOnScroll?: boolean;
 }
 
-const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll }) => {
+const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   const { data: session } = useSession();

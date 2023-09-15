@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import GalleryImageList from "../../src/Gallery/GalleryImageList";
 import { ClientGalleyImageProps, GalleryImage } from "../../src/Types/Client";
