@@ -1,26 +1,17 @@
 import React from "react";
 import SaleItemCard from "../UI/Card/Card";
-import { Items } from "../../Types/Items";
+import { SaleItemProps } from "../../Types/Items";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
-const SaleItem = (item: Items) => {
-  const router = useRouter();
-
+const SaleItem = ({ item }: SaleItemProps) => {
   const { id, name, img } = item;
 
-  console.log(item);
-
-  const showDetailHandler = () => {
-    router.push(
-      { pathname: "/sale/[itemid]", query: { itemid: id } },
-      "/sale/" + id
-    );
-  };
-
   return (
-    <li onClick={showDetailHandler} className="flex">
-      <SaleItemCard extraCalssName="hover:bg-red-100 active:bg-red-200">
+    <li className="flex">
+      <SaleItemCard
+        extraCalssName="hover:bg-red-100 active:bg-red-200"
+        href={`/sale/${id}`}
+      >
         <div className="w-full m-1 h-[250px] overflow-hidden rounded-xl">
           <Image
             className="w-full"

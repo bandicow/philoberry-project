@@ -1,25 +1,22 @@
-import React, { ReactElement, ReactNode } from "react";
-
-//ReactElement 는 함수형 컴포넌트(Component, props, ...children) 제네릭 , ReactNode는 클래스형 컴포넌트 하지만 ReactElement와 JSX Element를 감싼다.
-// ReactNode만이 null타입을 가지기에 ReactElement를 사용시에는 null을 union 해줘야한다.
+import Link from "next/link";
+import React from "react";
 
 interface CardProps {
-  children: ReactNode;
+  children: React.ReactNode;
   extraCalssName?: string;
+  href: string;
 }
 
-// interface CardProps {d
-//   children: ReactElement;
-// }
-
 // 여기서 맨 아래 div를 p로 하면 hydrate 에러 남
-const Card: React.FC<CardProps> = (props) => {
+const Card = (props: CardProps) => {
   return (
-    <div
-      className={`w-full mt-10 mb-10 text-base bg-white cursor-pointer ${props.extraCalssName} rounded-xl`}
-    >
-      <div className="text-gray-700">{props.children}</div>
-    </div>
+    <Link href={props.href}>
+      <div
+        className={`w-full mt-10 mb-10 text-base bg-white cursor-pointer ${props.extraCalssName} rounded-xl`}
+      >
+        <div className="text-gray-700">{props.children}</div>
+      </div>
+    </Link>
   );
 };
 

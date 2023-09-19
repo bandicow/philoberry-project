@@ -1,6 +1,6 @@
 // img 임시 타입 StaticImageData
 
-export interface Items {
+export interface Item {
   id: string;
   name: string;
   category: string;
@@ -13,11 +13,12 @@ export interface Items {
   isSold: boolean;
 }
 
-/**
- id,name.category,color,stock,size,descritption,img,url
- */
 export interface SaleItemProps {
-  items: Items[];
+  item: Item; // SaleItem 컴포넌트가 사용할 props
+}
+
+export interface SaleListProps {
+  items: Item[]; // SaleList 컴포넌트가 사용할 props
 }
 
 /**

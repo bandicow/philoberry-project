@@ -1,9 +1,9 @@
 import { GalleryImage } from "../Types/Client";
-import { Items } from "../Types/Items";
+import { Item } from "../Types/Items";
 
 // id :UUID로 자동생성
 
-export const DUMMY_ITEM: Items[] = [
+export const DUMMY_ITEM: Item[] = [
   {
     id: "1",
     name: "Man Cloth",

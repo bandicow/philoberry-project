@@ -1,18 +1,26 @@
+"use client";
 import React from "react";
 import Image from "next/image";
-import { DUMMY_ITEM } from "../../src/DummyData/DummyData";
+import { DUMMY_ITEM } from "../../../src/DummyData/DummyData";
 import { useSearchParams } from "next/navigation";
+import { Item } from "../../../src/Types/Items";
 
-const DetailItem = () => {
-  const router = useSearchParams();
+interface ParamsProps {
+  params: { itemid: string };
+}
 
-  const itemid = router?.get("itemid");
+const DetailItem = ({ params }: ParamsProps) => {
+  // const router = useSearchParams();
+
+  // const itemid = router?.get("itemid");
 
   // id와 일치하는 더미 데이터 가져오기
-  const PRODUCT = DUMMY_ITEM.find((item) => item.id === itemid);
+  const PRODUCT: Item | undefined = DUMMY_ITEM.find(
+    (item) => item.id === params.itemid
+  );
 
   if (!PRODUCT) {
-    return <div>제품을 찾을 수 없습니다.</div>;
+    return <div>{params.itemid}번 상품을 찾을 수 없습니다.</div>;
   }
 
   return (

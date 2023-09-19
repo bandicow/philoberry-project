@@ -68,7 +68,7 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
     >
       <div className="flex items-center justify-between h-full px-4 py-3">
         <Link href="/">
-          <div className={classes.logo}>philoaberry</div>
+          <div className={classes.logo}>philoberry</div>
         </Link>
 
         <nav>
