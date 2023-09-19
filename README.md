@@ -66,3 +66,11 @@
 
 - 버그 대응 및 현업자 조언으로 Next13 버전으로 업그레이드 결정
   - 메이저는 최신으로 유지하는 것이 좋다고 한다. app 디렉토리를 현업에서 사용중이라고 함.
+  - pages -> app 디렉토리변경
+  - \_app.tsx -> layout.tsx , index.txs -> page.tsx
+  - “next/router” → “next/navigation”
+  - 기본적으로 SSR을 제공해서 CSR은 "use client"로 함으로써 SSR부분과 CSR 부분을 구분 (진행중)
+  - react-query 부분을 ProviderWrapper 부분으로 이동
+  - AppProps를 사용 → children : React.ReactNode 타입을 가진 props로 변경
+
+##### 2023.09.19(화)
