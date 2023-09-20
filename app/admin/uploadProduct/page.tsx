@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import DragAndDropUploader from "../../src/components/ImageUploader/DragAndDrop";
+import DragAndDropUploader from "../../../src/components/ImageUploader/DragAndDrop";
 
 function MyApp() {
   async function handleUpload(file: File) {
@@ -29,13 +29,6 @@ function MyApp() {
       await handleUpload(file);
     }
   }
-
-  //만약 한번에 올리고 싶을 때
-  // async function handleMultipleUploads(files: File[]) {
-  //   const uploadPromises = files.map(handleUpload);
-
-  //   await Promise.all(uploadPromises);
-  // }
 
   return (
     <div className="flex justify-center w-full item-center">

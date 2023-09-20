@@ -19,17 +19,19 @@ export const LinkWithHover = ({ href, children }: LinkWithHoverProps) => {
   };
 
   return (
-    <Link href={href} passHref>
-      <p
-        className={` float-left border-b border-white m-30 transition-transform duration-500 ease-in-out ${
-          isHovered ? "transform scale-150" : ""
-        }`}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {children}
-      </p>
-    </Link>
+    <div className="mr-8">
+      <Link href={href} passHref>
+        <p
+          className={` float-left border-b border-white  transition-transform duration-500 ease-in-out ${
+            isHovered ? "transform scale-150" : ""
+          }`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {children}
+        </p>
+      </Link>
+    </div>
   );
 };
 

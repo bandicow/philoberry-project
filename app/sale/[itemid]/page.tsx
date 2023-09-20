@@ -2,8 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import { DUMMY_ITEM } from "../../../src/DummyData/DummyData";
-import { useSearchParams } from "next/navigation";
 import { Item } from "../../../src/Types/Items";
+import { useSearchParams } from "next/navigation";
 
 interface ParamsProps {
   params: { itemid: string };
@@ -11,6 +11,7 @@ interface ParamsProps {
 
 const DetailItem = ({ params }: ParamsProps) => {
   // const router = useSearchParams();
+  // console.log(router);
 
   // const itemid = router?.get("itemid");
 
@@ -24,19 +25,31 @@ const DetailItem = ({ params }: ParamsProps) => {
   }
 
   return (
-    <div>
-      <Image
-        className="w-full"
-        src={PRODUCT.img}
-        alt="이미지설명"
-        width={500}
-        height={500}
-      />
-      <p>자세한 내용은 이미지 + 품명 + 재질 등등</p>
-      <div className="py-4 text-center">
-        <a className="text-lg text-gray-800" href="">
-          www.naver.com
-        </a>
+    <div className="flex item">
+      <div className="flex w-1/2 m-0">
+        <Image
+          className="w-full item_img"
+          src={PRODUCT.img}
+          alt="이미지설명"
+          width={500}
+          height={500}
+        />
+      </div>
+      <div className="fixed right-0 w-1/2 bg-black bg-opacity-40 h-[100vh]">
+        <div className="flex flex-col items-center w-5/6 p-10 m-5 border-4 item_desc class h-5/6">
+          <p></p>
+          <p>{PRODUCT.name}</p>
+          <p>{PRODUCT.category}</p>
+          <p>{PRODUCT.color}</p>
+          <p>{PRODUCT.size}</p>
+          <p>{PRODUCT.description}</p>
+          <p>{PRODUCT.isSold && "품절"}</p>
+        </div>
+        <div className="py-4 text-center item_desc_url">
+          <a className="text-lg text-gray-800" href="www.naver.com">
+            {PRODUCT.url}
+          </a>
+        </div>
       </div>
     </div>
   );

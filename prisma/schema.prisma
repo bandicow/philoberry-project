@@ -21,3 +21,27 @@ model Artwork {
   artistId Int
   artist   Artist   @relation(fields: [artistId], references: [id])
 }
+
+model Product {
+  id           Int      @id @default(autoincrement())
+  name         String
+  category     String
+  price        Float
+  material     String?
+  color        String?
+  size         String?
+  details      String?
+  precautions  String?
+  url          String   @unique
+  seller       String
+  isFavorited  Int
+  stock        Int
+  images       Image[]
+}
+
+model Image {
+    id          Int     @id @default(autoincrement())
+    url         String
+    productId   Int
+    product  Product  @relation(fields: [productId], references: [id])
+}
