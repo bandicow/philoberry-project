@@ -1,17 +1,22 @@
 "use client";
-import { FormEvent, useRef, useState } from "react";
-import { ProductData, ImageData } from "../../Types/Product";
+import { FormEvent, useState } from "react";
 import axios from "axios";
 
 import classes from "./NewProductForm.module.css";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
+import { Product, ProductImage } from "@prisma/client";
 
+type NewProduct = Omit<Product, "id" | "createdAt"> & {
+  productImages?: string[];
+};
 interface NewProductFormProps {
-  onAddProduct: (productData: ProductData) => void;
+  onAddProduct: (productData: NewProduct) => void;
 }
 
 function NewProductForm(props: NewProductFormProps) {
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<ProductImage[]>(
+    []
+  );
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -21,15 +26,14 @@ function NewProductForm(props: NewProductFormProps) {
   const [size, setSize] = useState("");
   const [details, setDetails] = useState("");
   const [precautions, setPrecautions] = useState("");
-  const [url, setUrl] = useState("");
   const [seller, setSeller] = useState("");
-  const [isFavorited, setIsFavorited] = useState(0);
+  const [url, setUrl] = useState("");
   const [stock, setStock] = useState(0);
 
   function submitHandler(event: FormEvent) {
     event.preventDefault();
 
-    const productData: ProductData = {
+    const productData: NewProduct = {
       name: name,
       category: category,
       price: price,
@@ -38,11 +42,11 @@ function NewProductForm(props: NewProductFormProps) {
       size: size,
       details: details,
       precautions: precautions,
-      url: url,
       seller: seller,
-      isFavorited: isFavorited,
       stock: stock,
-      images: uploadedImageUrls,
+      url: url,
+      mainImageUrl: uploadedImageUrls[0].url, // Assuming the first image is the main image
+      productImages: uploadedImageUrls.map((image) => image.url), // Extract only URLs
     };
 
     props.onAddProduct(productData);

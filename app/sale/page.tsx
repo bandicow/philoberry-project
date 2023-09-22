@@ -1,14 +1,17 @@
 "use client";
 import React from "react";
 import SaleList from "../../src/components/SaleItems/SaleList";
-import { NextPage } from "next";
-import { SaleItemProps } from "../../src/Types/Items";
-import { DUMMY_ITEM } from "../../src/DummyData/DummyData";
+import { DUMMY_PRODUCT } from "../../src/DummyData/DummyData";
+import { Product, ProductImage } from "@prisma/client";
 
-const Sale: NextPage<SaleItemProps> = () => {
+interface SaleProps {
+  items: (Product & { productImages?: ProductImage[] })[];
+}
+
+const Sale = (props: SaleProps) => {
   return (
     <div>
-      <SaleList items={DUMMY_ITEM} />
+      <SaleList items={DUMMY_PRODUCT} />
     </div>
   );
 };

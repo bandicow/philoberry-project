@@ -40,16 +40,18 @@ model Product {
   size         String?
   details      String?
   precautions  String?
-  url          String   @unique
+  mainImageUrl   String?   // Main image URL 
   seller       String
   stock        Int
+  url          String?
   createdAt    DateTime @default(now())
-  productimages     ProductImage[]
+  
+ productImages     ProductImage[] // Relation field for additional images
 }
 
 model ProductImage {
     id          Int     @id @default(autoincrement())
-    url         String
+    url         String // URL of the additional image stored in S3 
     productId   Int 
-    product  Product  @relation(fields: [productId], references: [id])
+    product     Product @relation(fields: [productId], references: [id])
 }

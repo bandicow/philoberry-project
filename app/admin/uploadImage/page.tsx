@@ -30,13 +30,6 @@ function MyApp() {
     }
   }
 
-  //만약 한번에 올리고 싶을 때
-  // async function handleMultipleUploads(files: File[]) {
-  //   const uploadPromises = files.map(handleUpload);
-
-  //   await Promise.all(uploadPromises);
-  // }
-
   return (
     <div className="flex justify-center w-full item-center">
       <div>
