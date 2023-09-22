@@ -1,3 +1,4 @@
+import { Artist, Artwork } from "@prisma/client";
 import { GalleryImage } from "../Types/Client";
 import { Item } from "../Types/Items";
 
@@ -114,7 +115,74 @@ export const DUMMY_ITEM: Item[] = [
   },
 ];
 
-export const DUMMY_GALLERY_IMAGE: GalleryImage[] = [
+export const DUMMY_ARTIST: Artist & { artworks?: Artwork[] } = {
+  artist_id: 1,
+  artist_image: "https://source.unsplash.com/random/1",
+  name: "홍길동",
+  nationality: "한국",
+  profile: "저는 홍길동이며, 다양한 예술 작품을 만들고 있습니다.",
+  website_url: "https://naver.com",
+  artworks: [],
+};
+
+export const DUMMY_ARTWORKS: Artwork[] = [
+  {
+    artwork_id: 1,
+    artist_id: DUMMY_ARTIST.artist_id,
+    title: "나의 첫 번째 작품",
+    image_url: "https://source.unsplash.com/random/1",
+    descripton:
+      "이 작품은 나의 첫 번째 작품으로, 자연의 아름다움을 표현하고자 했습니다.",
+    createdAt: new Date(),
+    medium: "유화",
+    dimensions: "30cm x 40cm",
+    price: null,
+    isSold: false,
+  },
+  {
+    artwork_id: 2,
+    artist_id: DUMMY_ARTIST.artist_id,
+    title: "나의 두 번째 작품",
+    image_url: "https://source.unsplash.com/random/2",
+    descripton:
+      "이 작품은 나의 두 번째 작품으로, 자연의 더러움을 표현하고자 했습니다.",
+    createdAt: new Date(),
+    medium: "유화, 아크릴",
+    dimensions: "30cm x 40cm",
+    price: 100,
+    isSold: false,
+  },
+  {
+    artwork_id: 3,
+    artist_id: DUMMY_ARTIST.artist_id,
+    title: "나의 세 번째 작품",
+    image_url: "https://source.unsplash.com/random/3",
+    descripton:
+      "이 작품은 나의 세 번째 작품으로, 자연의 순수함을 표현하고자 했습니다.",
+    createdAt: new Date(),
+    medium: "유화, 아크릴",
+    dimensions: "30cm x 40cm",
+    price: null,
+    isSold: false,
+  },
+  {
+    artwork_id: 4,
+    artist_id: DUMMY_ARTIST.artist_id,
+    title: "나의 네 번째 작품",
+    image_url: "https://source.unsplash.com/random/4",
+    descripton:
+      "이 작품은 나의 두 번째 작품으로, 자연의 파멸을 표현하고자 했습니다.",
+    createdAt: new Date(),
+    medium: "유화, 아크릴",
+    dimensions: "30cm x 40cm",
+    price: 10000,
+    isSold: false,
+  },
+];
+
+DUMMY_ARTIST.artworks = DUMMY_ARTWORKS;
+
+export const DUMMY_GALLERY_IMAGE: Artwork[] = [
   {
     id: "no1",
     imageUrl: "https://source.unsplash.com/random/1",

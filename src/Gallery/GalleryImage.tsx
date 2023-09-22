@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { GalleryImage } from "../Types/Client";
 import Image from "next/image";
-import Card from "../components/UI/Card/Card";
+import Card from "../components/UI/Card/GalleryCard";
 import GalleryModal from "./GalleryModal";
+import { Artwork } from "@prisma/client";
 
-const GalleryImage = (props: GalleryImage) => {
+const GalleryImage = (props: Artwork) => {
   //모달창 상태
   const [isOpen, setIsOpen] = useState(false);
   // 모달창 위치
@@ -35,8 +35,8 @@ const GalleryImage = (props: GalleryImage) => {
           <div className="w-[900px] h-[600px] overflow-hidden rounded-xl">
             <Image
               className="w-full"
-              src={props.imageUrl}
-              alt={props.caption}
+              src={props.image_url}
+              alt={props.title}
               width={200}
               height={100}
             />
@@ -50,7 +50,7 @@ const GalleryImage = (props: GalleryImage) => {
         >
           <div onClick={(e) => e.stopPropagation()}>
             {/* Prevent event bubbling */}
-            <GalleryModal imageUrl={props.imageUrl} caption={props.caption} />
+            <GalleryModal imageUrl={props.image_url} title={props.title} />
           </div>
         </div>
       )}

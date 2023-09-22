@@ -14,17 +14,27 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    // S3 getObject 메서드를 사용하여 이미지 URL 생성
     const params = {
-      Bucket: process.env.S3_BUCKET,
-      Key: "35mm_logo_main-removebg.png", // 로드할 실제 파일 이름으로 대체해야 함
+      Bucket: process.env.S3_BUCKET || "",
     };
 
-    const signedUrl = await s3.getSignedUrlPromise("getObject", params);
+    // List all objects in the bucket.
+    const data = await s3.listObjectsV2(params).promise();
 
-    res.status(200).json({ url: signedUrl });
+    // Generate signed URLs for each object.
+    const signedUrls = await Promise.all(
+      data.Contents?.map(async (object) => {
+        if (object.Key) {
+          const signedUrlParams = { Bucket: params.Bucket, Key: object.Key };
+          return await s3.getSignedUrlPromise("getObject", signedUrlParams);
+        }
+        return null;
+      }) || []
+    );
+
+    res.status(200).json({ urls: signedUrls });
   } catch (error) {
-    console.error("Failed to generate S3 image URL", error);
-    res.status(500).json({ error: "Failed to generate image URL" });
+    console.error("Failed to generate S3 image URLs", error);
+    res.status(500).json({ error: "Failed to generate image URLs" });
   }
 }

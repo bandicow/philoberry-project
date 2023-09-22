@@ -1,17 +1,15 @@
 "use client";
 import React from "react";
 import GalleryImageList from "../../src/Gallery/GalleryImageList";
-import { ClientGalleyImageProps, GalleryImage } from "../../src/Types/Client";
 import { NextPage } from "next";
-import { DUMMY_GALLERY_IMAGE } from "../../src/DummyData/DummyData";
+import { DUMMY_ARTWORKS } from "../../src/DummyData/DummyData";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { Artwork } from "@prisma/client";
 
-const Gallery: NextPage<ClientGalleyImageProps> = () => {
-  //id (S), imageUrl(S) , caption(이미지설명,S), likes(N) , comments(N) , timestamp(업로드날짜,D) , user(id,username,profileImageUrl)(AllS) , tags(S[])
-
+const Gallery = (props: Artwork) => {
   async function getBackgroundColor() {
-    const response = await axios.get("../api/getBackgroundColor");
+    const response = await axios.get("/api/getBackgroundColor");
     return response.data.color;
   }
 
@@ -19,7 +17,7 @@ const Gallery: NextPage<ClientGalleyImageProps> = () => {
 
   return (
     <div style={{ backgroundColor: color, backdropFilter: "blur(100px)" }}>
-      <GalleryImageList GallreyImg={DUMMY_GALLERY_IMAGE} />
+      <GalleryImageList artworks={DUMMY_ARTWORKS} />
     </div>
   );
 };

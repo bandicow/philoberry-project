@@ -32,9 +32,6 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
 
   //특정 페이지 네비바 숨기기
   useEffect(() => {
-    console.log(isVisible);
-    console.log(hideOnScroll);
-    console.log(prevScrollPos);
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
       const visible =

@@ -6,20 +6,28 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
 model Artist {
-  id    Int     @id @default(autoincrement())
-  name  String
-  email String  @unique 
-  artwork Artwork[]
+  artist_id   Int       @id @default(autoincrement())
+  artist_image String?  // This field is optional, hence the '?'
+  name        String // 이름
+  nationality String? // 국적
+  profile         String? // 프로필
+  website_url String?
+  artworks    Artwork[] // Relation field
 }
 
 model Artwork {
-  id       Int      @id @default(autoincrement())
-  title    String
-  content  String?
-  artistId Int
-  artist   Artist   @relation(fields: [artistId], references: [id])
+  artwork_id    Int      @id @default(autoincrement())
+  artist_id     Int     // 작가 id 
+  title         String // 작품명
+  image_url     String  // 작품 이미지
+  descripton  String? //작품설명 
+  createdAt     DateTime? // 생성일
+  medium        String?  // 재료
+  dimensions    String?  // 규격
+  price         Float?   // 가격
+  isSold        Boolean // 판매 여부
+  artist        Artist   @relation(fields: [artist_id], references: [artist_id])
 }
 
 model Product {
@@ -34,14 +42,14 @@ model Product {
   precautions  String?
   url          String   @unique
   seller       String
-  isFavorited  Int
   stock        Int
-  images       Image[]
+  createdAt    DateTime @default(now())
+  productimages     ProductImage[]
 }
 
-model Image {
+model ProductImage {
     id          Int     @id @default(autoincrement())
     url         String
-    productId   Int
+    productId   Int 
     product  Product  @relation(fields: [productId], references: [id])
 }

@@ -36,10 +36,14 @@ const DragAndDropUploader: React.FC<onImageUploadProps> = ({
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (uploadedImages.length > 0) {
-      await onImagesUpload(uploadedImages);
-      setUploadedImages([]); // Clear uploaded images
-      alert("Image(s) uploaded successfully!");
+    try {
+      if (uploadedImages.length > 0) {
+        await onImagesUpload(uploadedImages);
+        setUploadedImages([]); // Clear uploaded images
+      }
+    } catch (err) {
+      console.log(err);
+      alert("이미지 업로드 실패");
     }
   };
 

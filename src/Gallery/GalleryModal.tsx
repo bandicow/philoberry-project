@@ -1,10 +1,10 @@
-import Card from "../components/UI/Card/Card";
-import React, { useState, useEffect } from "react";
+import Card from "../components/UI/Card/GalleryCard";
+import React from "react";
 
 import Image from "next/image";
 
 interface GalleryModalProps {
-  caption: string;
+  title: string;
   imageUrl: string;
 }
 
@@ -26,12 +26,12 @@ const GalleryModal = (props: GalleryModalProps) => {
           <Image
             className="w-1/2"
             src={props.imageUrl}
-            alt={props.caption}
+            alt={props.title}
             width={200}
             height={100}
           />
           <div className="w-1/2 h-full border border-blue-700">
-            <p>{props.caption}</p>
+            <p>{props.title}</p>
           </div>
         </div>
       </Card>

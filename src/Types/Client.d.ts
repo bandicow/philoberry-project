@@ -15,17 +15,15 @@ export interface Session extends DefaultSession {}
 export interface GalleryImage {
   id: string; // 이미지 고유 식별자
   imageUrl: string; // 이미지 URL
-  caption: string; // 이미지 캡션
-  likes: number; // 좋아요 수
-  comments: number; // 댓글 수
   timestamp: Date; // 업로드 시간
   user: {
-    id: string; // 사용자 고유 식별자
-    username: string; // 사용자 이름
+    id: string; // 작가 고유 식별자
+    username: string; // 작가 이름
     profileImageUrl: string; // 사용자 프로필 이미지 URL
   };
   tags: string[]; // 이미지에 태그된 문자열 배열
   isSold: boolean; // 판매 여부
+  cost: string; // 가격 문의시 판매
 }
 
 /**

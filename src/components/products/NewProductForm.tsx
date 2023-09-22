@@ -1,127 +1,193 @@
 "use client";
 import { FormEvent, useRef, useState } from "react";
+import { ProductData, ImageData } from "../../Types/Product";
+import axios from "axios";
 
-import Card from "../UI/Card/addCard";
 import classes from "./NewProductForm.module.css";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
-import Image from "next/image";
 
 interface NewProductFormProps {
-  onAddProduct: (productData: ProductData_notId) => void;
-}
-
-interface ProductData_notId {
-  name: string;
-  imageurl: string;
-  price: number;
-  category: string;
-  stock: number;
-  description: string;
-  createdAt: { $date: Date };
+  onAddProduct: (productData: ProductData) => void;
 }
 
 function NewProductForm(props: NewProductFormProps) {
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const imageurlInputRef = useRef<HTMLInputElement>(null);
-  const priceInputRef = useRef<HTMLInputElement>(null);
-  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
-  const categoryInputRef = useRef<HTMLInputElement>(null);
-  const stockInputRef = useRef<HTMLInputElement>(null);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState(0);
+  const [material, setMaterial] = useState("");
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [details, setDetails] = useState("");
+  const [precautions, setPrecautions] = useState("");
+  const [url, setUrl] = useState("");
+  const [seller, setSeller] = useState("");
+  const [isFavorited, setIsFavorited] = useState(0);
+  const [stock, setStock] = useState(0);
 
   function submitHandler(event: FormEvent) {
     event.preventDefault();
 
-    const enteredName = nameInputRef.current!.value;
-    const enteredImageurl = imageurlInputRef.current!.value;
-    const enteredPrice = Number(priceInputRef.current?.value);
-    const enteredDescription = descriptionInputRef.current!.value;
-    const enteredCategory = categoryInputRef.current!.value;
-    const enteredStock = Number(stockInputRef.current?.value);
-
-    const productData = {
-      name: enteredName,
-      imageurl: enteredImageurl,
-      description: enteredDescription,
-      price: enteredPrice,
-      category: enteredCategory,
-      stock: enteredStock,
-      createdAt: { $date: new Date() },
+    const productData: ProductData = {
+      name: name,
+      category: category,
+      price: price,
+      material: material,
+      color: color,
+      size: size,
+      details: details,
+      precautions: precautions,
+      url: url,
+      seller: seller,
+      isFavorited: isFavorited,
+      stock: stock,
+      images: uploadedImageUrls,
     };
 
     props.onAddProduct(productData);
   }
 
-  /*드래그앤드롭 이미지 업로드 상태관리 */
-  const [selectedImage, setselectedImage] = useState<File | null>(null);
+  /** 이미지 업로드 */
+  async function handleUpload(file: File) {
+    try {
+      const response = await axios.post("/api/s3Upload", {
+        file: { name: file.name, type: file.type },
+      });
+      const url = response.data.url;
 
-  /*드래그앤드롭 이미지 업로드 핸들러 */
-  const ImageUploadHandler = (file: File) => {
-    setselectedImage(file);
-  };
+      // Create a new FormData instance
+      const formData = new FormData();
 
-  /**
- 선택된 이미지를 사용하여 제품 추가 로직을 처리합니다.
- 예를 들면, 선택된 이미지를 서버로 업로드하고 제품 데이터와 함께 저장할 수 있습니다.
-   */
-  const handleSubmit = () => {};
+      // Append the file to the 'file' field
+      formData.append("file", file);
+
+      // Use the presigned URL to upload the file to S3
+      await axios.put(url, formData);
+
+      // Save the uploaded image's URL
+      setUploadedImageUrls((prevUrls) => [...prevUrls, url]);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  /** 이미지 멀티 업로드 */
+
+  async function handleMultipleUploads(files: File[]) {
+    for (const file of files) {
+      await handleUpload(file);
+    }
+  }
 
   return (
-    <Card>
-      <form className={classes.form} onSubmit={submitHandler}>
+    <div className="">
+      <form className={classes.form}>
+        <div>
+          <DragAndDropUploader onImagesUpload={handleMultipleUploads} />
+        </div>
         <div className={classes.control}>
           <label htmlFor="Name">제품명</label>
-          <input type="text" required id="Name" ref={nameInputRef} />
+          <input
+            type="text"
+            required
+            id="Name"
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
         <div className={classes.control}>
           <label htmlFor="Category">분류</label>
-          <input type="text" required id="Category" ref={categoryInputRef} />
-        </div>
-        <div>
-          <DragAndDropUploader
-            onImageUpload={ImageUploadHandler}
-            inputRef={imageurlInputRef}
+          <input
+            type="text"
+            required
+            id="Category"
+            onChange={(e) => setCategory(e.target.value)}
           />
-          {selectedImage && (
-            <div className="flex items-center justify-center">
-              <h2>선택된 이미지</h2>
-              <Image
-                className="border border-gray-300 rounded-md "
-                src={URL.createObjectURL(selectedImage)}
-                alt="Selected"
-                width={400}
-                height={300}
-              />
-            </div>
-          )}
-          <button onClick={handleSubmit}>11</button>
         </div>
-
-        {/* <div className={classes.control}>
-          <label htmlFor="Imageurl">제품 사진</label>
-          <input type="url" required id="Imageurl" ref={imageurlInputRef} />
-        </div> */}
         <div className={classes.control}>
           <label htmlFor="Price">가격</label>
-          <input type="text" required id="Price" ref={priceInputRef} />
+          <input
+            type="text"
+            required
+            id="Price"
+            onChange={(e) => setPrice(Number(e.target.value))}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="Material">소재</label>
+          <input
+            type="text"
+            required
+            id="material"
+            onChange={(e) => setMaterial(e.target.value)}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="Material">크기</label>
+          <input
+            type="text"
+            required
+            id="size"
+            onChange={(e) => setSize(e.target.value)}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="Color">색상</label>
+          <input
+            type="color"
+            required
+            id="color"
+            onChange={(e) => setColor(e.target.value)}
+          />
         </div>
         <div className={classes.control}>
           <label htmlFor="Stock">재고량</label>
-          <input type="text" required id="Stock" ref={stockInputRef} />
+          <input
+            type="text"
+            required
+            id="Stock"
+            onChange={(e) => setStock(Number(e.target.value))}
+          />
         </div>
         <div className={classes.control}>
-          <label htmlFor="Description">제품 설명</label>
-          <textarea
-            id="Description"
+          <label htmlFor="Stock">판매자</label>
+          <input
+            type="text"
             required
-            rows={5}
-            ref={descriptionInputRef}
-          ></textarea>
+            id="Seller"
+            onChange={(e) => setSeller(e.target.value)}
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="Stock">판매 URL</label>
+          <input
+            type="url"
+            required
+            id="Url"
+            onChange={(e) => setUrl(e.target.value)}
+          />
+        </div>
+
+        <div className={classes.control}>
+          <label htmlFor="details">제품 설명</label>
+          <input
+            id="details"
+            required
+            onChange={(e) => setDetails(e.target.value)}
+          ></input>
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="precautions">취급주의사항</label>
+          <input
+            id="Precautions"
+            required
+            onChange={(e) => setPrecautions(e.target.value)}
+          ></input>
         </div>
         <div className={classes.actions}>
-          <button>제품 추가하기</button>
+          <button onSubmit={submitHandler}>제품 추가하기</button>
         </div>
       </form>
-    </Card>
+    </div>
   );
 }
 

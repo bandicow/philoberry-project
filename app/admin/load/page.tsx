@@ -1,41 +1,42 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 
 function ImageLoader() {
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   useEffect(() => {
-    async function loadImage() {
+    async function loadImages() {
       try {
-        // 요청을 통해 S3 버킷에서 이미지 URL 가져오기
+        // 요청을 통해 S3 버킷에서 이미지 URL들 가져오기
         const response = await axios.get("/api/s3Load");
-        const url = response.data.url;
+        const urls = response.data.urls;
 
-        // 이미지 URL 설정
-        setImageUrl(url);
+        // 이미지 URL들 설정
+        setImageUrls(urls);
       } catch (error) {
-        console.error("Failed to load image", error);
+        console.error("Failed to load images", error);
       }
     }
 
-    loadImage();
+    loadImages();
   }, []);
 
   return (
     <div>
-      {imageUrl ? (
-        <Image
-          className="w-full"
-          src={imageUrl}
-          alt={"S3 Image"}
-          width={200}
-          height={100}
-        />
+      {imageUrls.length > 0 ? (
+        imageUrls.map((url, index) => (
+          <Image
+            key={index}
+            className="w-full"
+            src={url}
+            alt={`S3 Image ${index}`}
+            fill
+          />
+        ))
       ) : (
-        <p>Loading image...</p>
+        <p>Loading images...</p>
       )}
     </div>
   );
