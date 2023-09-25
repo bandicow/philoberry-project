@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import DragAndDropUploader from "../../../src/components/ImageUploader/DragAndDrop";
+import plimit from "p-limit";
 
 function MyApp() {
   async function handleUpload(file: File) {
@@ -25,15 +26,16 @@ function MyApp() {
   }
 
   async function handleMultipleUploads(files: File[]) {
-    for (const file of files) {
-      await handleUpload(file);
-    }
+    const limit = plimit(5);
+
+    const uploadPromises = files.map((file) => limit(() => handleUpload(file)));
+    await Promise.all(uploadPromises);
   }
 
   return (
     <div className="flex justify-center w-full item-center">
       <div>
-        <DragAndDropUploader onImagesUpload={handleMultipleUploads} />
+        {/* <DragAndDropUploader onImagesUpload={handleMultipleUploads} /> */}
       </div>
     </div>
   );

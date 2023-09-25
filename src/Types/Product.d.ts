@@ -1,3 +1,5 @@
+import { Product, ProductImage } from "@prisma/client";
+
 export interface ProductData {
   id?: number;
   name: string;
@@ -19,4 +21,12 @@ export interface ImageData {
   id?: number;
   url: string;
   productId: number;
+}
+
+type NewProduct = Omit<Product, "id" | "createdAt"> & {
+  productImages: string[];
+};
+
+interface NewProductFormProps {
+  onAddProduct: (productData: NewProduct) => void;
 }

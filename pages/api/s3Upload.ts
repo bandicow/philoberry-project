@@ -15,11 +15,15 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { name, type } = req.body.file;
+    const productImage = req.body;
+    const file = productImage.file;
+
+    const fileName = `${productImage.name}/${Date.now()}-${file.name}`;
+
     const params = {
       Bucket: process.env.S3_BUCKET,
-      Key: name,
-      ContentType: type,
+      Key: fileName,
+      ContentType: productImage.type,
     };
 
     try {

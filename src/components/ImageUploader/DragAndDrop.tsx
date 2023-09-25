@@ -1,6 +1,6 @@
+"use client";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { onImageUploadProps } from "../../Types/Items";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
@@ -8,50 +8,40 @@ import { faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 const arrowDown: IconDefinition = faFileArrowDown;
 
-const DragAndDropUploader: React.FC<onImageUploadProps> = ({
-  onImagesUpload,
-  inputRef,
-}) => {
-  //상태관리
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadError, setUploadError] = useState("");
+interface DragAndDropUploaderProps {
+  uploadedImages: File[];
+  setUploadedImages: (files: File[]) => void;
+}
+
+const DragAndDropUploader = ({
+  setUploadedImages,
+  uploadedImages,
+}: DragAndDropUploaderProps) => {
   //올린 이미지들
-  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  // const [uploadedImages, setUploadedImages] = useState<File[]>([]);
 
   // 의존성이 변치 않은 한 재사용으로 성능향상
   // 추가적으로 파일이 이미지 파일만 가능하게 변경
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    setUploadedImages((prev) => [...prev, ...acceptedFiles]);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      setUploadedImages([...uploadedImages, ...acceptedFiles]);
+    },
+    [setUploadedImages, uploadedImages]
+  );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "image/*": [".jpeg", ".jpg", ".png"],
+      "image/jpeg": [".jpeg", ".jpg"],
+      "image/png": [".png"],
     }, // 이미지 파일만 선택가능
     multiple: true, // 여러 파일 선택 가능
   });
 
-  // 제출버튼
-  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
-    try {
-      if (uploadedImages.length > 0) {
-        await onImagesUpload(uploadedImages);
-        setUploadedImages([]); // Clear uploaded images
-      }
-    } catch (err) {
-      console.log(err);
-      alert("이미지 업로드 실패");
-    }
-  };
-
   // 이미지 삭제
   const upLoadedImageRemover = (index: number) => {
-    const updatedImages = [...uploadedImages];
-    updatedImages.splice(index, 1);
-    setUploadedImages(updatedImages);
+    const newUploadedImages = uploadedImages.filter((_, i) => i !== index);
+    setUploadedImages(newUploadedImages);
   };
 
   //kb, mb 변환
@@ -80,11 +70,7 @@ const DragAndDropUploader: React.FC<onImageUploadProps> = ({
       >
         {uploadedImages.length < 1 && (
           <>
-            <FontAwesomeIcon
-              icon={faFileArrowDown}
-              className={"m-4"}
-              size="2xl"
-            />
+            <FontAwesomeIcon icon={arrowDown} className={"m-4"} size="2xl" />
             <p>이미지 업로드</p>
           </>
         )}
@@ -121,14 +107,6 @@ const DragAndDropUploader: React.FC<onImageUploadProps> = ({
           </button>
         )}
       </div>
-
-      <button
-        className="border-solid border-indigo-500/100"
-        onClick={handleSubmit}
-      >
-        업로드
-      </button>
-      {isUploading ? <p>Loading...</p> : uploadError && <p>{uploadError}</p>}
     </div>
   );
 };

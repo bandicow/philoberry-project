@@ -1,23 +1,17 @@
 "use client";
 import { FormEvent, useState } from "react";
 import axios from "axios";
+import plimit from "p-limit";
 
 import classes from "./NewProductForm.module.css";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
-import { Product, ProductImage } from "@prisma/client";
+import { ProductImage } from "@prisma/client";
+import { NewProduct, NewProductFormProps } from "../../Types/Product";
 
-type NewProduct = Omit<Product, "id" | "createdAt"> & {
-  productImages?: string[];
-};
-interface NewProductFormProps {
-  onAddProduct: (productData: NewProduct) => void;
-}
+function NewProductForm() {
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
 
-function NewProductForm(props: NewProductFormProps) {
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<ProductImage[]>(
-    []
-  );
-
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState(0);
@@ -30,8 +24,59 @@ function NewProductForm(props: NewProductFormProps) {
   const [url, setUrl] = useState("");
   const [stock, setStock] = useState(0);
 
-  function submitHandler(event: FormEvent) {
+  /** 이미지 업로드 */
+  async function handleUpload(file: File) {
+    try {
+      const response = await axios.post("/api/s3Upload", {
+        file: { name: file.name, type: file.type },
+        name: name,
+      });
+      const url = response.data.url;
+
+      // Create a new FormData instance
+      const formData = new FormData();
+
+      // Append the file to the 'file' field
+      formData.append("file", file);
+
+      //사전 서명된(presigned) URL을 사용하여 S3에 직접 파일을 업로드
+      // 직접 업로드기에 백엔드 로직 필요없음
+      await axios.put(url, formData);
+
+      // Save the uploaded image's URL
+      setUploadedImageUrls((prevUrls) => [...prevUrls, url]);
+      console.log(url);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  /** 이미지 멀티 업로드 */
+
+  async function handleMultipleUploads(files: File[]) {
+    const limit = plimit(5);
+
+    const uploadPromises = files.map((file) => limit(() => handleUpload(file)));
+    await Promise.all(uploadPromises);
+  }
+
+  async function addProductHandler(productData: NewProduct) {
+    try {
+      const response = await axios.post("/api/productUpload", productData);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // 제출
+  async function submitHandler(event: FormEvent) {
     event.preventDefault();
+
+    try {
+      await handleMultipleUploads(uploadedImages);
+    } catch (error) {
+      alert("이미지 업로드 실패");
+    }
 
     const productData: NewProduct = {
       name: name,
@@ -44,80 +89,59 @@ function NewProductForm(props: NewProductFormProps) {
       precautions: precautions,
       seller: seller,
       stock: stock,
-      url: url,
-      mainImageUrl: uploadedImageUrls[0].url, // Assuming the first image is the main image
-      productImages: uploadedImageUrls.map((image) => image.url), // Extract only URLs
+      url: url, // Extract only URLs
+      mainImageUrl:
+        uploadedImageUrls && uploadedImageUrls.length > 0
+          ? uploadedImageUrls[0]
+          : null,
+      productImages:
+        uploadedImageUrls && uploadedImageUrls.length > 1
+          ? uploadedImageUrls.slice(1)
+          : [],
     };
 
-    props.onAddProduct(productData);
-  }
-
-  /** 이미지 업로드 */
-  async function handleUpload(file: File) {
-    try {
-      const response = await axios.post("/api/s3Upload", {
-        file: { name: file.name, type: file.type },
-      });
-      const url = response.data.url;
-
-      // Create a new FormData instance
-      const formData = new FormData();
-
-      // Append the file to the 'file' field
-      formData.append("file", file);
-
-      // Use the presigned URL to upload the file to S3
-      await axios.put(url, formData);
-
-      // Save the uploaded image's URL
-      setUploadedImageUrls((prevUrls) => [...prevUrls, url]);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  /** 이미지 멀티 업로드 */
-
-  async function handleMultipleUploads(files: File[]) {
-    for (const file of files) {
-      await handleUpload(file);
-    }
+    addProductHandler(productData);
   }
 
   return (
     <div className="">
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={submitHandler}>
         <div>
-          <DragAndDropUploader onImagesUpload={handleMultipleUploads} />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="Name">제품명</label>
-          <input
-            type="text"
-            required
-            id="Name"
-            onChange={(e) => setName(e.target.value)}
+          <DragAndDropUploader
+            setUploadedImages={setUploadedImages}
+            uploadedImages={uploadedImages}
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="Category">분류</label>
+          <label htmlFor="name">제품명</label>
           <input
             type="text"
             required
-            id="Category"
+            id="name"
+            onChange={(e) => setName(e.target.value)}
+            autoComplete="off"
+          />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="category">분류</label>
+          <input
+            type="text"
+            required
+            id="category"
             onChange={(e) => setCategory(e.target.value)}
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="Price">가격</label>
+          <label htmlFor="price">가격</label>
           <input
             type="text"
             required
-            id="Price"
+            id="price"
             onChange={(e) => setPrice(Number(e.target.value))}
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="Material">소재</label>
+          <label htmlFor="material">소재</label>
           <input
             type="text"
             required
@@ -126,7 +150,7 @@ function NewProductForm(props: NewProductFormProps) {
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="Material">크기</label>
+          <label htmlFor="size">크기</label>
           <input
             type="text"
             required
@@ -135,9 +159,9 @@ function NewProductForm(props: NewProductFormProps) {
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="Color">색상</label>
+          <label htmlFor="color">색상</label>
           <input
-            type="color"
+            type="text"
             required
             id="color"
             onChange={(e) => setColor(e.target.value)}
@@ -153,20 +177,20 @@ function NewProductForm(props: NewProductFormProps) {
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="Stock">판매자</label>
+          <label htmlFor="seller">판매자</label>
           <input
             type="text"
             required
-            id="Seller"
+            id="seller"
             onChange={(e) => setSeller(e.target.value)}
           />
         </div>
         <div className={classes.control}>
-          <label htmlFor="Stock">판매 URL</label>
+          <label htmlFor="url">판매 URL</label>
           <input
             type="url"
             required
-            id="Url"
+            id="url"
             onChange={(e) => setUrl(e.target.value)}
           />
         </div>
@@ -182,13 +206,13 @@ function NewProductForm(props: NewProductFormProps) {
         <div className={classes.control}>
           <label htmlFor="precautions">취급주의사항</label>
           <input
-            id="Precautions"
+            id="precautions"
             required
             onChange={(e) => setPrecautions(e.target.value)}
           ></input>
         </div>
         <div className={classes.actions}>
-          <button onSubmit={submitHandler}>제품 추가하기</button>
+          <button type="submit">제품 추가하기</button>
         </div>
       </form>
     </div>
