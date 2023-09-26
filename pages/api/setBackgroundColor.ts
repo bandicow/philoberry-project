@@ -1,34 +1,48 @@
-// pages/api/setBackgroundColor.ts
-
+"use client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs";
-import path from "path";
+import { PrismaClient } from "@prisma/client";
 
-type Data = {
-  color?: string;
-  message?: string;
-};
+const prisma = new PrismaClient();
 
-export default function setBackgroundColorHandler(
+export default async function setBackgroundColorHandler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const color = req.body.color;
+    const { backgroundColor }: { backgroundColor: string } = req.body;
 
     try {
       // 색상 정보를 파일에 저장합니다.
-      fs.writeFileSync(path.resolve("./color.txt"), color);
 
-      res.status(200).json({ color });
+      await prisma.setting.update({
+        where: { id: 1 },
+        data: { backgroundColor },
+      });
+      await prisma.$disconnect();
+      return res.status(200).json({ backgroundColor });
     } catch (error) {
       console.error(error);
-
       // 서버 오류 시 상태 코드와 메시지를 반환합니다.
-      res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ color: "Internal Server Error" });
     }
-  } else {
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
+  if (req.method === "GET") {
+    try {
+      const bgColor = await prisma.setting.findFirst();
+      if (bgColor) {
+        await prisma.$disconnect();
+        return res.json({ backgroundColor: bgColor.backgroundColor });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(404).json({ color: "No settings found" });
+    }
+  }
+  if (req.method !== "POST" && req.method !== "GET") {
+    // POST 또는 GET 이외의 메서드에 대한 요청을 처리합니다.
+
+    return res
+      .status(405)
+      .json({ message: `Method '${req.method}' Not Allowed` });
   }
 }

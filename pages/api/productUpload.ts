@@ -1,4 +1,4 @@
-import { PrismaClient, Product } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NewProduct } from "../../src/Types/Product";
 import AWS from "aws-sdk";
@@ -105,10 +105,6 @@ export default async function Prismasql(
 
       return res.status(200).json(allProducts);
     }
-
-    return res
-      .status(405)
-      .json({ message: `Method '${req.method}' Not Allowed` });
   } catch (e) {
     console.error(e); // 에러 로깅
 

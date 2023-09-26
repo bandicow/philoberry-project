@@ -1,6 +1,5 @@
 import React from "react";
 import GalleryImage from "./GalleryImage";
-import { ClientGalleyImageProps } from "../Types/Client";
 import { Artwork } from "@prisma/client";
 
 const GalleryImageList = ({ artworks }: { artworks: Artwork[] }) => {

@@ -9,14 +9,22 @@ import { Artwork } from "@prisma/client";
 
 const Gallery = (props: Artwork) => {
   async function getBackgroundColor() {
-    const response = await axios.get("/api/getBackgroundColor");
-    return response.data.color;
+    const response = await axios.get("/api/setBackgroundColor");
+    return response.data.backgroundColor;
   }
 
-  const { data: color } = useQuery("backgroundColor", getBackgroundColor);
+  const { data: backgroundColor } = useQuery(
+    "backgroundColor",
+    getBackgroundColor
+  );
 
   return (
-    <div style={{ backgroundColor: color, backdropFilter: "blur(100px)" }}>
+    <div
+      style={{
+        backgroundColor: backgroundColor,
+        backdropFilter: "blur(100px)",
+      }}
+    >
       <GalleryImageList artworks={DUMMY_ARTWORKS} />
     </div>
   );
