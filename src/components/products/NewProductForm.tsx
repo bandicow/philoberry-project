@@ -5,12 +5,10 @@ import plimit from "p-limit";
 
 import classes from "./NewProductForm.module.css";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
-import { ProductImage } from "@prisma/client";
-import { NewProduct, NewProductFormProps } from "../../Types/Product";
+import { NewProduct } from "../../Types/Product";
 
 function NewProductForm() {
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
-
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -194,7 +192,6 @@ function NewProductForm() {
             onChange={(e) => setUrl(e.target.value)}
           />
         </div>
-
         <div className={classes.control}>
           <label htmlFor="details">제품 설명</label>
           <input

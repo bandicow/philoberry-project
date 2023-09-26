@@ -77,22 +77,24 @@ const DragAndDropUploader = ({
 
         {/* 업로드된 이미지들의 미리보기 및 삭제 버튼 */}
         {uploadedImages.length > 0 && (
-          <div className="flex flex-col">
-            <h3>내가 선택한 이미지 : </h3>
+          <div className="flex flex-col w-full">
+            <h3 className="">내가 선택한 이미지 : </h3>
             {uploadedImages.map((imageFile, index) => (
-              <div key={index} className="flex justify-between">
-                <div className="flex justify-center">
+              <div key={index} className="flex justify-between w-full">
+                <div
+                  className="flex p-1"
+                  onClick={(event) => event.stopPropagation()}
+                >
                   <Image
                     src={URL.createObjectURL(imageFile)}
                     alt={`Preview ${index}`}
                     onClick={() => upLoadedImageRemover(index)}
-                    style={{ cursor: "pointer" }}
                     width={30}
                     height={30}
                   />
                   <p>{imageFile.name}</p>
                 </div>
-                <p>{formAtBytes(imageFile.size)}</p>
+                <p className="pt-1">{formAtBytes(imageFile.size)}</p>
               </div>
             ))}
           </div>

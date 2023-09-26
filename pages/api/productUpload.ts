@@ -20,34 +20,31 @@ export default async function Prismasql(
   try {
     if (req.method === "POST") {
       try {
-        // POST 요청 처리: 새로운 Product 생성
-
         const productData: NewProduct = req.body;
         const uploadedImageUrls = productData.productImages;
 
-        const newProduct = await prisma.product.create({
-          data: {
-            name: productData.name,
-            category: productData.category,
-            price: productData.price,
-            material: productData.material,
-            color: productData.color,
-            size: productData.size,
-            details: productData.details,
-            precautions: productData.precautions,
-            url: productData.url,
-            seller: productData.seller,
-            stock: productData.stock,
-            createdAt: new Date(),
-            mainImageUrl:
-              productData.mainImageUrl && productData.mainImageUrl.length > 0
-                ? productData.mainImageUrl[0]
-                : null,
-          },
-        });
-
-        // 각각의 이미지 URL을 ProductImage 테이블에 저장합니다.
+        // POST 요청 처리: 새로운 Product 생성
         if (uploadedImageUrls && uploadedImageUrls.length > 0) {
+          console.log(uploadedImageUrls);
+          const newProduct = await prisma.product.create({
+            data: {
+              name: productData.name,
+              category: productData.category,
+              price: productData.price,
+              material: productData.material,
+              color: productData.color,
+              size: productData.size,
+              details: productData.details,
+              precautions: productData.precautions,
+              url: productData.url,
+              seller: productData.seller,
+              stock: productData.stock,
+              createdAt: new Date(),
+              mainImageUrl: productData.mainImageUrl,
+            },
+          });
+
+          // 각각의 이미지 URL을 ProductImage 테이블에 저장합니다.
           for (let imageUrl of uploadedImageUrls) {
             await prisma.productImage.create({
               data: {
