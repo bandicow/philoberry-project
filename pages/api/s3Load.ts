@@ -31,7 +31,7 @@ export default async function handler(
         return null;
       }) || []
     );
-
+    console.log(signedUrls[0] + "s3Load 부분 url");
     res.status(200).json({ urls: signedUrls });
   } catch (error) {
     console.error("Failed to generate S3 image URLs", error);

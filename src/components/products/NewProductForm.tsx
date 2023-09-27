@@ -41,6 +41,13 @@ function NewProductForm() {
       // 직접 업로드기에 백엔드 로직 필요없음
       await axios.put(url, formData);
 
+      // Create a new Blob instance
+      const blob = new Blob([file], { type: file.type });
+
+      //사전 서명된(presigned) URL을 사용하여 S3에 직접 파일을 업로드
+      // 직접 업로드기에 백엔드 로직 필요없음
+      await axios.put(url, blob);
+
       // Save the uploaded image's URL
       setUploadedImageUrls((prevUrls) => [...prevUrls, url]);
       console.log(url);

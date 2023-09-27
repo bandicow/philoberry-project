@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { productsWithImages } from "../../../src/DummyData/DummyData";
 import { Product, ProductImage } from "@prisma/client";
+import Link from "next/link";
 
 interface SaleItemProps {
   item: Product & { productImages?: ProductImage[] };
@@ -42,9 +43,11 @@ const DetailItem = ({ item }: SaleItemProps) => {
           <p>{!PRODUCT.stock && "품절"}</p>
         </div>
         <div className="py-4 text-center item_desc_url">
-          <a className="text-lg text-gray-800" href="www.naver.com">
-            {PRODUCT.url}
-          </a>
+          {PRODUCT.url && (
+            <Link href={PRODUCT.url}>
+              <p className="mb-2 text-xl font-semibold">{PRODUCT.url}</p>
+            </Link>
+          )}
         </div>
       </div>
     </div>

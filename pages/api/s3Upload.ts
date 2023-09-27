@@ -23,11 +23,14 @@ export default async function handler(
     const params = {
       Bucket: process.env.S3_BUCKET,
       Key: fileName,
-      ContentType: productImage.type,
+      ContentType: file.type,
     };
 
     try {
       const uploadURL = await s3.getSignedUrlPromise("putObject", params);
+
+      console.log(uploadURL + "업로드시 보낼 url");
+
       res.status(200).json({ url: uploadURL });
     } catch (error) {
       console.error(error);

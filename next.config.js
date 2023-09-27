@@ -3,7 +3,6 @@ const nextConfig = {
   images: {
     domains: [
       "source.unsplash.com",
-      "*",
       `${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com`,
     ],
   },

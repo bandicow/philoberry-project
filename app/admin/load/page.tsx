@@ -5,7 +5,7 @@ import Image from "next/image";
 
 function ImageLoader() {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-
+  console.log(imageUrls);
   useEffect(() => {
     async function loadImages() {
       try {
@@ -23,21 +23,28 @@ function ImageLoader() {
     loadImages();
   }, []);
 
+  const imageurl = imageUrls.map((url) => url)[0];
+
+  console.log(imageurl + "S3 이미지 URL");
+
   return (
-    <div>
-      {imageUrls.length > 0 ? (
-        imageUrls.map((url, index) => (
-          <Image
-            key={index}
-            className="w-full"
-            src={url}
-            alt={`S3 Image ${index}`}
-            fill
-          />
-        ))
-      ) : (
-        <p>Loading images...</p>
-      )}
+    <div className="flex">
+      <div>
+        {imageUrls.length > 0 ? (
+          imageUrls.map((url, index) => (
+            <Image
+              key={index}
+              className="w-full"
+              src={url}
+              alt={`S3 Image ${index}`}
+              height={500}
+              width={500}
+            />
+          ))
+        ) : (
+          <p>Loading images...</p>
+        )}
+      </div>
     </div>
   );
 }
