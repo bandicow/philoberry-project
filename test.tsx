@@ -56,68 +56,36 @@
 ///333
 if (req.method === "GET") {
   // GET 요청 처리
+  const allProducts = await prisma.product.findMany();
 
-  try {
-    const allProducts = await prisma.product.findMany();
+  const updatedProducts = await Promise.all(
+    allProducts.map(async (product) => {
+      if (product.mainImageUrl) {
+        // mainImageUrl이 있는 경우, 해당 이미지에 대한 Presigned URL 생성
+        const objectKey = product.mainImageUrl.split("/").pop(); // S3 객체 키 추출
 
-    return res.status(200).json(allProducts);
-  } catch (err) {
-    console.log(err);
-  }
-}
+        if (!objectKey) return product; // 객체 키가 없는 경우 원래 제품 데이터 반환
 
-///333
-import { PrismaClient } from "@prisma/client";
-import AWS from "aws-sdk";
-import { NextApiRequest, NextApiResponse } from "next";
+        const signedUrlParams = {
+          Bucket: process.env.S3_BUCKET || "",
+          Key: objectKey,
+        };
+        const presignedUrl = await s3.getSignedUrlPromise(
+          "getObject",
+          signedUrlParams
+        );
 
-const prisma = new PrismaClient();
+        return { ...product, mainImageUrl: presignedUrl }; // 제품 데이터에 Presigned URL 적용
+      } else {
+        return product; // mainImageUrl이 없는 경우 원래 제품 데이터 반환
+      }
+    })
+  );
 
-// AWS S3 설정
-AWS.config.update({
-  accessKeyId: process.env.S3_ACCESS_KEY,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
+  console.log(updatedProducts, "S3세일에서 받아오는 url");
 
-const s3 = new AWS.S3();
+  // Disconnect from the database
+  await prisma.$disconnect();
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "GET") {
-    try {
-      // RDS에서 Product 데이터 가져오기
-      const products = await prisma.product.findMany();
-
-      // 각 Product의 S3 URL을 이용해 이미지 가져오기
-      const productWithImages = await Promise.all(
-        products.map(async (product) => {
-          const params = {
-            Bucket: process.env.S3_BUCKET_NAME as string,
-            Key: product.imageUrl, // imageUrl은 실제 필드명에 맞게 변경하세요.
-          };
-
-          try {
-            const imageData = await s3.getObject(params).promise();
-
-            return { ...product, image: imageData.Body };
-          } catch (error) {
-            console.error(error);
-
-            return product;
-          }
-        })
-      );
-
-      res.status(200).json(productWithImages);
-    } catch (error) {
-      console.error(error);
-
-      res.status(500).json({ error });
-    }
-  } else {
-    res.status(405).json({ message: `Method '${req.method}' Not Allowed` });
-  }
+  return res.status(200).json(updatedProducts);
 }

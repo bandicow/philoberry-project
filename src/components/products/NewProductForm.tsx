@@ -32,14 +32,14 @@ function NewProductForm() {
       const url = response.data.url;
 
       // Create a new FormData instance
-      const formData = new FormData();
+      // const formData = new FormData();
 
-      // Append the file to the 'file' field
-      formData.append("file", file);
+      // // Append the file to the 'file' field
+      // formData.append("file", file);
 
       //사전 서명된(presigned) URL을 사용하여 S3에 직접 파일을 업로드
       // 직접 업로드기에 백엔드 로직 필요없음
-      await axios.put(url, formData);
+      // await axios.put(url, formData);
 
       // Create a new Blob instance
       const blob = new Blob([file], { type: file.type });

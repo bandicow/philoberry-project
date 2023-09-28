@@ -32,13 +32,14 @@ const GalleryImage = (props: Artwork) => {
     <div>
       <li onClick={modalOpen} className="flex-col items-center">
         <Card>
-          <div className="w-[900px] h-[600px] overflow-hidden rounded-xl">
+          <div className="w-auto max-h-[600px] h-auto overflow-hidden">
             <Image
-              className="w-full"
+              className="w-full h-auto"
               src={props.image_url}
               alt={props.title}
-              width={200}
-              height={100}
+              width={500}
+              height={300}
+              loading="lazy"
             />
           </div>
         </Card>
@@ -50,7 +51,7 @@ const GalleryImage = (props: Artwork) => {
         >
           <div onClick={(e) => e.stopPropagation()}>
             {/* Prevent event bubbling */}
-            <GalleryModal imageUrl={props.image_url} title={props.title} />
+            <GalleryModal imageInfo={props} />
           </div>
         </div>
       )}

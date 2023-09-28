@@ -42,19 +42,22 @@ export default async function Prismasql(
                 : null,
           },
         });
+        try {
+          // 각각의 이미지 URL을 ProductImage 테이블에 저장합니다.
+          if (uploadedImageUrls && uploadedImageUrls.length > 0) {
+            for (let imageUrl of uploadedImageUrls) {
+              await prisma.productImage.create({
+                data: {
+                  url: imageUrl,
+                  productId: newProduct.id,
+                },
+              });
+            }
 
-        // 각각의 이미지 URL을 ProductImage 테이블에 저장합니다.
-        if (uploadedImageUrls && uploadedImageUrls.length > 0) {
-          for (let imageUrl of uploadedImageUrls) {
-            await prisma.productImage.create({
-              data: {
-                url: imageUrl,
-                productId: newProduct.id,
-              },
-            });
+            return res.status(201).json(newProduct);
           }
-
-          return res.status(201).json(newProduct);
+        } catch (err) {
+          return res.status(405).json(`${err} + 제품이미지 업로드 실패`);
         }
       } catch (error) {
         // S3 이미지 업로드 후 url받아오기(실패시 rds도 X , 성공시 rds에 저장, rds 실패 시 s3 막 업로드된거 delete)

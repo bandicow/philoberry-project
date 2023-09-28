@@ -23,10 +23,6 @@ function ImageLoader() {
     loadImages();
   }, []);
 
-  const imageurl = imageUrls.map((url) => url)[0];
-
-  console.log(imageurl + "S3 이미지 URL");
-
   return (
     <div className="flex">
       <div>
