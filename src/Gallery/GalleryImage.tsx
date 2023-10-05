@@ -35,7 +35,7 @@ const GalleryImage = (props: Artwork) => {
           <div className="w-auto max-h-[600px] h-auto overflow-hidden">
             <Image
               className="w-full h-auto"
-              src={props.image_url}
+              src={props.s3key}
               alt={props.title}
               width={500}
               height={300}

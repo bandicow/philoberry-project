@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  log    = ["query", "info", "warn", "error"]
 }
 
 datasource db {
@@ -8,7 +9,7 @@ datasource db {
 }
 model Artist {
   artist_id   Int       @id @default(autoincrement())
-  artist_image String?  // This field is optional, hence the '?'
+  artist_image String?  // This field is optional
   name        String // 이름
   nationality String? // 국적
   profile         String? // 프로필
@@ -20,13 +21,14 @@ model Artwork {
   artwork_id    Int      @id @default(autoincrement())
   artist_id     Int     // 작가 id 
   title         String // 작품명
-  image_url     String  // 작품 이미지
+  s3key     String  // 작품 이미지 연결 key
   descripton  String? //작품설명 
   createdAt     DateTime? // 생성일
   medium        String?  // 재료
   dimensions    String?  // 규격
   price         Float?   // 가격
   isSold        Boolean // 판매 여부
+  order         Int // 작품순서
   artist        Artist   @relation(fields: [artist_id], references: [artist_id])
 }
 
@@ -40,7 +42,7 @@ model Product {
   size         String?
   details      String?
   precautions  String?
-  mainImageUrl   String?   // Main image URL 
+  mainImage   String?   // Main image URL 
   seller       String
   stock        Int
   url          String?
@@ -51,7 +53,7 @@ model Product {
 
 model ProductImage {
     id          Int     @id @default(autoincrement())
-    url         String // URL of the additional image stored in S3 
+    s3key         String // URL of the additional image stored in S3 
     productId   Int 
     product     Product @relation(fields: [productId], references: [id])
 }

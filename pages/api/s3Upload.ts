@@ -29,13 +29,9 @@ export default async function handler(
     try {
       const uploadURL = await s3.getSignedUrlPromise("putObject", params);
 
-      // const imageUrl = decodeURIComponent(uploadURL);
+      console.log(fileName + "업로드시 보낼 객체 키");
 
-      // console.log(imageUrl);
-
-      console.log(uploadURL + "업로드시 보낼 url");
-
-      res.status(200).json({ url: uploadURL });
+      res.status(200).json({ url: uploadURL, key: fileName });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error });

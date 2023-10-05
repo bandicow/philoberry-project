@@ -8,7 +8,7 @@ import DragAndDropUploader from "../ImageUploader/DragAndDrop";
 import { NewProduct } from "../../Types/Product";
 
 function NewProductForm() {
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+  const [uploadedImageKeys, setUploadedImageKeys] = useState<string[]>([]);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -29,39 +29,35 @@ function NewProductForm() {
         file: { name: file.name, type: file.type },
         name: name,
       });
-      const url = response.data.url;
-
-      // Create a new FormData instance
-      // const formData = new FormData();
-
-      // // Append the file to the 'file' field
-      // formData.append("file", file);
-
-      //사전 서명된(presigned) URL을 사용하여 S3에 직접 파일을 업로드
-      // 직접 업로드기에 백엔드 로직 필요없음
-      // await axios.put(url, formData);
+      const { url, key } = response.data;
 
       // Create a new Blob instance
       const blob = new Blob([file], { type: file.type });
 
       //사전 서명된(presigned) URL을 사용하여 S3에 직접 파일을 업로드
-      // 직접 업로드기에 백엔드 로직 필요없음
       await axios.put(url, blob);
 
-      // Save the uploaded image's URL
-      setUploadedImageUrls((prevUrls) => [...prevUrls, url]);
-      console.log(url);
+      return key;
     } catch (error) {
       console.error(error);
     }
   }
+
   /** 이미지 멀티 업로드 */
+  async function handleMultipleUploads(files: File[]): Promise<string[]> {
+    try {
+      const uploadPromises = files.map((file) => handleUpload(file));
+      const keys = await Promise.all(uploadPromises);
+      console.log(keys + " + keys test");
+      setUploadedImageKeys(keys);
 
-  async function handleMultipleUploads(files: File[]) {
-    const limit = plimit(5);
+      return keys;
+    } catch (error) {
+      console.log(error);
 
-    const uploadPromises = files.map((file) => limit(() => handleUpload(file)));
-    await Promise.all(uploadPromises);
+      // Return an empty array when error occurs.
+      return [];
+    }
   }
 
   async function addProductHandler(productData: NewProduct) {
@@ -77,10 +73,13 @@ function NewProductForm() {
   async function submitHandler(event: FormEvent) {
     event.preventDefault();
 
+    let keys: string[] = [];
     try {
-      await handleMultipleUploads(uploadedImages);
+      keys = await handleMultipleUploads(uploadedImages);
+      // 여기서 모든 파일들이 올라갔으며 uploadedImageKeys 도 갱신된 상태입니다.
     } catch (error) {
       alert("이미지 업로드 실패");
+      return ""; // 에러 발생 시 여기서 종료
     }
 
     const productData: NewProduct = {
@@ -95,14 +94,8 @@ function NewProductForm() {
       seller: seller,
       stock: stock,
       url: url, // Extract only URLs
-      mainImageUrl:
-        uploadedImageUrls && uploadedImageUrls.length > 0
-          ? uploadedImageUrls[0]
-          : null,
-      productImages:
-        uploadedImageUrls && uploadedImageUrls.length > 1
-          ? uploadedImageUrls.slice(1)
-          : [],
+      mainImage: keys && keys.length > 0 ? keys[0] : null,
+      productImages: keys && keys.length > 0 ? keys.slice(1) : [],
     };
 
     addProductHandler(productData);

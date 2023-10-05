@@ -11,33 +11,28 @@ interface SaleItemProps {
 // {item} : ~ 을 통해 그 item을 뽑아내서 사용한다
 
 const SaleItem = ({ item }: SaleItemProps) => {
-  const { id, name, url, mainImageUrl, category, price, material, details } =
-    item;
-  // console.log(mainImageUrl + "여기임");
+  const { id, name, url, mainImage, category, price, material, details } = item;
+  // console.log(mainImage + "여기임");
 
   return (
-    <li className="flex">
+    <li className="flex w-full">
       <SaleItemCard
-        extraCalssName="hover:bg-red-100 active:bg-red-200"
+        extraClassName="hover:bg-red-100 active:bg-red-200 max-width: 500px max-height: 500px"
         href={`/sale/${id}`}
       >
-        <div className="w-full m-1 h-[250px] overflow-hidden rounded-xl">
-          {mainImageUrl && (
+        <div className="overflow-hidden border border-black">
+          {mainImage ? (
             <Image
-              className="w-full"
               key={id}
-              src={mainImageUrl}
+              src={mainImage}
               alt={`S3 Image ${name}`}
               width={500}
               height={500}
             />
+          ) : (
+            <p>이미지 로딩 실패</p>
           )}
         </div>
-        <h3 className="mb-2 text-xl font-semibold">품명 : {name}</h3>
-        <p className="mb-2 text-xl font-semibold">{category}</p>
-        <p className="mb-2 text-xl font-semibold">{price}</p>
-        <p className="mb-2 text-xl font-semibold">{material}</p>
-        <p className="mb-2 text-xl font-semibold">{details}</p>
       </SaleItemCard>
     </li>
   );

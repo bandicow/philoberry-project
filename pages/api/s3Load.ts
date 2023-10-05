@@ -1,5 +1,8 @@
 import AWS from "aws-sdk";
 import { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY,
@@ -24,6 +27,8 @@ export default async function handler(
     // Generate signed URLs for each object.
     const signedUrls = await Promise.all(
       data.Contents?.map(async (object) => {
+        console.log(object.Key + " + s3Load 부분 key");
+
         if (object.Key) {
           const signedUrlParams = { Bucket: params.Bucket, Key: object.Key };
           return await s3.getSignedUrlPromise("getObject", signedUrlParams);
@@ -31,7 +36,9 @@ export default async function handler(
         return null;
       }) || []
     );
-    console.log(signedUrls[0] + "s3Load 부분 url");
+
+    console.log(signedUrls[0] + " + 되는 s3Load 부분 url");
+
     res.status(200).json({ urls: signedUrls });
   } catch (error) {
     console.error("Failed to generate S3 image URLs", error);

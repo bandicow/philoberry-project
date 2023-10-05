@@ -54,38 +54,40 @@
 // }
 
 ///333
-if (req.method === "GET") {
-  // GET 요청 처리
-  const allProducts = await prisma.product.findMany();
+// if (req.method === "GET") {
+//   // GET 요청 처리
+//   const allProducts = await prisma.product.findMany();
 
-  const updatedProducts = await Promise.all(
-    allProducts.map(async (product) => {
-      if (product.mainImageUrl) {
-        // mainImageUrl이 있는 경우, 해당 이미지에 대한 Presigned URL 생성
-        const objectKey = product.mainImageUrl.split("/").pop(); // S3 객체 키 추출
+//   const updatedProducts = await Promise.all(
+//     allProducts.map(async (product) => {
+//       if (product.mainImageUrl) {
+//         // mainImageUrl이 있는 경우, 해당 이미지에 대한 Presigned URL 생성
+//         const objectKey = product.mainImageUrl.split("/").pop(); // S3 객체 키 추출
 
-        if (!objectKey) return product; // 객체 키가 없는 경우 원래 제품 데이터 반환
+//         if (!objectKey) return product; // 객체 키가 없는 경우 원래 제품 데이터 반환
 
-        const signedUrlParams = {
-          Bucket: process.env.S3_BUCKET || "",
-          Key: objectKey,
-        };
-        const presignedUrl = await s3.getSignedUrlPromise(
-          "getObject",
-          signedUrlParams
-        );
+//         const signedUrlParams = {
+//           Bucket: process.env.S3_BUCKET || "",
+//           Key: objectKey,
+//         };
+//         const presignedUrl = await s3.getSignedUrlPromise(
+//           "getObject",
+//           signedUrlParams
+//         );
 
-        return { ...product, mainImageUrl: presignedUrl }; // 제품 데이터에 Presigned URL 적용
-      } else {
-        return product; // mainImageUrl이 없는 경우 원래 제품 데이터 반환
-      }
-    })
-  );
+//         return { ...product, mainImageUrl: presignedUrl }; // 제품 데이터에 Presigned URL 적용
+//       } else {
+//         return product; // mainImageUrl이 없는 경우 원래 제품 데이터 반환
+//       }
+//     })
+//   );
 
-  console.log(updatedProducts, "S3세일에서 받아오는 url");
+//   console.log(updatedProducts, "S3세일에서 받아오는 url");
 
-  // Disconnect from the database
-  await prisma.$disconnect();
+//   // Disconnect from the database
+//   await prisma.$disconnect();
 
-  return res.status(200).json(updatedProducts);
-}
+//   return res.status(200).json(updatedProducts);
+// }
+
+////333333333333333333async function handleMultipleUploads(files: File[]) {
