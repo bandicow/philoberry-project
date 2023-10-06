@@ -39,8 +39,6 @@ export default async function productLoad(
             signedUrlParams
           );
 
-          console.log(presignedUrl, " + S3세일에서 받아오는 url");
-
           return { ...product, mainImage: presignedUrl };
         })
       );

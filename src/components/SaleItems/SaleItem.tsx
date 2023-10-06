@@ -11,7 +11,7 @@ interface SaleItemProps {
 // {item} : ~ 을 통해 그 item을 뽑아내서 사용한다
 
 const SaleItem = ({ item }: SaleItemProps) => {
-  const { id, name, url, mainImage, category, price, material, details } = item;
+  const { id, name, mainImage } = item;
 
   return (
     <li className="flex justify-center">
@@ -31,6 +31,7 @@ const SaleItem = ({ item }: SaleItemProps) => {
           ) : (
             <p>이미지 로딩 실패</p>
           )}
+          <p>{id}</p>
         </div>
       </SaleItemCard>
     </li>

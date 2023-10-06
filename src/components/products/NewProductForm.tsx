@@ -95,7 +95,7 @@ function NewProductForm() {
       stock: stock,
       url: url, // Extract only URLs
       mainImage: keys && keys.length > 0 ? keys[0] : null,
-      productImages: keys && keys.length > 0 ? keys.slice(1) : [],
+      productImages: keys,
     };
 
     addProductHandler(productData);

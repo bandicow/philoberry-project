@@ -26,7 +26,7 @@ export default async function Prismasql(
         const productData: NewProduct = req.body;
 
         // S3 이미지 업로드 후 Key받아오기(null 일때 s3 막 업로드된거 delete, create X)
-        if (productData.mainImage) {
+        if (!productData.mainImage) {
           const folder = `${productData.name}/`; // 삭제하려는 폴더 이름// 해당 폴더에 속한 모든 객체를 나열합니다.
           const listParams = {
             Bucket: process.env.S3_BUCKET as string,
