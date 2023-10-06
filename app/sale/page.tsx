@@ -7,7 +7,7 @@ interface SaleProps {
   items: Product[];
 }
 const getProduct = async () => {
-  const response = await axios.get("http://localhost:3000/api/productUpload");
+  const response = await axios.get(`${process.env.SITE_URL}/api/productLoad`);
   // console.log(response);
   return { items: response.data };
 };

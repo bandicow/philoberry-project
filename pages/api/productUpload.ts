@@ -24,6 +24,40 @@ export default async function Prismasql(
       try {
         // POST 요청 처리: 새로운 Product 생성
         const productData: NewProduct = req.body;
+
+        // S3 이미지 업로드 후 Key받아오기(null 일때 s3 막 업로드된거 delete, create X)
+        if (productData.mainImage) {
+          const folder = `${productData.name}/`; // 삭제하려는 폴더 이름// 해당 폴더에 속한 모든 객체를 나열합니다.
+          const listParams = {
+            Bucket: process.env.S3_BUCKET as string,
+            Prefix: folder,
+          };
+          try {
+            const nullData = await s3.listObjectsV2(listParams).promise();
+
+            if (!nullData.Contents || nullData.Contents.length === 0) return;
+
+            // 나열된 각 객체를 삭제합니다.
+            const deleteParams = {
+              Bucket: process.env.S3_BUCKET as string,
+              Delete: { Objects: [] as Array<{ Key: string }> },
+            };
+
+            nullData.Contents.forEach(({ Key }) => {
+              // Key가 undefined인 경우를 대비한 체크 및 성공시 key를 deleteParams에 추가합니다
+              if (Key) {
+                deleteParams.Delete.Objects.push({ Key });
+              }
+            });
+            await s3.deleteObjects(deleteParams).promise();
+          } catch (err) {
+            console.log("RDS업로드 실패로 인한 S3 이미지 삭제 실패", err);
+          }
+          return res
+            .status(200)
+            .json({ message: "Images deleted successfully from S3" });
+        }
+
         const uploadedImageUrls = productData.productImages;
 
         const newProduct = await prisma.product.create({
@@ -61,87 +95,9 @@ export default async function Prismasql(
         }
         return res.status(201).json(newProduct);
       } catch (error) {
-        // S3 이미지 업로드 후 url받아오기(실패시 rds도 X , 성공시 rds에 저장, rds 실패 시 s3 막 업로드된거 delete)
         console.log(error);
-        const productData: NewProduct = req.body;
-
-        const folder = `${productData.name}/`; // 삭제하려는 폴더 이름// 해당 폴더에 속한 모든 객체를 나열합니다.
-        const listParams = {
-          Bucket: process.env.S3_BUCKET as string,
-          Prefix: folder,
-        };
-
-        s3.listObjectsV2(listParams, function (err, data) {
-          if (err) {
-            console.log("Error", err);
-          } else {
-            if (!data.Contents || data.Contents.length === 0) return;
-
-            // 나열된 각 객체를 삭제합니다.
-            const deleteParams = {
-              Bucket: process.env.S3_BUCKET as string,
-              Delete: { Objects: [] as Array<{ Key: string }> },
-            };
-
-            data.Contents.forEach(({ Key }) => {
-              if (Key) {
-                // Key가 undefined인 경우를 대비한 체크
-                deleteParams.Delete.Objects.push({ Key });
-              }
-            });
-
-            s3.deleteObjects(deleteParams, function (err, data) {
-              if (err)
-                console.log("RDS업로드 실패로 인한 S3 이미지 삭제 실패", err);
-              else console.log("RDS업로드 실패로 인한 S3 이미지 삭제", data);
-            });
-          }
-        });
-        return res
-          .status(500)
-          .json({ message: `Server Error RDS 업로드 및 S3 이미지 삭제 실패` });
       }
     }
-
-    if (req.method === "GET") {
-      try {
-        // GET 요청 처리
-        const allProducts = await prisma.product.findMany();
-
-        const updatedProducts = await Promise.all(
-          allProducts.map(async (product) => {
-            // 제품 이름에 따라 S3 버킷의 폴더 위치 결정
-            const s3_Key = product.mainImage;
-
-            if (!s3_Key) return product;
-
-            const signedUrlParams = {
-              Bucket: process.env.S3_BUCKET || "",
-              Key: s3_Key,
-              Expires: 3600 * 24,
-            };
-
-            const presignedUrl = await s3.getSignedUrlPromise(
-              "getObject",
-              signedUrlParams
-            );
-
-            console.log(presignedUrl, " + S3세일에서 받아오는 url");
-
-            return { ...product, mainImage: presignedUrl };
-          })
-        );
-
-        return res.status(200).json(updatedProducts);
-      } catch (e) {
-        console.error(e);
-
-        return res.status(500).json({ message: "Server Error" });
-      }
-    }
-
-    await prisma.$disconnect();
-
     return res
       .status(405)
       .json({ message: `Method '${req.method}' Not Allowed` });

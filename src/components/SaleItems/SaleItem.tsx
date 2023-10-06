@@ -12,22 +12,21 @@ interface SaleItemProps {
 
 const SaleItem = ({ item }: SaleItemProps) => {
   const { id, name, url, mainImage, category, price, material, details } = item;
-  // console.log(mainImage + "여기임");
 
   return (
-    <li className="flex w-full">
+    <li className="flex justify-center">
       <SaleItemCard
-        extraClassName="hover:bg-red-100 active:bg-red-200 max-width: 500px max-height: 500px"
+        extraClassName="hover:bg-red-100 active:bg-red-200 h-max-[500px]"
         href={`/sale/${id}`}
       >
-        <div className="overflow-hidden border border-black">
+        <div className="overflow-hidden ">
           {mainImage ? (
             <Image
               key={id}
               src={mainImage}
               alt={`S3 Image ${name}`}
-              width={500}
               height={500}
+              width={500}
             />
           ) : (
             <p>이미지 로딩 실패</p>

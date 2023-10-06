@@ -24,7 +24,7 @@ const DetailItem = ({ item }: SaleItemProps) => {
           <div className="w-full item_img" key={image.id}>
             <Image
               className="w-full item_img"
-              src={image.url}
+              src={image.s3key}
               alt="이미지설명"
               width={500}
               height={500}
