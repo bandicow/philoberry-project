@@ -21,7 +21,7 @@ const Sidebar = () => {
   const HomeIcon: IconDefinition = faHouse;
 
   return (
-    <div className="sticky left-0 w-1/4 h-screen mr-3 text-lg border border-r-gray-900 sidebar">
+    <div className="sticky top-0 left-0 w-1/4 h-screen text-lg border border-r-gray-900 sidebar">
       {/* Sidebar 내용 */}
       <ul className="flex flex-col items-center justify-start space-y-5">
         <li className={`w-full mt-5 `}>
@@ -38,7 +38,7 @@ const Sidebar = () => {
         </li>
         <li className="w-full mt-5">
           <FontAwesomeIcon icon={ImageIcon} className={"mr-3"} />
-          <Link href="/admin">작품 변경 (작품 소개글, 이미지) 작동X</Link>
+          <Link href="/admin">작품 변경</Link>
         </li>
         <li className={`w-full mt-5`}>
           <FontAwesomeIcon icon={RotateIcon} className={"mr-3"} />

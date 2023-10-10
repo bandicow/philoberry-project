@@ -65,7 +65,7 @@ const DragAndDropUploader = ({
       <div
         className={`dropzone ${
           isDragActive ? "active" : ""
-        } flex w-full p-1 border border-gray-300 rounded-md font-inherit h-full  items-center justify-center flex-col`}
+        } flex w-full p-1 border border-gray-300 bg-white rounded-md font-inherit h-full  items-center justify-center flex-col`}
         {...getRootProps()}
       >
         {uploadedImages.length < 1 && (

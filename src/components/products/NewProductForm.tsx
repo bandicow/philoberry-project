@@ -1,11 +1,14 @@
 "use client";
 import { FormEvent, useState } from "react";
 import axios from "axios";
-import plimit from "p-limit";
 
-import classes from "./NewProductForm.module.css";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
 import { NewProduct } from "../../Types/Product";
+import {
+  StringInputField,
+  NumberInputField,
+} from "../../components/UI/Input/InputField";
+import Button from "../UI/Button/SubmitButton";
 
 function NewProductForm() {
   const [uploadedImageKeys, setUploadedImageKeys] = useState<string[]>([]);
@@ -102,115 +105,92 @@ function NewProductForm() {
   }
 
   return (
-    <div className="">
-      <form className={classes.form} onSubmit={submitHandler}>
+    <div className="w-full">
+      <form className="flex-col p-10 rounded-md" onSubmit={submitHandler}>
         <div>
           <DragAndDropUploader
             setUploadedImages={setUploadedImages}
             uploadedImages={uploadedImages}
           />
         </div>
-        <div className={classes.control}>
-          <label htmlFor="name">제품명</label>
-          <input
-            type="text"
-            required
-            id="name"
-            onChange={(e) => setName(e.target.value)}
-            autoComplete="off"
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="category">분류</label>
-          <input
-            type="text"
-            required
-            id="category"
-            onChange={(e) => setCategory(e.target.value)}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="price">가격</label>
-          <input
-            type="text"
-            required
-            id="price"
-            onChange={(e) => setPrice(Number(e.target.value))}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="material">소재</label>
-          <input
-            type="text"
-            required
-            id="material"
-            onChange={(e) => setMaterial(e.target.value)}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="size">크기</label>
-          <input
-            type="text"
-            required
-            id="size"
-            onChange={(e) => setSize(e.target.value)}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="color">색상</label>
-          <input
-            type="text"
-            required
-            id="color"
-            onChange={(e) => setColor(e.target.value)}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="Stock">재고량</label>
-          <input
-            type="text"
-            required
-            id="Stock"
-            onChange={(e) => setStock(Number(e.target.value))}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="seller">판매자</label>
-          <input
-            type="text"
-            required
-            id="seller"
-            onChange={(e) => setSeller(e.target.value)}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="url">판매 URL</label>
-          <input
-            type="url"
-            required
-            id="url"
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="details">제품 설명</label>
-          <input
-            id="details"
-            required
-            onChange={(e) => setDetails(e.target.value)}
-          ></input>
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="precautions">취급주의사항</label>
-          <input
-            id="precautions"
-            required
-            onChange={(e) => setPrecautions(e.target.value)}
-          ></input>
-        </div>
-        <div className={classes.actions}>
-          <button type="submit">제품 추가하기</button>
-        </div>
+        <StringInputField
+          label="제품명"
+          id="name"
+          value={name}
+          type="text"
+          setValue={setName}
+        />
+        <StringInputField
+          label="분류"
+          id="category"
+          value={category}
+          type="text"
+          setValue={setCategory}
+        />
+        <NumberInputField
+          label="가격"
+          id="price"
+          value={price}
+          type="number"
+          setValue={setPrice}
+        />
+        <StringInputField
+          label="소재"
+          id="material"
+          value={material}
+          type="text"
+          setValue={setMaterial}
+        />
+        <StringInputField
+          label="색상"
+          id="color"
+          value={color}
+          type="color"
+          setValue={setColor}
+        />
+        <StringInputField
+          label="크기"
+          id="size"
+          value={size}
+          type="text"
+          setValue={setSize}
+        />
+        <NumberInputField
+          label="재고량"
+          id="stock"
+          value={stock}
+          type="number"
+          setValue={setStock}
+        />
+        <StringInputField
+          label="판매자"
+          id="seller"
+          value={seller}
+          type="text"
+          setValue={setSeller}
+        />
+        <StringInputField
+          label="판매 URL"
+          id="url"
+          value={url}
+          type="url"
+          setValue={setUrl}
+        />
+        <StringInputField
+          label="제품 설명"
+          id="details"
+          value={details}
+          type="text"
+          setValue={setDetails}
+        />
+        <StringInputField
+          label="취급 주의사항"
+          id="precautions"
+          value={precautions}
+          type="text"
+          setValue={setPrecautions}
+        />
+        <Button />
       </form>
     </div>
   );
