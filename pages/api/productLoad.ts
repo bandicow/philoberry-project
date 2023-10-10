@@ -1,8 +1,6 @@
 import AWS from "aws-sdk";
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../lib/prisma";
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY,

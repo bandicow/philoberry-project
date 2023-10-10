@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Product } from "@prisma/client";
 import Select from "react-select";
+import Button from "../UI/Button/SubmitButton";
+import { NumberInputField, StringInputField } from "../UI/Input/InputField";
 type ProductInfo = Pick<
   Product,
   "name" | "category" | "price" | "color" | "size" | "details" | "stock"
@@ -17,48 +19,106 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
     null
   );
 
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState(0);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const [details, setDetails] = useState("");
+  const [stock, setStock] = useState(0);
+
   const options = productsInfo.map((product) => ({
     value: product.name,
     label: product.name,
   }));
+
+  const placeholderColor =
+    selectedOption && selectedOption.color ? selectedOption.color : undefined;
+
+  const placeholderSize =
+    selectedOption && selectedOption.size ? selectedOption.size : undefined;
+
+  const placeholderDetails =
+    selectedOption && selectedOption.details
+      ? selectedOption.details
+      : undefined;
 
   return (
     <div>
       <Select
         options={options}
         onChange={(option) => {
-          const selectedProduct = productsInfo.find(
-            (product) => product.name === option?.value
-          );
-          setSelectedOption(selectedProduct || null);
+          if (option) {
+            const selectedProduct = productsInfo.find(
+              (product) => product.name === option.value
+            );
+            setSelectedOption(selectedProduct || null);
+          } else {
+            setSelectedOption(null);
+          }
         }}
       />
 
       {selectedOption && (
-        <div>
-          <p>
-            <strong>Name:</strong> {selectedOption.name}
-          </p>
-          <p>
-            <strong>Category:</strong> {selectedOption.category}
-          </p>
-          <p>
-            <strong>Price:</strong> ${selectedOption.price}
-          </p>
-          <p>
-            <strong>Color:</strong> {selectedOption.color || "N/A"}
-          </p>
-          <p>
-            <strong>Size:</strong> {selectedOption.size || "N/A"}
-          </p>
-          <p>
-            <strong>Details:</strong> {selectedOption.details || "N/A"}
-          </p>
-          <p>
-            <strong>In Stock:</strong>:{" "}
-            {selectedOption.stock > 0 ? "Yes" : "No"}
-          </p>
-        </div>
+        <form className="m-10" onSubmit={() => {}}>
+          <StringInputField
+            label="제품명"
+            id="name"
+            value={name}
+            type="text"
+            setValue={setName}
+            placeholder={selectedOption.name}
+          />
+          <StringInputField
+            label="분류"
+            id="category"
+            value={category}
+            type="text"
+            setValue={setCategory}
+            placeholder={selectedOption.category}
+          />
+          <NumberInputField
+            label="가격"
+            id="price"
+            value={price}
+            type="number"
+            setValue={setPrice}
+            placeholder={selectedOption.price.toString()}
+          />
+          <StringInputField
+            label="색상"
+            id="color"
+            value={color}
+            type="color"
+            setValue={setColor}
+            placeholder={placeholderColor}
+          />
+          <StringInputField
+            label="크기"
+            id="size"
+            value={size}
+            type="text"
+            setValue={setSize}
+            placeholder={placeholderSize}
+          />
+          <StringInputField
+            label="상세정보"
+            id="details"
+            value={details}
+            type="text"
+            setValue={setDetails}
+            placeholder={placeholderDetails}
+          />
+          <NumberInputField
+            label="재고량"
+            id="stock"
+            value={stock}
+            type="number"
+            setValue={setStock}
+            placeholder={selectedOption.stock.toString()}
+          />
+          <Button goal={"제품 변경하기"} />
+        </form>
       )}
     </div>
   );

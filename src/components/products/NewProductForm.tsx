@@ -190,7 +190,7 @@ function NewProductForm() {
           type="text"
           setValue={setPrecautions}
         />
-        <Button />
+        <Button goal="제품 추가하기" />
       </form>
     </div>
   );

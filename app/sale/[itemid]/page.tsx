@@ -38,8 +38,6 @@ const DetailItem = () => {
     return <div>{id}번 상품을 찾을 수 없습니다.</div>;
   }
 
-  console.log(product.s3key + " + url 값들");
-
   return (
     <div className="flex item">
       <div className="flex-col w-1/2 m-0">

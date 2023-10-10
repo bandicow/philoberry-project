@@ -5,6 +5,7 @@ interface StringInputFieldProps {
   id: string;
   value: string;
   type: string;
+  placeholder?: string;
   setValue(value: string): void;
 }
 
@@ -14,6 +15,7 @@ export function StringInputField({
   type = "text",
   value,
   setValue,
+  placeholder,
 }: StringInputFieldProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -26,6 +28,7 @@ export function StringInputField({
       </label>
       <input
         type={type}
+        placeholder={placeholder}
         required
         id={id}
         value={value}
@@ -41,6 +44,7 @@ interface NumberInputFieldProps {
   id: string;
   value: number;
   type: string;
+  placeholder?: string;
   setValue(value: number): void;
 }
 
@@ -48,6 +52,7 @@ export function NumberInputField({
   label,
   id,
   type = "text",
+  placeholder,
   value,
   setValue,
 }: NumberInputFieldProps) {
@@ -69,6 +74,7 @@ export function NumberInputField({
         type={type}
         required
         id={id}
+        placeholder={placeholder}
         value={value}
         onChange={handleChange}
         autoComplete="off"

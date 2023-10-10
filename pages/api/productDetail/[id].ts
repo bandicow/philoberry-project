@@ -1,8 +1,6 @@
 import AWS from "aws-sdk";
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../lib/prisma";
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY,
@@ -62,7 +60,6 @@ export default async function productDetail(
       }
 
       // 제품 정보 반환
-      console.log(data.s3key + " + s3 Key들");
       return res.status(200).json(data);
     }
   } catch (e) {
