@@ -46,6 +46,10 @@ const Sidebar = () => {
         </li>
         <li className={`w-full mt-5`}>
           <FontAwesomeIcon icon={RotateIcon} className={"mr-3"} />
+          <Link href="/admin/editproduct">제품 정보 변경</Link>
+        </li>
+        <li className={`w-full mt-5`}>
+          <FontAwesomeIcon icon={RotateIcon} className={"mr-3"} />
           <Link href="/admin/load">S3업로드 확인</Link>
         </li>
       </ul>
