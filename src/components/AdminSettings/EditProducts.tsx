@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { Product } from "@prisma/client";
 import Select from "react-select";
@@ -7,7 +7,7 @@ import Button from "../UI/Button/SubmitButton";
 import { NumberInputField, StringInputField } from "../UI/Input/InputField";
 type ProductInfo = Pick<
   Product,
-  "name" | "category" | "price" | "color" | "size" | "details" | "stock"
+  "name" | "category" | "price" | "color" | "size" | "details" | "stock" | "id"
 >;
 
 interface editProductsProps {
@@ -19,6 +19,7 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
     null
   );
 
+  const [id, setId] = useState(0);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState(0);
@@ -26,12 +27,40 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
   const [size, setSize] = useState("");
   const [details, setDetails] = useState("");
   const [stock, setStock] = useState(0);
-
   const options = productsInfo.map((product) => ({
     value: product.name,
     label: product.name,
   }));
 
+  // api 요청 및 핸들러
+
+  const editProductHandler = async (editData: ProductInfo) => {
+    try {
+      const response = await axios.post("/api/postEditProduct", editData);
+      console.log(response);
+    } catch (err) {
+      console.log(err + "업데이트 에러");
+    }
+  };
+
+  const submitHandler = async (event: FormEvent) => {
+    event?.preventDefault();
+
+    const editData: ProductInfo = {
+      id: id,
+      name: name,
+      category: category,
+      price: price,
+      color: color,
+      size: size,
+      details: details,
+      stock: stock,
+    };
+
+    editProductHandler(editData);
+  };
+
+  // 기본값
   const placeholderColor =
     selectedOption && selectedOption.color ? selectedOption.color : undefined;
 
@@ -48,19 +77,17 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
       <Select
         options={options}
         onChange={(option) => {
-          if (option) {
-            const selectedProduct = productsInfo.find(
-              (product) => product.name === option.value
-            );
-            setSelectedOption(selectedProduct || null);
-          } else {
-            setSelectedOption(null);
-          }
+          const selectedProduct = option
+            ? productsInfo.find((product) => product.name === option.value)
+            : null;
+
+          setSelectedOption(selectedProduct || null);
+          setId(selectedProduct?.id || 0);
         }}
       />
 
       {selectedOption && (
-        <form className="m-10" onSubmit={() => {}}>
+        <form className="m-10" onSubmit={submitHandler}>
           <StringInputField
             label="제품명"
             id="name"
@@ -68,6 +95,7 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
             type="text"
             setValue={setName}
             placeholder={selectedOption.name}
+            disabled={true}
           />
           <StringInputField
             label="분류"

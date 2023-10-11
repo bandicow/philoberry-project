@@ -7,6 +7,7 @@ interface StringInputFieldProps {
   type: string;
   placeholder?: string;
   setValue(value: string): void;
+  disabled?: boolean;
 }
 
 export function StringInputField({
@@ -16,6 +17,7 @@ export function StringInputField({
   value,
   setValue,
   placeholder,
+  disabled = false,
 }: StringInputFieldProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -27,6 +29,7 @@ export function StringInputField({
         {label}
       </label>
       <input
+        disabled={disabled}
         type={type}
         placeholder={placeholder}
         required

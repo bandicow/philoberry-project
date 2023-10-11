@@ -37,7 +37,6 @@ export default async function setBackgroundColorHandler(
   }
   if (req.method !== "POST" && req.method !== "GET") {
     // POST 또는 GET 이외의 메서드에 대한 요청을 처리합니다.
-
     return res
       .status(405)
       .json({ message: `Method '${req.method}' Not Allowed` });

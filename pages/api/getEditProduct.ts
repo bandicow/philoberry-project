@@ -10,6 +10,7 @@ export default async function editProduct(
       try {
         const productsName = await prisma.product.findMany({
           select: {
+            id: true,
             name: true,
             price: true,
             category: true,
@@ -26,16 +27,7 @@ export default async function editProduct(
         return res.status(404).json({ message: "제품 이름 불러오기 실패" });
       }
     }
-
-    // if (req.method === "POST") {
-    //   const result = await prisma.product.update({
-    //     where: {
-    //       name: "alice@prisma.io",
-    //     },
-    //     data: {},
-    //   });
-    // }
   } catch (error) {
-    console.log(error, "제픔 수정 실패");
+    console.log(error, "서버 에러");
   }
 }

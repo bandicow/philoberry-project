@@ -7,7 +7,7 @@ export default function ChangeBgColor() {
 
   // 배경색 정보를 가져오는 함수
   async function getBackgroundColor() {
-    const response = await axios.get("/api/setBackgroundColor");
+    const response = await axios.get("/api/getBackgroundColor");
     return response.data.backgroundColor;
   }
 
@@ -43,6 +43,7 @@ export default function ChangeBgColor() {
 
   return (
     <div style={{ backgroundColor: backgroundColor }} className="flex">
+      test
       {typeof backgroundColor === "string" && (
         <>
           <SketchPicker

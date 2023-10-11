@@ -1,21 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import fs from "fs";
-import path from "path";
+import prisma from "../../lib/prisma";
 
-type Data = {
-  color: string;
-};
-
-export default function getbackGroundColorHandler(
+export default async function getbackGroundColorHandler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    const color = fs.readFileSync(path.resolve("./color.txt"), "utf-8");
-
-    res.status(200).json({ color });
-  } else {
-    res.setHeader("Allow", ["GET"]);
-    res.status(405).end("Method ${req.method} not allowed");
+  try {
+    const bgColor = await prisma.setting.findFirst();
+    if (bgColor) {
+      await prisma.$disconnect();
+      return res.json({ backgroundColor: bgColor.backgroundColor });
+    } else {
+      return res.json({ backgroundColor: "#FFFFFF" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ color: "No settings found" });
   }
 }
