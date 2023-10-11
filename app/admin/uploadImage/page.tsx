@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import DragAndDropUploader from "../../../src/components/ImageUploader/DragAndDrop";
+import DragAndDropUploader from "../../../src/components/ImageUploader/MultiDragAndDrop";
 import plimit from "p-limit";
 
 function MyApp() {

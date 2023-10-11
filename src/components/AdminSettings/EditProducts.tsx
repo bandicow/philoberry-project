@@ -44,7 +44,7 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
   };
 
   const submitHandler = async (event: FormEvent) => {
-    event?.preventDefault();
+    event.preventDefault();
 
     const editData: ProductInfo = {
       id: id,

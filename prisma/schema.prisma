@@ -11,9 +11,9 @@ model Artist {
   artist_id   Int       @id @default(autoincrement())
   artist_image String?  // This field is optional
   name        String // 이름
-  nationality String? // 국적
-  profile         String? // 프로필
-  website_url String?
+  major       String? // 분야
+  profile     String? // 작가 소개
+  website_url String? // 작가 사이트
   artworks    Artwork[] // Relation field
 }
 
@@ -23,9 +23,9 @@ model Artwork {
   title         String // 작품명
   s3key     String  // 작품 이미지 연결 key
   descripton  String? //작품설명 
-  createdAt     DateTime? // 생성일
+  createdAt     DateTime? // 생성일 ,필요한가?
   medium        String?  // 재료
-  dimensions    String?  // 규격
+  dimensions    String?  // 규격, 사이즈
   price         Float?   // 가격
   isSold        Boolean // 판매 여부
   order         Int // 작품순서

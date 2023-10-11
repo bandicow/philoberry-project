@@ -2,7 +2,7 @@
 import { FormEvent, useState } from "react";
 import axios from "axios";
 
-import DragAndDropUploader from "../ImageUploader/DragAndDrop";
+import DragAndDropUploader from "../ImageUploader/MultiDragAndDrop";
 import { NewProduct } from "../../Types/Product";
 import {
   StringInputField,
@@ -11,7 +11,6 @@ import {
 import Button from "../UI/Button/SubmitButton";
 
 function NewProductForm() {
-  const [uploadedImageKeys, setUploadedImageKeys] = useState<string[]>([]);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -51,8 +50,6 @@ function NewProductForm() {
     try {
       const uploadPromises = files.map((file) => handleUpload(file));
       const keys = await Promise.all(uploadPromises);
-      console.log(keys + " + keys test");
-      setUploadedImageKeys(keys);
 
       return keys;
     } catch (error) {

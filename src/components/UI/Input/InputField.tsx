@@ -74,6 +74,7 @@ export function NumberInputField({
         {label}
       </label>
       <input
+        min="0"
         type={type}
         required
         id={id}

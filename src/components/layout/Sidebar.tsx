@@ -10,6 +10,7 @@ import {
   faImage,
   faPalette,
   faRotate,
+  faCloudArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
@@ -19,6 +20,7 @@ const Sidebar = () => {
   const ImageIcon: IconDefinition = faImage;
   const RotateIcon: IconDefinition = faRotate;
   const HomeIcon: IconDefinition = faHouse;
+  const UploadIcon: IconDefinition = faCloudArrowUp;
 
   return (
     <div className="sticky top-0 left-0 w-1/4 h-screen text-lg border border-r-gray-900 sidebar">
@@ -32,25 +34,21 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={PaletteIcon} className={"mr-3"} />
           <Link href="/admin/changecolor">색상 변경</Link>
         </li>
-        <li className={`w-full mt-5 `}>
-          <FontAwesomeIcon icon={PaletteIcon} className={"mr-3"} />
-          <Link href="/admin/uploadImage">이미지 업로드</Link>
+        <li className={`w-full mt-5`}>
+          <FontAwesomeIcon icon={UploadIcon} className={"mr-3"} />
+          <Link href="/admin/artistupload">작가 등록</Link>
         </li>
         <li className="w-full mt-5">
           <FontAwesomeIcon icon={ImageIcon} className={"mr-3"} />
           <Link href="/admin">작품 변경</Link>
         </li>
         <li className={`w-full mt-5`}>
-          <FontAwesomeIcon icon={RotateIcon} className={"mr-3"} />
-          <Link href="/admin/uploadProduct">제품 추가</Link>
+          <FontAwesomeIcon icon={UploadIcon} className={"mr-3"} />
+          <Link href="/admin/uploadProduct">제품 등록</Link>
         </li>
         <li className={`w-full mt-5`}>
           <FontAwesomeIcon icon={RotateIcon} className={"mr-3"} />
           <Link href="/admin/editproduct">제품 정보 변경</Link>
-        </li>
-        <li className={`w-full mt-5`}>
-          <FontAwesomeIcon icon={RotateIcon} className={"mr-3"} />
-          <Link href="/admin/load">S3업로드 확인</Link>
         </li>
       </ul>
     </div>

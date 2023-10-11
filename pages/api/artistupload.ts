@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { NewProduct } from "../../src/Types/Product";
 import AWS from "aws-sdk";
 import prisma from "../../lib/prisma";
+import { Artist } from "@prisma/client";
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY,
@@ -19,10 +19,10 @@ export default async function productUpload(
     if (req.method === "POST") {
       try {
         // POST 요청 처리: 새로운 Product 생성
-        const productData: NewProduct = req.body;
+        const productData: Artist = req.body;
 
         // S3 이미지 업로드 후 Key받아오기(null 일때 s3 막 업로드된거 delete, create X)
-        if (!productData.mainImage) {
+        if (!productData.artist_image) {
           const folder = `${productData.name}/`; // 삭제하려는 폴더 이름// 해당 폴더에 속한 모든 객체를 나열합니다.
           const listParams = {
             Bucket: process.env.S3_BUCKET as string,
@@ -54,41 +54,16 @@ export default async function productUpload(
             .json({ message: "Images deleted successfully from S3" });
         }
 
-        const uploadedImageUrls = productData.productImages;
-
-        const newProduct = await prisma.product.create({
+        const newProduct = await prisma.artist.create({
           data: {
             name: productData.name,
-            category: productData.category,
-            price: productData.price,
-            material: productData.material,
-            color: productData.color,
-            size: productData.size,
-            details: productData.details,
-            precautions: productData.precautions,
-            url: productData.url,
-            seller: productData.seller,
-            stock: productData.stock,
-            createdAt: new Date(),
-            mainImage:
-              productData.mainImage && productData.mainImage.length > 0
-                ? productData.mainImage
-                : null,
+            major: productData.major,
+            profile: productData.profile,
+            website_url: productData.website_url,
+            artist_image: productData.artist_image,
           },
         });
-        console.log(uploadedImageUrls + "잘되냐?");
 
-        // 각각의 이미지 URL을 ProductImage 테이블에 저장합니다.
-        if (uploadedImageUrls && uploadedImageUrls.length > 0) {
-          for (let imageUrl of uploadedImageUrls) {
-            await prisma.productImage.create({
-              data: {
-                s3key: imageUrl,
-                productId: newProduct.id,
-              },
-            });
-          }
-        }
         return res.status(201).json(newProduct);
       } catch (error) {
         console.log(error);
