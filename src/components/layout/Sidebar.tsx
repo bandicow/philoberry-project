@@ -38,6 +38,10 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={UploadIcon} className={"mr-3"} />
           <Link href="/admin/artistupload">작가 등록</Link>
         </li>
+        <li className={`w-full mt-5`}>
+          <FontAwesomeIcon icon={UploadIcon} className={"mr-3"} />
+          <Link href="/admin/uploadartwork">작품 등록</Link>
+        </li>
         <li className="w-full mt-5">
           <FontAwesomeIcon icon={ImageIcon} className={"mr-3"} />
           <Link href="/admin">작품 변경</Link>
