@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import GalleryImageList from "../../src/Gallery/GalleryImageList";
-import { NextPage } from "next";
 import { DUMMY_ARTWORKS } from "../../src/DummyData/DummyData";
 import { useQuery } from "react-query";
 import axios from "axios";

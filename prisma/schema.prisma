@@ -22,11 +22,11 @@ model Artwork {
   artist_name     String     // 작가명
   title         String // 작품명
   s3key     String  // 작품 이미지 연결 key
-  description  String? //작품설명 
+  description  String //작품설명 
   createdAt     Int? // 생성일 ,필요한가?
-  material        String?  // 재료
-  size    String?  // 규격, 사이즈
-  price         Float?   // 가격
+  material        String  // 재료
+  size    String  // 규격, 사이즈
+  price         Float   // 가격
   isSold        Boolean // 판매 여부
   order         Int // 작품순서
   artist        Artist   @relation(fields: [artist_name], references: [name])
@@ -61,4 +61,9 @@ model ProductImage {
 model Setting {
   id Int @id @default(100)
   backgroundColor String
+}
+
+model PickArtist {
+  id Int @id @default(100)
+  artist_name String
 }
