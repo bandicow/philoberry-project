@@ -1,6 +1,6 @@
 import ProfileImage from "./ProfileImage";
 import Setting from "./Setting";
-import { Session } from "../../Types/Client";
+import { Session } from "../../Types/Art";
 import { signOut } from "next-auth/react";
 import Sidebar from "../layout/Sidebar";
 

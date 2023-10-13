@@ -4,33 +4,14 @@ import Image from "next/image";
 import Card from "../components/UI/Card/GalleryCard";
 import GalleryModal from "./GalleryModal";
 import { Artwork } from "@prisma/client";
+import { useModal } from "../hooks/useModal"; // Import the hook
 
 const GalleryImage = (props: Artwork) => {
-  //모달창 상태
-  const [isOpen, setIsOpen] = useState(false);
-  // 모달창 위치
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isOpen]);
-  const modalOpen = () => {
-    setIsOpen(true);
-  };
-  const modalClose = () => setIsOpen(false);
-
-  // const top = window.scrollY + window.innerHeight / 2;
+  const { isOpen, openModal, closeModal } = useModal(); // Use the hook
 
   return (
     <div>
-      <li onClick={modalOpen} className="flex-col items-center">
+      <li onClick={openModal} className="flex-col items-center">
         <Card>
           <div className="w-auto max-h-[600px] h-auto overflow-hidden">
             <Image
@@ -46,7 +27,7 @@ const GalleryImage = (props: Artwork) => {
       </li>
       {isOpen && (
         <div
-          onClick={modalClose}
+          onClick={closeModal}
           className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
         >
           <div onClick={(e) => e.stopPropagation()}>

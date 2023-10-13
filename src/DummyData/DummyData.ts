@@ -1,5 +1,5 @@
 import { Artist, Artwork, Product, ProductImage } from "@prisma/client";
-import { GalleryImage } from "../Types/Client";
+import { GalleryImage } from "../Types/Art";
 import { Item } from "../Types/Items";
 
 // id :UUID로 자동생성

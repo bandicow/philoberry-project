@@ -1,3 +1,4 @@
+/* eslint-disable */
 // //#################################### 더미
 // // const DUMMY_ARTIST = {
 // //   artist_id: 1,
@@ -91,16 +92,28 @@
 // }
 
 ////333333333333333333async function handleMultipleUploads(files: File[]) {
-import { PrismaClient } from "@prisma/client";
+// ...
+<DragAndDropUploader
+  setUploadedImages={(file: File | null) => {
+    if (file) {
+      setFiles((prevFiles) => {
+        const newFiles = [...prevFiles];
+        newFiles[index] = file;
+        return newFiles;
+      });
+    }
+  }}
+  uploadedImages={files[index] || undefined}
+/>;
 
-// 전역 범위에서 한 번만 생성하고 재사용합니다.
-let prisma;
-
-if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
-} else {
-  if (!global.prisma) global.prisma = new PrismaClient();
-  prisma = global.prisma;
-}
-
-export default prisma;
+<StringInputField
+  label="작품명"
+  id="title"
+  value={item.title}
+  type="text"
+  setValue={(value: string) =>
+    handleInputChange(index)({
+      target: { name: "title", value },
+    })
+  }
+/>;

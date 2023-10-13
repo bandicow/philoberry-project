@@ -1,3 +1,5 @@
+import { Artist } from "@prisma/client";
+
 export type ISODateString = string;
 
 export interface DefaultSession {
@@ -9,7 +11,21 @@ export interface DefaultSession {
   expires: ISODateString;
 }
 
-export interface Session extends DefaultSession {}
+//** id, name 포함 */
+type ArtistInfo = Pick<Artist, "artist_id" | "name">;
+
+//** Artist  배열 */
+interface getArtistProps {
+  artistInfo: ArtistInfo[];
+}
+
+//** "artwork_id" | "createdAt" 제외 */
+type ArtworkProps = Omit<Artwork, "artwork_id" | "createdAt">;
+
+//** Artwork 업로드 props */
+interface PostArtworkProps {
+  artworks: ArtworkProps[];
+}
 
 /**사용자가 올린 이미지 타입 */
 export interface GalleryImage {

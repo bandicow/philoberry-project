@@ -1,31 +1,27 @@
 "use client";
-import { Artwork } from "@prisma/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { Artist } from "@prisma/client";
-import Button from "../UI/Button/SubmitButton";
-import { NumberInputField, StringInputField } from "../UI/Input/InputField";
-
-type ArtistInfo = Pick<Artist, "artist_id" | "name">;
-interface getArtistProps {
-  artistInfo: ArtistInfo[];
-}
-
-type ArtworkProps = Omit<Artwork, "artwork_id" | "createdAt">;
-
-interface PostArtworkProps {
-  artworks: ArtworkProps[];
-}
+import { ArtistInfo, getArtistProps } from "../../Types/Art";
+import Modal from "../UI/Modal/Modal";
+import { useModal } from "../../hooks/useModal";
 
 export const UploadGallery = ({ artistInfo }: getArtistProps) => {
   const [selectedOption, setSelectedOption] = useState<ArtistInfo | null>(null);
+  const { isOpen, openModal, closeModal } = useModal(); // Use the hook
 
   const options = artistInfo.map((artist) => ({
     value: artist.name,
     label: artist.name,
   }));
 
-  const [id, setId] = useState(0);
+  useEffect(() => {
+    if (selectedOption && selectedOption.name) {
+      openModal();
+    } else {
+      closeModal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOption]);
 
   return (
     <div>
@@ -35,15 +31,23 @@ export const UploadGallery = ({ artistInfo }: getArtistProps) => {
           const selectedArtist = option
             ? artistInfo.find((atrist) => atrist.name === option.value)
             : null;
-
           setSelectedOption(selectedArtist || null);
-          setId(selectedArtist?.artist_id || 0);
         }}
       />
-      {selectedOption && (
-        <div>
-          {selectedOption.name}
-          {selectedOption.artist_id}
+      {isOpen && selectedOption && (
+        <div
+          onClick={closeModal}
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <Modal artistInfo={selectedOption} />
+          </div>
+          <button
+            onClick={closeModal}
+            className="fixed p-2 text-white bg-black rounded-full bottom-5 left-[46%]"
+          >
+            창 닫기
+          </button>
         </div>
       )}
     </div>

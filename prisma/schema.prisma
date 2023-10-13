@@ -10,7 +10,7 @@ datasource db {
 model Artist {
   artist_id   Int       @id @default(autoincrement())
   artist_image String?  // This field is optional
-  name        String // 이름
+  name        String  @unique // 이름
   major       String? // 분야
   profile     String? // 작가 소개
   website_url String? // 작가 사이트
@@ -19,17 +19,17 @@ model Artist {
 
 model Artwork {
   artwork_id    Int      @id @default(autoincrement())
-  artist_id     Int     // 작가 id 
+  artist_name     String     // 작가명
   title         String // 작품명
   s3key     String  // 작품 이미지 연결 key
-  descripton  String? //작품설명 
-  createdAt     DateTime? // 생성일 ,필요한가?
-  medium        String?  // 재료
-  dimensions    String?  // 규격, 사이즈
+  description  String? //작품설명 
+  createdAt     Int? // 생성일 ,필요한가?
+  material        String?  // 재료
+  size    String?  // 규격, 사이즈
   price         Float?   // 가격
   isSold        Boolean // 판매 여부
   order         Int // 작품순서
-  artist        Artist   @relation(fields: [artist_id], references: [artist_id])
+  artist        Artist   @relation(fields: [artist_name], references: [name])
 }
 
 model Product {

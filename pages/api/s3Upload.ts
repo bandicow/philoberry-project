@@ -18,7 +18,7 @@ export default async function handler(
     const productImage = req.body;
     const file = productImage.file;
 
-    const fileName = `${productImage.name}/${Date.now()}-${file.name}`;
+    const fileName = `${productImage.name}/${file.name}`;
 
     const params = {
       Bucket: process.env.S3_BUCKET,
