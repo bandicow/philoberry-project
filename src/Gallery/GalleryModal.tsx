@@ -23,13 +23,13 @@ const GalleryModal = ({ imageInfo }: GalleryCardProps) => {
     >
       <Card>
         <div className="flex items-center p-2 text-black border test__body w-[85vw] h-[85vh] overflow-hidden">
-          <div className="flex items-center justify-center w-1/2 h-full">
+          <div className="relative flex items-center justify-center w-1/2 h-full">
             <Image
-              src={imageInfo.image_url}
+              src={imageInfo.s3key}
               alt={imageInfo.title}
-              // fill // Add this line
-              width={1000}
-              height={1000}
+              fill // Add this line
+              // width={1000}
+              // height={1000}
               objectFit="contain" // Add this line
             />
           </div>
@@ -37,9 +37,9 @@ const GalleryModal = ({ imageInfo }: GalleryCardProps) => {
             <h1 className="mb-3 text-4xl font-bold">
               작품명 : {imageInfo.title}
             </h1>
-            <p>작품 규격 : {imageInfo.dimensions}</p>
-            <p>재료 : {imageInfo.medium}</p>
-            <p>작품 설명 : {imageInfo.descripton}</p>
+            <p>작품 규격 : {imageInfo.size}</p>
+            <p>재료 : {imageInfo.material}</p>
+            <p>작품 설명 : {imageInfo.description}</p>
           </div>
         </div>
       </Card>

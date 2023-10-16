@@ -1,5 +1,4 @@
 "use client";
-import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Card from "../components/UI/Card/GalleryCard";
 import GalleryModal from "./GalleryModal";

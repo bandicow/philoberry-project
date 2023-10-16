@@ -1,38 +1,35 @@
-"use client";
 import React from "react";
 import GalleryImageList from "../../src/Gallery/GalleryImageList";
-import { DUMMY_ARTWORKS } from "../../src/DummyData/DummyData";
-import { useQuery } from "react-query";
+import { dehydrate } from "@tanstack/react-query";
 import axios from "axios";
-import { Artwork } from "@prisma/client";
+import Hydrate from "../../src/utils/hydrate.client";
+import getQueryClient from "../../src/utils/getQueryClient";
 
-const Gallery = (props: Artwork) => {
-  async function getBackgroundColor() {
-    const response = await axios.get("/api/setBackgroundColor");
-    return response.data.backgroundColor;
-  }
+export const getArtwork = async () => {
+  const name = await axios.get(`${process.env.SITE_URL}/api/getTodayArtist`);
+  if (!name) return { data: [], bg: "" }; // Add this line to prevent running the query before artist name is available.
+  const [response, bg] = await Promise.all([
+    axios.get(`${process.env.SITE_URL}/api/getArtwork/${name}`),
+    axios.get(`${process.env.SITE_URL}/api/getBackgroundColor`),
+  ]);
 
-  const { data: backgroundColor } = useQuery(
-    "backgroundColor",
-    getBackgroundColor
-  );
+  const artworks = { data: response.data, bg: bg.data.backgroundColor };
+
+  return artworks;
+};
+
+const Gallery = async () => {
+  // 싱글톤 리액트 쿼리
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchQuery(["artworks"], getArtwork);
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div
-      style={{
-        backgroundColor: backgroundColor,
-        backdropFilter: "blur(100px)",
-      }}
-    >
-      <GalleryImageList artworks={DUMMY_ARTWORKS} />
-    </div>
+    <Hydrate state={dehydratedState}>
+      <GalleryImageList />
+    </Hydrate>
   );
 };
 
 export default Gallery;
-
-//구조를 생각하자
-// 페이지
-// 큰틀 list(map으로 내용을 넣은거, 여러개 만들기 위함)
-// 그 내용들어갈 것 (각각 하나씩)
-// 그걸 Card에 감싸

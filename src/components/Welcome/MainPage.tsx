@@ -2,7 +2,7 @@
 
 import React from "react";
 import LinkWithHover from "./LinkWithHover";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const Mainpage = () => {
@@ -12,7 +12,7 @@ export const Mainpage = () => {
     return response.data.artistName;
   }
 
-  const { data: artistName } = useQuery("artistName", getTodayArtist);
+  const { data: artistName } = useQuery(["artistName"], getTodayArtist);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-2xl text-white uppercase bg-black">
@@ -21,7 +21,7 @@ export const Mainpage = () => {
       <h1 className={"mb-20 font-bold"}>{artistName}</h1>
       <ul className="flex justify-around w-auto mt-10vh">
         <LinkWithHover href="/sale">goods shop</LinkWithHover>
-        <LinkWithHover href="/gallery">gellery</LinkWithHover>
+        <LinkWithHover href="/gallery">gallery</LinkWithHover>
       </ul>
     </div>
   );

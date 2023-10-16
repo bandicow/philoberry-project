@@ -8,7 +8,6 @@ export default async function getbackGroundColorHandler(
   try {
     const bgColor = await prisma.setting.findFirst();
     if (bgColor) {
-      await prisma.$disconnect();
       return res.json({ backgroundColor: bgColor.backgroundColor });
     } else {
       return res.json({ backgroundColor: "#FFFFFF" });

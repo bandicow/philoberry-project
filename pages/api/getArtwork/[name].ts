@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../lib/prisma";
+import prisma from "../../../lib/prisma";
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY,
@@ -38,7 +38,7 @@ export default async function getArtwork(
             signedUrlParams
           );
 
-          return { ...artwork, image: presignedUrl };
+          return { ...artwork, s3key: presignedUrl };
         })
       );
       return res.status(200).json(updatedArtworks);
