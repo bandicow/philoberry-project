@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Product, ProductImage } from "@prisma/client";
+import { Product } from "@prisma/client";
 import Link from "next/link";
-import axios from "axios";
 import { usePathname } from "next/navigation";
+import { getProductDetail } from "../../../lib/action";
 
 interface SaleItemProps extends Product {
   s3key: string[];
@@ -24,15 +24,15 @@ const DetailItem = () => {
   // id와 일치하는 더미 데이터 가져오기
 
   useEffect(() => {
-    if (id) {
-      getProductDetail(id);
-    }
-  }, [id]);
+    const fetchProductDetail = async () => {
+      if (id) {
+        const detailData = await getProductDetail(id);
+        setProduct(detailData);
+      }
+    };
 
-  const getProductDetail = async (id: number) => {
-    const response = await axios.get(`/api/productDetail/${id}`);
-    setProduct(response.data);
-  };
+    fetchProductDetail();
+  }, [id]);
 
   if (!product) {
     return <div>{id}번 상품을 찾을 수 없습니다.</div>;

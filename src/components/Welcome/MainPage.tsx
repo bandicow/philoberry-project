@@ -3,15 +3,9 @@
 import React from "react";
 import LinkWithHover from "./LinkWithHover";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { getTodayArtist } from "../../../lib/action";
 
 export const Mainpage = () => {
-  async function getTodayArtist() {
-    const response = await axios.get("/api/getTodayArtist");
-
-    return response.data.artistName;
-  }
-
   const { data: artistName } = useQuery(["artistName"], getTodayArtist);
 
   return (

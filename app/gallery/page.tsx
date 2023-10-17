@@ -1,13 +1,6 @@
 import React from "react";
 import GalleryImageList from "../../src/Gallery/GalleryImageList";
-import axios from "axios";
-
-const getBackgroundColor = async () => {
-  const response = await axios.get(
-    `${process.env.SITE_URL}/api/getBackgroundColor`
-  );
-  return response.data.backgroundColor;
-};
+import { getBackgroundColor } from "../../lib/action";
 
 const Gallery = async () => {
   const backgroundColor = await getBackgroundColor();

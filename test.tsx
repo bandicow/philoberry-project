@@ -93,27 +93,4 @@
 
 ////333333333333333333async function handleMultipleUploads(files: File[]) {
 // ...
-<DragAndDropUploader
-  setUploadedImages={(file: File | null) => {
-    if (file) {
-      setFiles((prevFiles) => {
-        const newFiles = [...prevFiles];
-        newFiles[index] = file;
-        return newFiles;
-      });
-    }
-  }}
-  uploadedImages={files[index] || undefined}
-/>;
-
-<StringInputField
-  label="작품명"
-  id="title"
-  value={item.title}
-  type="text"
-  setValue={(value: string) =>
-    handleInputChange(index)({
-      target: { name: "title", value },
-    })
-  }
-/>;
+// app/posts/hydratedPosts.jsx

@@ -5,6 +5,7 @@ import { Product } from "@prisma/client";
 import Select from "react-select";
 import Button from "../UI/Button/SubmitButton";
 import { NumberInputField, StringInputField } from "../UI/Input/InputField";
+import { editProduct } from "../../../lib/action";
 type ProductInfo = Pick<
   Product,
   "name" | "category" | "price" | "color" | "size" | "details" | "stock" | "id"
@@ -32,17 +33,6 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
     label: product.name,
   }));
 
-  // api 요청 및 핸들러
-
-  const editProductHandler = async (editData: ProductInfo) => {
-    try {
-      const response = await axios.post("/api/postEditProduct", editData);
-      console.log(response);
-    } catch (err) {
-      console.log(err + "업데이트 에러");
-    }
-  };
-
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -57,7 +47,7 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
       stock: stock,
     };
 
-    editProductHandler(editData);
+    editProduct(editData);
   };
 
   // 기본값

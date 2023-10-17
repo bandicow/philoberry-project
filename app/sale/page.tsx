@@ -2,17 +2,14 @@ import React from "react";
 import SaleList from "../../src/components/SaleItems/SaleList";
 import axios from "axios";
 import { Product } from "@prisma/client";
+import { getProducts } from "../../lib/action";
 
 interface SaleProps {
   items: Product[];
 }
-const getProduct = async () => {
-  const response = await axios.get(`${process.env.SITE_URL}/api/productLoad`);
-  return { items: response.data };
-};
 
 const Sale = async () => {
-  const { items }: SaleProps = await getProduct();
+  const { items }: SaleProps = await getProducts();
   return (
     <div>
       <SaleList items={items} />

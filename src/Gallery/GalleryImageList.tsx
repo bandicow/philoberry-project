@@ -1,26 +1,10 @@
 import React from "react";
 import GalleryImage from "./GalleryImage";
 import { Artwork } from "@prisma/client";
-import axios from "axios";
-
-const getTodayArtist = async () => {
-  const response = await axios.get(
-    `${process.env.SITE_URL}/api/getTodayArtist`
-  );
-  return response.data.artistName;
-};
-
-export const getArtwork = async () => {
-  const name = await getTodayArtist();
-  if (!name) return []; // Add this line to prevent running the query before artist name is available.
-  const response = await axios.get(
-    `${process.env.SITE_URL}/api/getArtwork/${name}`
-  );
-  return response.data;
-};
+import { getArtworks } from "../../lib/action";
 
 const GalleryImageList = async () => {
-  const artworks = await getArtwork();
+  const artworks = await getArtworks();
 
   if (!artworks) {
     return <div>Loading...</div>;

@@ -1,27 +1,9 @@
 import { SketchPicker, ColorResult } from "react-color";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { getBackgroundColor, setBackgroundColor } from "../../../lib/action";
 
 export default function ChangeBgColor() {
   const queryClient = useQueryClient();
-
-  // 배경색 정보를 가져오는 함수
-  async function getBackgroundColor() {
-    const response = await axios.get("/api/getBackgroundColor");
-    return response.data.backgroundColor;
-  }
-
-  // 배경색 정보를 설정하는 함수
-  async function setBackgroundColor(data: { backgroundColor: string }) {
-    try {
-      const response = await axios.post("/api/setBackgroundColor", data);
-      console.log(response.data.backgroundColor);
-      return response.data.backgroundColor;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
 
   // 배경색 정보를 가져옵니다.
   const { data: backgroundColor } = useQuery(

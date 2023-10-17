@@ -1,18 +1,12 @@
 import React from "react";
 import { UploadGallery } from "../../../src/components/AdminSettings/UploadGallery";
-import axios from "axios";
 import { Artist } from "@prisma/client";
+import { getArtist } from "../../../lib/action";
 
 type ArtistInfo = Pick<Artist, "artist_id" | "name">;
 interface getArtistProps {
   artistInfo: ArtistInfo[];
 }
-
-const getArtist = async () => {
-  const response = await axios.get(`${process.env.SITE_URL}/api/getArtist`);
-
-  return { artistInfo: response.data };
-};
 
 const uploadArtwork = async () => {
   const { artistInfo }: getArtistProps = await getArtist();

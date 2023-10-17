@@ -12,10 +12,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 type UploadArtwork = Omit<Artwork, "artwork_id">;
 
-interface NewArtwork {
-  ArtworkInfo: UploadArtwork;
-}
-
 interface ModalProps {
   artistInfo: ArtistInfo;
 }

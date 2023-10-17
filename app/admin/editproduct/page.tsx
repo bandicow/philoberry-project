@@ -1,6 +1,6 @@
-import axios from "axios";
 import { Product } from "@prisma/client";
 import { EditProducts } from "../../../src/components/AdminSettings/EditProducts";
+import { getProduct } from "../../../lib/action";
 
 type ProductInfo = Pick<
   Product,
@@ -10,14 +10,6 @@ type ProductInfo = Pick<
 interface editProductsProps {
   productsInfo: ProductInfo[];
 }
-
-const getProduct = async () => {
-  const response = await axios.get(
-    `${process.env.SITE_URL}/api/getEditProduct`
-  );
-
-  return { productsInfo: response.data };
-};
 
 const editProduct = async () => {
   const { productsInfo }: editProductsProps = await getProduct();
