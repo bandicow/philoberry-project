@@ -5,6 +5,7 @@ import axios from "axios";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
 import { StringInputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
+import { artistUploadHandler, handleUpload } from "@/lib/action";
 
 type NewArtist = Omit<Artist, "artist_id">;
 
@@ -15,43 +16,13 @@ export const ArtistUpload = () => {
   const [profile, setProfile] = useState("");
   const [siteUrl, setSiteUrl] = useState("");
 
-  /** 이미지 업로드 */
-  async function handleUpload(file: File) {
-    try {
-      const response = await axios.post("/api/s3Upload", {
-        file: { name: file.name, type: file.type },
-        name: name,
-      });
-      const { url, key } = response.data;
-
-      // Create a new Blob instance
-      const blob = new Blob([file], { type: file.type });
-
-      //사전 서명된(presigned) URL을 사용하여 S3에 직접 파일을 업로드
-      await axios.put(url, blob);
-
-      return key;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const artistUploadHandler = async (artistData: NewArtist) => {
-    try {
-      const response = await axios.post("/api/artistupload", artistData);
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
 
     let key: string = "";
     if (image) {
       try {
-        key = await handleUpload(image);
+        key = await handleUpload(image, name);
       } catch (error) {
         alert("이미지 업로드 실패");
         return ""; // 에러 발생 시 여기서 종료

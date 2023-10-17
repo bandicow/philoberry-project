@@ -9,6 +9,7 @@ import DragAndDropUploader from "../../ImageUploader/MultiFormDragandDrop";
 import axios from "axios";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { handleUpload, postArtwork } from "@/lib/action";
 
 type UploadArtwork = Omit<Artwork, "artwork_id">;
 
@@ -46,30 +47,6 @@ const Modal = ({ artistInfo }: ModalProps) => {
     setArtworks(newFormData);
   };
 
-  /** 이미지 업로드 */
-  async function handleUpload(file: File) {
-    try {
-      const response = await axios.post("/api/s3Upload", {
-        file: {
-          name: file.name,
-          type: file.type,
-        },
-        name: name,
-      });
-      const { url, key } = response.data;
-
-      // Create a new Blob instance
-      const blob = new Blob([file], { type: file.type });
-
-      //사전 서명된(presigned) URL을 사용하여 S3에 직접 파일을 업로드
-      await axios.put(url, blob);
-
-      return key;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -79,7 +56,7 @@ const Modal = ({ artistInfo }: ModalProps) => {
       for (let i = 0; i < artworks.length; i++) {
         if (files[i]) {
           try {
-            let key = await handleUpload(files[i]);
+            let key = await handleUpload(files[i], name);
             keys.push(key);
           } catch (err) {
             alert("이미지 업로드 실패");
@@ -96,7 +73,7 @@ const Modal = ({ artistInfo }: ModalProps) => {
     }));
 
     for (let i = 0; i < newFormData.length; i++) {
-      await axios.post("/api/postArtwork", newFormData[i]);
+      await postArtwork(newFormData[i]);
     }
   };
 
