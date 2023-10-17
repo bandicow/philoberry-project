@@ -1,8 +1,7 @@
+import { Session } from "next-auth";
 import ProfileImage from "./ProfileImage";
 import Setting from "./Setting";
-import { Session } from "../../Types/Art";
 import { signOut } from "next-auth/react";
-import Sidebar from "../layout/Sidebar";
 
 type ClientAccountProps = {
   ClientInfo: Session;
@@ -17,7 +16,6 @@ const AdminInfo = (props: ClientAccountProps) => {
 
   return (
     <div className="flex">
-      {/* <Sidebar /> */}
       <div className="grid justify-center w-4/5 settings">
         <div className="grid grid-cols-4 gap-3">
           <div className="col-span-1 mr-10">
