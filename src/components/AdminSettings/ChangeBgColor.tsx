@@ -1,5 +1,5 @@
 import { SketchPicker, ColorResult } from "react-color";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function ChangeBgColor() {
@@ -25,7 +25,7 @@ export default function ChangeBgColor() {
 
   // 배경색 정보를 가져옵니다.
   const { data: backgroundColor } = useQuery(
-    "backgroundColor",
+    ["backgroundColor"],
     getBackgroundColor
   );
 
@@ -33,7 +33,7 @@ export default function ChangeBgColor() {
   const setBackgroundColorMutation = useMutation(setBackgroundColor, {
     onSuccess: () => {
       // 성공적으로 색상이 변경되면 쿼리 데이터 갱신합니다.
-      queryClient.invalidateQueries("backgroundColor");
+      queryClient.invalidateQueries(["backgroundColor"]);
     },
   });
 

@@ -1,55 +1,51 @@
-"use client";
 import React from "react";
 import GalleryImage from "./GalleryImage";
-import { useQuery } from "@tanstack/react-query";
 import { Artwork } from "@prisma/client";
-import { getArtwork } from "../../app/gallery/page";
+import axios from "axios";
 
-const GalleryImageList = () => {
-  const {
-    data: artworksData,
-    isError: artworkError,
-    isLoading: artworkLoading,
-  } = useQuery(["artworks"], getArtwork);
+const getTodayArtist = async () => {
+  const response = await axios.get(
+    `${process.env.SITE_URL}/api/getTodayArtist`
+  );
+  return response.data.artistName;
+};
 
-  if (artworkLoading) {
+export const getArtwork = async () => {
+  const name = await getTodayArtist();
+  if (!name) return []; // Add this line to prevent running the query before artist name is available.
+  const response = await axios.get(
+    `${process.env.SITE_URL}/api/getArtwork/${name}`
+  );
+  return response.data;
+};
+
+const GalleryImageList = async () => {
+  const artworks = await getArtwork();
+
+  if (!artworks) {
     return <div>Loading...</div>;
   }
 
-  if (artworkError || !artworksData) {
-    return <div>Error occurred while fetching artworks.</div>;
-  }
-
-  // Extract artworks and backgroundColor from the response data
-  const { data: artworks, bg: backgroundColor } = artworksData;
-
   return (
-    <div
-      style={{
-        backgroundColor: backgroundColor,
-        backdropFilter: "blur(100px)",
-      }}
-    >
-      <ol className="flex flex-col items-center w-full">
-        {artworks &&
-          artworks.map((imginfo: Artwork) => (
-            <GalleryImage
-              key={imginfo.artwork_id}
-              artwork_id={imginfo.artwork_id}
-              artist_name={imginfo.artist_name}
-              title={imginfo.title}
-              s3key={imginfo.s3key}
-              description={imginfo.description}
-              createdAt={imginfo.createdAt}
-              material={imginfo.material}
-              size={imginfo.size}
-              price={imginfo.price}
-              order={imginfo.order}
-              isSold={imginfo.isSold}
-            />
-          ))}
-      </ol>
-    </div>
+    <ol className="flex flex-col items-center w-full">
+      {artworks &&
+        artworks.map((artworkInfo: Artwork) => (
+          <GalleryImage
+            key={artworkInfo.artwork_id}
+            artwork_id={artworkInfo.artwork_id}
+            artist_name={artworkInfo.artist_name}
+            title={artworkInfo.title}
+            s3key={artworkInfo.s3key}
+            description={artworkInfo.description}
+            createdAt={artworkInfo.createdAt}
+            material={artworkInfo.material}
+            size={artworkInfo.size}
+            price={artworkInfo.price}
+            order={artworkInfo.order}
+            isSold={artworkInfo.isSold}
+          />
+        ))}
+    </ol>
   );
 };
 
