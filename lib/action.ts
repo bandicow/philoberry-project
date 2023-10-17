@@ -17,7 +17,7 @@ type NewArtist = Omit<Artist, "artist_id">;
 
 //** 배경색 가져오기 */
 export const getBackgroundColor = async () => {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await axios.get(`${serverUrl}/api/getBackgroundColor`);
     return response.data.backgroundColor;
   }
@@ -25,7 +25,7 @@ export const getBackgroundColor = async () => {
 
 //** 배경색 설정하기 */
 export async function setBackgroundColor(data: { backgroundColor: string }) {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
       const response = await axios.post("/api/setBackgroundColor", data);
       console.log(response.data.backgroundColor);
@@ -39,7 +39,7 @@ export async function setBackgroundColor(data: { backgroundColor: string }) {
 
 //** 제품 수정을 위한 정보 가져오기*/
 export const getProduct = async () => {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await axios.get(`${serverUrl}/api/getEditProduct`);
 
     return { productsInfo: response.data };
@@ -48,7 +48,7 @@ export const getProduct = async () => {
 
 //** 작품 업로드를 위해 작가정보 가져오기 */
 export const getArtist = async () => {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await axios.get(`${serverUrl}/api/getArtist`);
 
     return { artistInfo: response.data };
@@ -57,7 +57,7 @@ export const getArtist = async () => {
 
 //**모든 제품 정보 가져오기 */
 export const getProducts = async () => {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await axios.get(`${serverUrl}/api/productLoad`);
     return { items: response.data };
   }
@@ -66,7 +66,7 @@ export const getProducts = async () => {
 
 //** 제품 상세 정보하기 (하나의 제품)*/
 export const getProductDetail = async (id: number) => {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await axios.get(`${serverUrl}/api/productDetail/${id}`);
     return response.data;
   }
@@ -74,7 +74,7 @@ export const getProductDetail = async (id: number) => {
 
 //**제품 수정을 위한 요청*/
 export const editProduct = async (editData: ProductInfo) => {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
       const response = await axios.post(
         `${serverUrl}/api/postEditProduct`,
@@ -89,15 +89,16 @@ export const editProduct = async (editData: ProductInfo) => {
 
 //** 갤러리 작가 이름 가져오기*/
 export async function getTodayArtist() {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await axios.get(`${serverUrl}/api/getTodayArtist`);
-
+    console.log(process.env.NEXT_PUBLIC_BUILDING_IMAGE + "안돼야하는데");
     return response.data.artistName;
   }
 }
+
 //** 갤러리 작가 이름 가져오기*/
 export async function getArtworks() {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const name = await getTodayArtist();
     if (!name) return []; // Add this line to prevent running the query before artist name is available.
 
@@ -108,7 +109,7 @@ export async function getArtworks() {
 
 //**s3에 작가 이미지 업로드 */
 export async function handleUpload(file: File, name: string) {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
       const response = await axios.post("/api/s3Upload", {
         file: { name: file.name, type: file.type },
@@ -131,7 +132,7 @@ export async function handleUpload(file: File, name: string) {
 
 //** 작가 등록하기 */
 export async function artistUploadHandler(artistData: NewArtist) {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
       const response = await axios.post("/api/artistupload", artistData);
       console.log(response);
@@ -146,7 +147,7 @@ export async function handleMultipleUploads(
   files: File[],
   name: string
 ): Promise<string[]> {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
       const uploadPromises = files.map((file) => handleUpload(file, name));
       const keys = await Promise.all(uploadPromises);
@@ -164,7 +165,7 @@ export async function handleMultipleUploads(
 
 //** 제품 등록하기 */
 export async function addProductHandler(productData: NewProduct) {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
       const response = await axios.post("/api/productUpload", productData);
       console.log(response.data);
@@ -178,7 +179,7 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 
 //** 작품 등록하기 */
 export async function postArtwork(artwork: UploadArtwork) {
-  if (process.env.BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
       const response = await axios.post("/api/postArtwork", artwork);
       return response.data;
