@@ -1,4 +1,4 @@
-import Card from "../components/UI/Card/GalleryCard";
+import Card from "../Card/GalleryCard";
 import React from "react";
 
 import Image from "next/image";

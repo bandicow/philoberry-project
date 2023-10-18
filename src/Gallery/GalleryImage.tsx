@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Card from "../components/UI/Card/GalleryCard";
-import GalleryModal from "./GalleryModal";
+import GalleryModal from "../components/UI/Modal/GalleryModal";
 import { Artwork } from "@prisma/client";
 import { useModal } from "../hooks/useModal"; // Import the hook
 
