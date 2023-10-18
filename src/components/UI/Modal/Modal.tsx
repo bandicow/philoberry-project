@@ -6,7 +6,6 @@ import Button from "../Button/SubmitButton";
 import { ArtistInfo } from "../../../Types/Art";
 import { StringInputField, NumberInputField } from "../Input/InputField";
 import DragAndDropUploader from "../../ImageUploader/MultiFormDragandDrop";
-import axios from "axios";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { handleUpload, postArtwork } from "@/lib/action";

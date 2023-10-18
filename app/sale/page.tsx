@@ -1,6 +1,5 @@
 import React from "react";
 import SaleList from "../../src/components/SaleItems/SaleList";
-import axios from "axios";
 import { Product } from "@prisma/client";
 import { getProducts } from "../../lib/action";
 

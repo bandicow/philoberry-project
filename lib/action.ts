@@ -91,7 +91,6 @@ export const editProduct = async (editData: ProductInfo) => {
 export async function getTodayArtist() {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await axios.get(`${serverUrl}/api/getTodayArtist`);
-    console.log(process.env.NEXT_PUBLIC_BUILDING_IMAGE + "안돼야하는데");
     return response.data.artistName;
   }
 }

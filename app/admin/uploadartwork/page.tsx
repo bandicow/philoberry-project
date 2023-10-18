@@ -9,7 +9,14 @@ interface getArtistProps {
 }
 
 const uploadArtwork = async () => {
-  const { artistInfo }: getArtistProps = await getArtist();
+  const productResult = await getArtist();
+
+  if (!productResult) {
+    console.error("Failed to get product");
+    return <div> 데이터 불러오기 실패</div>;
+  }
+
+  const { artistInfo }: getArtistProps = productResult;
 
   return (
     <div>

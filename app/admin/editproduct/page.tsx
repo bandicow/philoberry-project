@@ -12,7 +12,15 @@ interface editProductsProps {
 }
 
 const editProduct = async () => {
-  const { productsInfo }: editProductsProps = await getProduct();
+  const productResult = await getProduct();
+
+  if (!productResult) {
+    console.error("Failed to get product");
+    return <div> 데이터 불러오기 실패</div>;
+  }
+
+  const { productsInfo }: editProductsProps = productResult;
+
   return (
     <div>
       <EditProducts productsInfo={productsInfo} />
