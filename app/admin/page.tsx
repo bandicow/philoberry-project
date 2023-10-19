@@ -9,6 +9,8 @@ import AdminInfo from "../../src/components/AdminSettings/AdminInfo";
 const Admin = () => {
   const { data: session } = useSession();
 
+  console.log(session?.user);
+
   const logoutRouter = useRouter();
 
   useEffect(() => {
@@ -19,8 +21,13 @@ const Admin = () => {
 
   if (!session) {
     return (
-      <div>
-        로그인이 필요합니다. <a href="/">메인페이지로</a>
+      <div className="relative">
+        <p className="fixed w-1/2 text-3xl font-bold top-1/2 left-1/2 h-1/2">
+          로그인이 필요합니다.
+          <p>
+            <a href="/">메인페이지로</a>
+          </p>
+        </p>
       </div>
     );
   }

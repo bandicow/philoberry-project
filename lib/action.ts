@@ -27,7 +27,10 @@ export const getBackgroundColor = async () => {
 export async function setBackgroundColor(data: { backgroundColor: string }) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await axios.post("/api/setBackgroundColor", data);
+      const response = await axios.post(
+        `${serverUrl}/api/setBackgroundColor`,
+        data
+      );
       console.log(response.data.backgroundColor);
       return response.data.backgroundColor;
     } catch (error) {
@@ -110,7 +113,7 @@ export async function getArtworks() {
 export async function handleUpload(file: File, name: string) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await axios.post("/api/s3Upload", {
+      const response = await axios.post(`${serverUrl}/api/s3Upload`, {
         file: { name: file.name, type: file.type },
         name,
       });
@@ -133,7 +136,10 @@ export async function handleUpload(file: File, name: string) {
 export async function artistUploadHandler(artistData: NewArtist) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await axios.post("/api/artistupload", artistData);
+      const response = await axios.post(
+        `${serverUrl}/api/artistupload`,
+        artistData
+      );
       console.log(response);
     } catch (err) {
       console.log(err);
@@ -166,7 +172,10 @@ export async function handleMultipleUploads(
 export async function addProductHandler(productData: NewProduct) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await axios.post("/api/productUpload", productData);
+      const response = await axios.post(
+        `${serverUrl}/api/productUpload`,
+        productData
+      );
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -180,10 +189,28 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 export async function postArtwork(artwork: UploadArtwork) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await axios.post("/api/postArtwork", artwork);
+      const response = await axios.post(
+        `${serverUrl}/api/postArtwork`,
+        artwork
+      );
       return response.data;
     } catch (error) {
       console.error(error);
+    }
+  }
+}
+
+// admin 계정확인
+export async function checkIsAdmin(email: string) {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+    try {
+      const response = await axios.post(`${serverUrl}/api/checkIsAdmin`, {
+        email,
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return false;
     }
   }
 }

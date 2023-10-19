@@ -1,19 +1,6 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import KakaoProvider from "next-auth/providers/kakao";
+import { authConfig } from "@/lib/auth";
+import NextAuth from "next-auth/next";
 
-export const authOptions: NextAuthOptions = {
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    }),
-    KakaoProvider({
-      clientId: process.env.KAKAO_CLIENT_ID || "",
-      clientSecret: process.env.KAKAO_CLIENT_SECRET || "",
-    }),
-  ],
-  secret: process.env.NEXTAUTH_SECRET,
-};
+const handler = NextAuth(authConfig);
 
-export default NextAuth(authOptions);
+export default handler;

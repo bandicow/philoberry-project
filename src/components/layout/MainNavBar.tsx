@@ -75,7 +75,7 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
             </li>
             <li>
               {!session ? (
-                <button onClick={SigninHandler}>로그인</button>
+                <Link href="/login">로그인</Link>
               ) : (
                 <Link href="/admin">관리자 설정</Link>
               )}

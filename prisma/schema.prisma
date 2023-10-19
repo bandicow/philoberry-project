@@ -67,3 +67,14 @@ model PickArtist {
   id Int @id @default(100)
   artist_name String
 }
+
+// 고객 정보
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String?
+  email    String  @unique
+  image    String?
+  password String? // bcrypt
+  isAdmin  Boolean  @default(false)
+}
