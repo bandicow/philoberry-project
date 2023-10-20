@@ -1,5 +1,5 @@
 import { NewProduct } from "@/src/Types/Product";
-import { Artist, Artwork, Product } from "@prisma/client";
+import { Artist, Artwork, PickArtist, Product } from "@prisma/client";
 import axios from "axios";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -211,6 +211,21 @@ export async function checkIsAdmin(email: string) {
     } catch (error) {
       console.error(error);
       return false;
+    }
+  }
+}
+
+// 작가 선택하기 post로 todayArtist 변경
+export async function postTodayArtist(artist: PickArtist) {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+    try {
+      const response = await axios.post(
+        `${serverUrl}/api/postTodayArtist`,
+        artist
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
     }
   }
 }

@@ -48,3 +48,8 @@ export interface GalleryImage {
 export interface ClientGalleyImageProps {
   GallreyImg: GalleryImage[];
 }
+
+//** 작가 불러오기 Props */
+interface getPickArtistProps {
+  artistInfo: Artist[];
+}

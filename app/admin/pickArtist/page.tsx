@@ -1,9 +1,9 @@
 import React from "react";
-import { UploadGallery } from "../../../src/components/AdminSettings/UploadGallery";
-import { getArtist } from "../../../lib/action";
 import { getArtistProps } from "@/src/Types/Art";
+import { getArtist } from "@/lib/action";
+import GalleryArtist from "@/src/components/AdminSettings/GalleryArtist";
 
-const uploadArtwork = async () => {
+const pickArtist = async () => {
   const artistList = await getArtist();
 
   if (!artistList) {
@@ -12,12 +12,11 @@ const uploadArtwork = async () => {
   }
 
   const { artistInfo }: getArtistProps = artistList;
-
   return (
-    <div>
-      <UploadGallery artistInfo={artistInfo} />
+    <div className="mt-10 border-solid border-t-slate-800">
+      <GalleryArtist artistInfo={artistInfo} />
     </div>
   );
 };
 
-export default uploadArtwork;
+export default pickArtist;

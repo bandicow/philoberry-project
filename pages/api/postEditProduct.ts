@@ -15,8 +15,6 @@ export default async function editProduct(
     if (req.method === "POST") {
       try {
         const productEditData: ProductInfo = req.body;
-        console.log(productEditData + " + 정상작동 테스트");
-        console.log(productEditData.id + " + 정상작동 테스트");
 
         const editProduct = await prisma.product.update({
           where: {
