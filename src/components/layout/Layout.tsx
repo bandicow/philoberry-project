@@ -4,12 +4,11 @@ import { ReactNode } from "react";
 interface LayoutProps {
   children: ReactNode;
   hideOnScroll?: boolean;
-  className: string;
 }
 
-function Layout({ className, children }: LayoutProps) {
+function Layout({ children }: LayoutProps) {
   return (
-    <div className={className}>
+    <div>
       <MainNavBar hideOnScroll={true} />
       <main>{children}</main>
     </div>

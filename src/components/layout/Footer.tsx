@@ -3,19 +3,22 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="min-width-100%">
-      <footer className="footer flex flex-1 py-1 border-t border-gray-300 justify-center items-center">
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex justify-center items-center flex-grow-1"
-        >
-          여기는 사업자정보같은 걸 넣을 예정
-          <span className="logo h-4 mx-2">
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+    <div>
+      <footer>
+        <div className="flex justify-center w-full text-center md:w-2/6">
+          <div className="w-auto pl-3 pr-3 border-r border-r-gray-600">
+            ©2023 PB All Rights Reserved
+          </div>
+          <div className="w-auto pl-3 pr-3 text-center">
+            <a href="https://www.instagram.com/" target="_blank" rel="test" />
+            Instaram
+          </div>
+        </div>
+
+        <div className="w-full md:w-4/6">
+          <p>Business Licence 123-45-67890 CEO Jeon | TEL. 062-123-4567</p>
+          <p> office Gangsan-gu, Gwangju, Republic of Korea</p>
+        </div>
       </footer>
     </div>
   );

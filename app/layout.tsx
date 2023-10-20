@@ -11,7 +11,7 @@ function RootLayout({ children }: { children: React.ReactNode }) {
     <html>
       <body>
         <ProviderWrapper>
-          <Layout className={"h-full w-full"}>{children}</Layout>
+          <Layout>{children}</Layout>
         </ProviderWrapper>
       </body>
     </html>
