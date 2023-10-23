@@ -13,7 +13,7 @@ const Products = ({ item }: SaleItemProps) => {
   const { id, name, mainImage, stock } = item;
 
   return (
-    <li className="flex justify-center">
+    <li className="flex justify-center w-full">
       {
         <SaleItemCard
           extraClassName="hover:bg-red-100 active:bg-red-200 h-max-[500px]"
@@ -26,16 +26,17 @@ const Products = ({ item }: SaleItemProps) => {
                 key={id}
                 src={mainImage}
                 alt={`S3 Image ${name}`}
-                height={500}
-                width={500}
+                height={768}
+                width={768}
+                objectFit={"cover"}
               />
             ) : (
               <Image
                 key={id}
                 src={"/images/not_found.png"}
                 alt={`S3 Image ${name}`}
-                height={500}
-                width={500}
+                height={768}
+                width={768}
               />
             )}
             {stock === 0 && (
@@ -43,7 +44,6 @@ const Products = ({ item }: SaleItemProps) => {
                 <p className="text-lg font-bold text-red-700">품절</p>
               </div>
             )}
-            <p>{id}</p>
           </div>
         </SaleItemCard>
       }

@@ -8,7 +8,7 @@ interface SaleProps {
 const ProductList = ({ items }: SaleProps) => {
   // console.log(items + "여기");
   return (
-    <ol className="grid grid-cols-1 m-0 md:grid-cols-3">
+    <ol className="grid grid-cols-1 m-0 desktop:grid-cols-3">
       {items &&
         items.map(
           (

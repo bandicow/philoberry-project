@@ -16,6 +16,12 @@ module.exports = {
       animation: {
         "fade-in": "fadeIn 0.7s",
       },
+      screens: {
+        mobile: "0px",
+        tablet: "480px",
+        desktop: "768px",
+        large: "1024px",
+      },
 
       keyframes: {
         fadeIn: {

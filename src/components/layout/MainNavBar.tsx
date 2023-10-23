@@ -52,11 +52,6 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
     };
   }, [hideOnScroll, prevScrollPos, isVisible]);
 
-  // 로그인
-  const SigninHandler = () => {
-    signIn();
-  };
-
   return (
     <nav
       className={`fixed top-0 left-0 items-center w-full h-10 px-1 text-white uppercase bg-black shadow-md z-[999] transition-all duration-[300ms] ${

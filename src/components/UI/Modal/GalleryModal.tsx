@@ -11,9 +11,14 @@ import {
   faMagnifyingGlassMinus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import ArtworkInfo from "@/src/Gallery/ArtworkInfo";
+import DetailInfo from "@/src/Gallery/DetailInfo";
 interface GalleryCardProps {
   imageInfo: Artwork;
+}
+
+interface InfoProps {
+  label: string;
+  value: string | number | string[];
 }
 
 const GalleryModal = ({ imageInfo }: GalleryCardProps) => {
@@ -23,6 +28,12 @@ const GalleryModal = ({ imageInfo }: GalleryCardProps) => {
   const zoomInIcon: IconDefinition = faMagnifyingGlassPlus;
   const zoomOutIcon: IconDefinition = faMagnifyingGlassMinus;
   const closeIcon: IconDefinition = faXmark;
+
+  const DetailInfos: InfoProps[] = [
+    { label: "작품 정보", value: [imageInfo.size, imageInfo.material] },
+    { label: "가격", value: imageInfo.price },
+    { label: "작품 설명", value: imageInfo.description },
+  ];
 
   return (
     <div
@@ -65,16 +76,11 @@ const GalleryModal = ({ imageInfo }: GalleryCardProps) => {
               <p className="text-3xl font-extrabold text-sky-800">판매중</p>
             )}
             <h1 className="mt-5 mb-3 text-2xl font-bold">{imageInfo.title}</h1>
-            <ArtworkInfo
-              label="작품 정보"
-              value={[imageInfo.size, imageInfo.material]}
-            />
-            <ArtworkInfo label="가격" value={imageInfo.price} />
-
-            <ArtworkInfo label="작품 설명" value={imageInfo.description} />
-
+            {DetailInfos.map((info, index) => (
+              <DetailInfo key={index} {...info} />
+            ))}
             <div className="mb-5 border-t-2 mt-28 border-t-gray-700">
-              <ArtworkInfo label="구매 문의" value={"인스타그램"} />
+              <DetailInfo label="구매 문의" value={"인스타그램"} />
             </div>
           </div>
         </div>

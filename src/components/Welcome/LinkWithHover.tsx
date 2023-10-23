@@ -19,7 +19,7 @@ export const LinkWithHover = ({ href, children }: LinkWithHoverProps) => {
   };
 
   return (
-    <div className="mr-8">
+    <div className="">
       <Link href={href} passHref>
         <p
           className={` float-left border-b border-white  transition-transform duration-500 ease-in-out ${

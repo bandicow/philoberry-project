@@ -5,8 +5,14 @@ import { Product } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getProductDetail } from "../../../lib/action";
+import DetailInfo from "@/src/Gallery/DetailInfo";
 interface SaleItemProps extends Product {
   s3key: string[];
+}
+
+interface InfoProps {
+  label: string;
+  value: string | number | string[] | null; 
 }
 
 export default function ProductDetail() {
@@ -19,9 +25,6 @@ export default function ProductDetail() {
   }
 
   const [product, setProduct] = useState<SaleItemProps | null>(null);
-
-  // id와 일치하는 더미 데이터 가져오기
-
   useEffect(() => {
     const fetchProductDetail = async () => {
       if (id) {
@@ -35,11 +38,22 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="flex items-center justify-center font-extrabold text-8xl">
+      <div className="fixed font-extrabold top-1/2 left-1/2 text-8xl">
         <p>Loading...</p>
       </div>
     );
   }
+
+  const { name, material, color, size, details, precautions } = product;
+
+  const DetailInfos: InfoProps[] = [
+    { label: "제품명", value: name },
+    { label: "소재", value: material },
+    { label: "색상", value: color },
+    { label: "사이즈", value: size },
+    { label: "상세정보", value: details },
+    { label: "취급 주의", value: precautions },
+  ];
 
   return (
     <div className="flex item">
@@ -57,23 +71,21 @@ export default function ProductDetail() {
             </div>
           ))}
       </div>
-      <div className="fixed right-0 w-1/2 bg-black bg-opacity-40 h-[100vh]">
-        <div className="flex flex-col items-center w-5/6 p-10 m-5 border-4 item_desc class h-5/6">
-          <p></p>
-          <p>제품명 : {product.name}</p>
-          <p>소재 : {product.material}</p>
-          <p>색상 : {product.color}</p>
-          <p>사이즈 : {product.size}</p>
-          <p>상세정보 : {product.details}</p>
-          <p>제품주의사항 : {product.precautions}</p>
-          <p>{!product.stock && "품절"}</p>
-        </div>
-        <div className="py-4 text-center item_desc_url">
-          {product.url && (
-            <Link href={product.url as string}>
-              <p className="mb-2 text-xl font-semibold">{product.url}</p>
-            </Link>
-          )}
+      <div className="fixed right-0 top-0 w-1/2  bg-opacity-40 h-[100vh]">
+        <div className="flex flex-col w-5/6 p-5 m-5 text-left h-5/6">
+          {DetailInfos.map((info, index) => (
+            <DetailInfo key={index} {...info} />
+          ))}
+
+          <div className="py-4 mt-5 text-center border-t-2 item_desc_url border-t-slate-600">
+            {product.url && (
+              <Link href={product.url as string}>
+                <p className="mb-2 text-xl font-semibold">
+                  <p>{!product.stock ? "품절" : `구매문의 ${product.url}`}</p>
+                </p>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </div>

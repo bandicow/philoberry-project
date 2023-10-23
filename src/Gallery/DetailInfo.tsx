@@ -2,10 +2,10 @@ import React from "react";
 
 interface InfoProps {
   label: string;
-  value: string | number | string[];
+  value: string | number | string[] | null;
 }
 
-const ArtworkInfo = ({ label, value }: InfoProps) => (
+const DetailInfo = ({ label, value }: InfoProps) => (
   <p className="flex mt-5 text-gray-600">
     <span className="w-1/4">{label}</span>
     <span className="flex-col ml-5 text-lg font-bold text-left text-black ">
@@ -18,4 +18,4 @@ const ArtworkInfo = ({ label, value }: InfoProps) => (
   </p>
 );
 
-export default ArtworkInfo;
+export default DetailInfo;

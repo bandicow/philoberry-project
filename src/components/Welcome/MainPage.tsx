@@ -13,7 +13,7 @@ export const Mainpage = () => {
       <h1 className={"mb-5 font-bold text-white"}>PhiloBerry studio</h1>
       <h1 className={"mb-5 f o nt-bold"}> X</h1>
       <h1 className={"mb-20 font-bold"}>{artistName}</h1>
-      <ul className="flex justify-around w-auto mt-10vh">
+      <ul className="flex w-5/6 max-w-[400px] min-w-[300px] justify-around mt-10vh">
         <LinkWithHover href="/sale">goods shop</LinkWithHover>
         <LinkWithHover href="/gallery">gallery</LinkWithHover>
       </ul>

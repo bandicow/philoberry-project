@@ -98,3 +98,29 @@ footer > div {
     order: unset;
   }
 }
+
+/* 모바일 스타일 */
+body {
+  background-color: lightred;
+}
+
+/* 태블릿 및 모바일 가로 스타일  */
+@media screen and (min-width: 481px) {
+  body {
+    background-color: lightyellow;
+  }
+}
+
+/*  저해상도 데스크톱 + 태블릿 스타일 */
+@media screen and (min-width: 769px) {
+  body {
+    background-color: lightgreen;
+  }
+}
+
+/* 데스크톱 스타일*/
+@media screen and (min-width: 1280px) {
+  body {
+    background-color: lightpurple;
+  }
+}
