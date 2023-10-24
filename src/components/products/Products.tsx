@@ -13,14 +13,14 @@ const Products = ({ item }: SaleItemProps) => {
   const { id, name, mainImage, stock } = item;
 
   return (
-    <li className="flex justify-center w-full">
+    <li className="flex justify-center w-full h-full">
       {
         <SaleItemCard
-          extraClassName="hover:bg-red-100 active:bg-red-200 h-max-[500px]"
+          extraClassName="hover:bg-red-100 active:bg-red-200"
           href={`/sale/${id}`}
           stock={stock}
         >
-          <div className="relative overflow-hidden">
+          <div className="relative object-cover w-full h-full overflow-hidden">
             {mainImage ? (
               <Image
                 key={id}
@@ -28,7 +28,6 @@ const Products = ({ item }: SaleItemProps) => {
                 alt={`S3 Image ${name}`}
                 height={768}
                 width={768}
-                objectFit={"cover"}
               />
             ) : (
               <Image

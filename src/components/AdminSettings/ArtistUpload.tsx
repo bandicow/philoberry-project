@@ -1,7 +1,6 @@
 "use client";
 import React, { FormEvent, useState } from "react";
 import { Artist } from "@prisma/client";
-import axios from "axios";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
 import { StringInputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";

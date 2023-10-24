@@ -6,13 +6,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getProductDetail } from "../../../lib/action";
 import DetailInfo from "@/src/Gallery/DetailInfo";
+import CarouselProduct from "./CarouselProduct";
 interface SaleItemProps extends Product {
   s3key: string[];
 }
 
 interface InfoProps {
   label: string;
-  value: string | number | string[] | null; 
+  value: string | number | string[] | null;
 }
 
 export default function ProductDetail() {
@@ -44,7 +45,7 @@ export default function ProductDetail() {
     );
   }
 
-  const { name, material, color, size, details, precautions } = product;
+  const { name, material, color, size, details, precautions, s3key } = product;
 
   const DetailInfos: InfoProps[] = [
     { label: "제품명", value: name },
@@ -56,8 +57,11 @@ export default function ProductDetail() {
   ];
 
   return (
-    <div className="flex item">
-      <div className="flex-col w-1/2 m-0">
+    <div className="flex-col item desktop:flex">
+      <div className="desktop:hidden">
+        <CarouselProduct images={s3key} />
+      </div>
+      <div className="flex-col hidden w-1/2 m-0 desktop:flex">
         {product.s3key &&
           product.s3key.map((s3key) => (
             <div className="w-full item_img" key={s3key}>
@@ -71,8 +75,8 @@ export default function ProductDetail() {
             </div>
           ))}
       </div>
-      <div className="fixed right-0 top-0 w-1/2  bg-opacity-40 h-[100vh]">
-        <div className="flex flex-col w-5/6 p-5 m-5 text-left h-5/6">
+      <div className="static desktop:fixed desktop:w-1/2  desktop:right-0 desktop:top-0 w-full  bg-opacity-40 h-[100vh] min-w-min">
+        <div className="flex-col p-5 m-5 text-left h-5/6">
           {DetailInfos.map((info, index) => (
             <DetailInfo key={index} {...info} />
           ))}

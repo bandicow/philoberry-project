@@ -17,7 +17,7 @@ const Card = (props: CardProps) => {
   return (
     <Link href={props.href}>
       <div
-        className={`w-full text-base cursor-pointer ${props.extraClassName} rounded-xl ${bgColorClass}`}
+        className={`h-full w-full text-base cursor-pointer ${props.extraClassName} ${bgColorClass}`}
       >
         <div className="text-gray-700 ">{props.children}</div>
       </div>
