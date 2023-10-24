@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import {
   faHouse,
   faImage,
@@ -15,12 +14,6 @@ import {
 
 const Sidebar = () => {
   // 색상 변경 페이지인지 아닌지를 상태로 관리합니다.
-
-  const PaletteIcon: IconDefinition = faPalette;
-  const ImageIcon: IconDefinition = faImage;
-  const RotateIcon: IconDefinition = faRotate;
-  const HomeIcon: IconDefinition = faHouse;
-  const UploadIcon: IconDefinition = faCloudArrowUp;
 
   const menuItems = [
     { icon: faHouse, text: "홈", href: "/admin" },

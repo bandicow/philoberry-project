@@ -8,12 +8,18 @@ import {
 } from "@/src/components/sign/authButtons";
 import { CredentialsForm } from "@/src/components/sign/CredentialsForm";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const serverUrl = isProduction
+  ? process.env.NEXT_PUBLIC_SERVER_URL
+  : "http://localhost:3000";
+
 export default async function SignInPage() {
   const session = await getServerSession(authConfig);
 
   console.log("Session: ", session);
 
-  if (session) return redirect("/");
+  if (session) return redirect(`${serverUrl}/`);
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-screen py-2 bg-gray-900">

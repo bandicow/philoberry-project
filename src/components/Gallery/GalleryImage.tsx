@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
-import Card from "../components/UI/Card/GalleryCard";
-import GalleryModal from "../components/UI/Modal/GalleryModal";
+import Card from "../UI/Card/GalleryCard";
+import GalleryModal from "../UI/Modal/GalleryModal";
 import { Artwork } from "@prisma/client";
-import { useModal } from "../hooks/useModal"; // Import the hook
+import { useModal } from "../../hooks/useModal"; // Import the hook
 
 const GalleryImage = (props: Artwork) => {
   const { isOpen, openModal, closeModal } = useModal(); // Use the hook
@@ -31,7 +31,7 @@ const GalleryImage = (props: Artwork) => {
         >
           <div onClick={(e) => e.stopPropagation()}>
             {/* Prevent event bubbling */}
-            <GalleryModal imageInfo={props} />
+            <GalleryModal imageInfo={props} onModal={closeModal} />
           </div>
         </div>
       )}

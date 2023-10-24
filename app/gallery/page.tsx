@@ -1,5 +1,5 @@
 import React from "react";
-import GalleryImageList from "../../src/Gallery/GalleryImageList";
+import GalleryImageList from "../../src/components/Gallery/GalleryImageList";
 import { getBackgroundColor } from "../../lib/action";
 
 const Gallery = async () => {

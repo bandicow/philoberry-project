@@ -11,9 +11,10 @@ import {
   faMagnifyingGlassMinus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import DetailInfo from "@/src/Gallery/DetailInfo";
+import DetailInfo from "@/src/components/Gallery/DetailInfo";
 interface GalleryCardProps {
   imageInfo: Artwork;
+  onModal: () => void;
 }
 
 interface InfoProps {
@@ -21,7 +22,7 @@ interface InfoProps {
   value: string | number | string[];
 }
 
-const GalleryModal = ({ imageInfo }: GalleryCardProps) => {
+const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
   const { isFullScreen, openFullScreen, closeFullScreen } = useFullScreen(); // Use the hook
   const { closeModal } = useModal();
 
@@ -54,7 +55,7 @@ const GalleryModal = ({ imageInfo }: GalleryCardProps) => {
           <FontAwesomeIcon
             className="fixed top-7 right-7"
             icon={closeIcon}
-            onClick={closeModal}
+            onClick={onModal}
           ></FontAwesomeIcon>
           <div className="relative flex items-center justify-center w-1/2 h-full bg-gray-200 ">
             <FontAwesomeIcon

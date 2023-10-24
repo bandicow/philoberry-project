@@ -6,7 +6,7 @@ interface InfoProps {
 }
 
 const DetailInfo = ({ label, value }: InfoProps) => (
-  <p className="flex mt-5 text-gray-600">
+  <div className="flex mt-5 text-gray-600">
     <span className="w-1/4 ">{label}</span>
     <span className="flex-col ml-5 text-lg font-bold text-left text-black ">
       {Array.isArray(value) ? (
@@ -15,7 +15,7 @@ const DetailInfo = ({ label, value }: InfoProps) => (
         <p>{value}</p>
       )}
     </span>
-  </p>
+  </div>
 );
 
 export default DetailInfo;

@@ -5,7 +5,7 @@ import { Product } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getProductDetail } from "../../../lib/action";
-import DetailInfo from "@/src/Gallery/DetailInfo";
+import DetailInfo from "@/src/components/Gallery/DetailInfo";
 import CarouselProduct from "./CarouselProduct";
 interface SaleItemProps extends Product {
   s3key: string[];

@@ -1,7 +1,7 @@
 import React from "react";
 import GalleryImage from "./GalleryImage";
 import { Artwork } from "@prisma/client";
-import { getArtworks } from "../../lib/action";
+import { getArtworks } from "../../../lib/action";
 
 const GalleryImageList = async () => {
   const artworks = await getArtworks();
