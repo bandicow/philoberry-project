@@ -57,11 +57,11 @@ export default function ProductDetail() {
   ];
 
   return (
-    <div className="flex-col item desktop:flex">
-      <div className="desktop:hidden">
+    <div className="flex-col tablet:flex">
+      <div className="tablet:hidden">
         <CarouselProduct images={s3key} />
       </div>
-      <div className="flex-col hidden w-1/2 m-0 desktop:flex">
+      <div className="flex-col hidden w-1/2 m-0 tablet:flex">
         {product.s3key &&
           product.s3key.map((s3key) => (
             <div className="w-full item_img" key={s3key}>
@@ -75,7 +75,7 @@ export default function ProductDetail() {
             </div>
           ))}
       </div>
-      <div className="static desktop:fixed desktop:w-1/2  desktop:right-0 desktop:top-0 w-full  bg-opacity-40 h-[100vh] min-w-min">
+      <div className="static tablet:fixed tablet:w-1/2  tablet:right-0 tablet:top-0 w-full  bg-opacity-40 h-[100vh] min-w-min">
         <div className="flex-col p-5 m-5 text-left h-5/6">
           {DetailInfos.map((info, index) => (
             <DetailInfo key={index} {...info} />

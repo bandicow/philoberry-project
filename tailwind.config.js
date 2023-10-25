@@ -17,10 +17,12 @@ module.exports = {
         "fade-in": "fadeIn 0.7s",
       },
       screens: {
-        mobile: "0px",
-        tablet: "480px",
-        desktop: "768px",
-        large: "1024px",
+        mobile: "480px",
+        mobileLandscape: "640px",
+        tablet: "768px",
+        tabletLandscape: "1024px",
+        desktop: "1024px",
+        desktopLarge: "1440px",
       },
 
       keyframes: {

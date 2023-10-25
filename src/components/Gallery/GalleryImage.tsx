@@ -10,15 +10,14 @@ const GalleryImage = (props: Artwork) => {
 
   return (
     <div>
-      <li onClick={openModal} className="flex-col items-center">
+      <li onClick={openModal} className="mb-5">
         <Card>
-          <div className="w-auto max-h-[600px] h-auto overflow-hidden">
+          <div className="relative w-72 max-h-[600px] h-72 tablet:h-[400px] tablet:w-[400px] desktop:w-[600px] desktop:h-[600px] overflow-hidden object-cover">
             <Image
-              className="w-full h-auto"
               src={props.s3key}
               alt={props.title}
-              width={500}
-              height={300}
+              fill
+              objectFit="cover"
               loading="lazy"
             />
           </div>
@@ -28,6 +27,7 @@ const GalleryImage = (props: Artwork) => {
         <div
           onClick={closeModal}
           className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
+          style={{ zIndex: 1000 }}
         >
           <div onClick={(e) => e.stopPropagation()}>
             {/* Prevent event bubbling */}

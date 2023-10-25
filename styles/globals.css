@@ -124,3 +124,45 @@ body {
     background-color: lightpurple;
   }
 }
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
+}
+
+.swiper-pagination {
+  background-color: #000;
+  width: 100%;
+  height: 10%;
+}
+
+.swiper-button-prev {
+  color: #000;
+}
+
+.swiper-button-next {
+  color: #000;
+}
+
+.swiper-button-prev ::after {
+  content: "<";
+  font-size: 30px;
+}
