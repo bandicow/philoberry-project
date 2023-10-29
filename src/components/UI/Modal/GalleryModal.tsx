@@ -56,7 +56,7 @@ const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
             icon={closeIcon}
             onClick={onModal}
           />
-          <div className="relative flex items-center justify-center w-full h-auto pt-5 pb-5 mt-10 bg-gray-200 desktop:w-1/2 ">
+          <div className="relative flex items-center justify-center w-full h-auto pt-5 pb-5 mt-10 desktop:w-1/2 ">
             <FontAwesomeIcon
               className="absolute text-gray-400 top-3 right-3 hover:text-gray-800"
               icon={zoomInIcon}
