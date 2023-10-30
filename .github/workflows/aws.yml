@@ -1,58 +1,66 @@
-name: Philoberry CI/CD Pipeline 
+name: Philoberry CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main 
+      - main
 env:
-AWS_REGION: ap-northeast-2a
-ECS_CLUSTER: philoberry-ecs-cluster
-CONTAINER_NAME: philoberry-repository_frontend
-ECS_SERVICE: staging
-ECS_TD: ../ecs-service/service.config.json.tpl
+  AWS_REGION: ap-northeast-2
+  ECS_CLUSTER: philoberry-ecs-cluster
+  CONTAINER_NAME: philoberry-repository_frontend
+  ECS_SERVICE: staging
+  ECS_TD: ./config.json.tpl
+
 jobs:
   deploy:
     name: Deploy
-    runs-on: amzn2-ami-ecs-hvm-*-x86_64-ebs 
+    runs-on: ubuntu-latest
     environment: dev
     steps:
-      - name: Checkout code 
-        uses: actions/checkout@v2 
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Configure AWS credentials 
-        uses: aws-actions/configure-aws-credentials@v1 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}} 
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-      
+
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
-          ECR_REGISTRY_URL : ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_REPOSITORY_NAME : "philoberry_front/service_dev" 
-          IMAGE_TAG : latest  
-        run : |
-            docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} . 
-            docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
-            echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"  
+          ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
+          ECR_REPOSITORY_NAME: "philoberry_front/service_dev"
+          IMAGE_TAG: latest
+        run: |
+          docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} . 
+          docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
+          echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
 
-      - name : Fill in the new image ID in the Amazon ECS task definition  
-         id : task-def  
-         uses : aws-actions/amazon-ecs-render-task-definition@v1  
-         with :
-             task-definition : ${{ env.ECS_TD }} 
-             container-name : ${{ env.CONTAINER_NAME }} 
-             image : ${{ steps.build-image.outputs.image }}
+      - name: Trigger infrastructure workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: organization/infra-repo
+          event-type: update-infrastructure
 
-      - name : Deploy Amazon ECS task definition  
-         uses : aws-actions/amazon-ecs-deploy-task-definition@v1   
-         with :
-           task-definition: ${{ steps.task-def.outputs.task-definition }}
-           service: ${{ env.ECS_SERVICE }}
-           cluster: ${{ env.ECS_CLUSTER }}
-           wait-for-service-stability: true 
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TD }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: "true"
