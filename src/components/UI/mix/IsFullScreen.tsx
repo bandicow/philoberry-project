@@ -33,7 +33,8 @@ export default function IsFullScreen({
             src={image}
             alt={"전체이미지"}
             fill
-            style={{ objectFit: "cover" }}
+            object-fit="cover"
+            style={{ overflow: "hidden" }}
           />
         </div>
       )}

@@ -13,8 +13,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
-  // 색상 변경 페이지인지 아닌지를 상태로 관리합니다.
-
   const menuItems = [
     { icon: faHouse, text: "홈", href: "/admin" },
     { icon: faRotate, text: "갤러리작가 변경", href: "/admin/pickArtist" },

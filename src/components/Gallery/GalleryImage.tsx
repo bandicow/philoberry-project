@@ -17,7 +17,7 @@ const GalleryImage = (props: Artwork) => {
               src={props.s3key}
               alt={props.title}
               fill
-              objectFit="cover"
+              object-fit="cover"
               loading="lazy"
             />
           </div>

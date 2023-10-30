@@ -39,7 +39,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="fixed font-extrabold top-1/2 left-1/2 text-8xl">
+      <div className="w-full h-full font-extrabold text-8xl">
         <p>Loading...</p>
       </div>
     );
@@ -61,7 +61,7 @@ export default function ProductDetail() {
       <div className="tablet:hidden">
         <CarouselProduct images={s3key} />
       </div>
-      <div className="flex-col hidden w-1/2 m-0 tablet:flex">
+      <div className="flex-col hidden m-0 tablet:w-7/12 tablet:flex">
         {product.s3key &&
           product.s3key.map((s3key) => (
             <div className="w-full item_img" key={s3key}>
@@ -75,7 +75,7 @@ export default function ProductDetail() {
             </div>
           ))}
       </div>
-      <div className="static tablet:fixed tablet:w-1/2  tablet:right-0 tablet:top-0 w-full  bg-opacity-40 h-[100vh] min-w-min">
+      <div className="static tablet:fixed tablet:overflow-scroll tablet:w-5/12  tablet:right-0 tablet:top-0 w-full  bg-opacity-40 h-[100vh] min-w-min">
         <div className="flex-col p-5 m-5 text-left h-5/6">
           {DetailInfos.map((info, index) => (
             <DetailInfo key={index} {...info} />

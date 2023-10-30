@@ -6,7 +6,6 @@ interface SaleProps {
   items: Product[];
 }
 const ProductList = ({ items }: SaleProps) => {
-  // console.log(items + "여기");
   return (
     <ol className="grid grid-cols-1 m-0 tablet:grid-cols-2 desktop:grid-cols-3">
       {items &&

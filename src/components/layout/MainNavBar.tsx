@@ -66,7 +66,10 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link href="/sale">sale</Link>
+              <Link href="/sale">제품</Link>
+            </li>
+            <li>
+              <Link href="/notices">공지</Link>
             </li>
             <li>
               {!session ? (
