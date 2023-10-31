@@ -1,12 +1,11 @@
 import { NewProduct } from "@/src/Types/Product";
 import { Artist, Artwork, PickArtist, Product } from "@prisma/client";
-import axios from "axios";
 
 const isProduction = process.env.NODE_ENV === "production";
 
 const serverUrl = isProduction
   ? process.env.NEXT_PUBLIC_SERVER_URL
-  : "http://localhost:3000";
+  : "http://localhost:8000";
 
 type ProductInfo = Pick<
   Product,
@@ -15,7 +14,7 @@ type ProductInfo = Pick<
 
 type NewArtist = Omit<Artist, "artist_id">;
 
-//** 배경색 가져오기 */
+//** 배경색 가져오기 */ OK
 export const getBackgroundColor = async () => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await fetch(`${serverUrl}/api/getBackgroundColor`);
@@ -27,7 +26,7 @@ export const getBackgroundColor = async () => {
   }
 };
 
-//** 배경색 설정하기 */
+//** 배경색 설정하기 */ OK
 export async function setBackgroundColor(data: { backgroundColor: string }) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
@@ -51,7 +50,7 @@ export async function setBackgroundColor(data: { backgroundColor: string }) {
   }
 }
 
-//** 제품 수정을 위한 정보 가져오기*/
+//** 제품 수정을 위한 정보 가져오기*/ OK
 export const getProduct = async () => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const response = await fetch(`${serverUrl}/api/getEditProduct`);
@@ -65,10 +64,10 @@ export const getProduct = async () => {
   }
 };
 
-//** 작품 업로드를 위해 작가정보 가져오기 */
+//** 작품 업로드를 위해 작가정보 가져오기 */ OK
 export const getArtist = async () => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
-    const response = await fetch(`${"http://localhost:8000"}/api/getArtist`);
+    const response = await fetch(`${serverUrl}/api/getArtist`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -80,10 +79,10 @@ export const getArtist = async () => {
   }
 };
 
-//**모든 제품 정보 가져오기 */
+//**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
-    const response = await fetch(`${serverUrl}/api/productLoad`);
+    const response = await fetch(`${serverUrl}/api/getProducts`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -96,10 +95,10 @@ export const getProducts = async () => {
   return { items: [] };
 };
 
-//** 제품 상세 정보하기 (하나의 제품)*/
+//** 제품 상세 정보하기 (하나의 제품)*/ OK
 export const getProductDetail = async (id: number) => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
-    const response = await fetch(`${serverUrl}/api/productDetail/${id}`);
+    const response = await fetch(`${serverUrl}/routes/getProductDetail/${id}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -111,7 +110,7 @@ export const getProductDetail = async (id: number) => {
   }
 };
 
-//**제품 수정을 위한 요청*/
+//**제품 수정을 위한 요청*/ OK
 export const editProduct = async (editData: ProductInfo) => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
@@ -132,12 +131,10 @@ export const editProduct = async (editData: ProductInfo) => {
   }
 };
 
-//** 갤러리 작가 이름 가져오기*/
+//** 갤러리 작가 이름 가져오기*/ OK
 export const getTodayArtist = async () => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
-    const response = await fetch(
-      `${"http://localhost:8000"}/api/getTodayArtist`
-    );
+    const response = await fetch(`${serverUrl}/api/getTodayArtist`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -149,13 +146,13 @@ export const getTodayArtist = async () => {
   }
 };
 
-//** 갤러리 작가 이름 가져오기*/
+//** 갤러리  가져오기*/ OK
 export async function getArtworks() {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     const name = await getTodayArtist();
     if (!name) return []; // Add this line to prevent running the query before artist name is available.
 
-    const response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
+    const response = await fetch(`${serverUrl}/routes/getArtwork/${name}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -167,11 +164,11 @@ export async function getArtworks() {
   }
 }
 
-//** 작가 등록하기 */
+//** 작가 등록하기 */ OK
 export async function artistUploadHandler(artistData: NewArtist) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await fetch(`${serverUrl}/api/artistupload`, {
+      const response = await fetch(`${serverUrl}/api/postArtist`, {
         method: "POST",
         body: JSON.stringify(artistData),
         headers: { "Content-Type": "application/json" },
@@ -186,11 +183,11 @@ export async function artistUploadHandler(artistData: NewArtist) {
   }
 }
 
-//**s3에 작가 이미지 업로드 */
+//**s3에 이미지 업로드 */ OK
 export async function handleUpload(file: File, name: string) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await fetch(`${serverUrl}/api/s3Upload`, {
+      const response = await fetch(`${serverUrl}/api/postS3Image`, {
         method: "POST",
         body: JSON.stringify({
           file: { name: file.name, type: file.type },
@@ -225,7 +222,7 @@ export async function handleUpload(file: File, name: string) {
   }
 }
 
-//** 여러 이미지 등록하기 (제품) */
+//** 여러 이미지 등록하기 (제품) */ OK
 export async function handleMultipleUploads(
   files: File[],
   name: string
@@ -246,11 +243,11 @@ export async function handleMultipleUploads(
   return [];
 }
 
-//** 제품 등록하기 */
+//** 제품 등록하기 */ OK
 export async function addProductHandler(productData: NewProduct) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await fetch(`${serverUrl}/api/productUpload`, {
+      const response = await fetch(`${serverUrl}/api/postProduct`, {
         method: "POST",
         body: JSON.stringify(productData),
         headers: { "Content-Type": "application/json" },
@@ -267,7 +264,7 @@ export async function addProductHandler(productData: NewProduct) {
 
 type UploadArtwork = Omit<Artwork, "artwork_id">;
 
-//** 작품 등록하기 */
+//** 작품 등록하기 */ OK
 export async function postArtwork(artwork: UploadArtwork) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
@@ -290,7 +287,7 @@ export async function postArtwork(artwork: UploadArtwork) {
   }
 }
 
-// admin 계정확인
+// admin 계정확인 (임시) OK
 export async function checkIsAdmin(email: string) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
@@ -309,11 +306,11 @@ export async function checkIsAdmin(email: string) {
   }
 }
 
-// 작가 선택하기 post로 todayArtist 변경
+// 작가 선택하기 post로 todayArtist 변경 OK
 export async function postTodayArtist(artist: PickArtist) {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
     try {
-      const response = await fetch(`${serverUrl}/api/postTodayArtist`, {
+      const response = await fetch(`${serverUrl}/api/postPickArtist`, {
         method: "POST",
         body: JSON.stringify(artist),
         headers: { "Content-Type": "application/json" },

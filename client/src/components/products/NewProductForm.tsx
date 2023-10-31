@@ -1,6 +1,5 @@
 "use client";
 import { FormEvent, useState } from "react";
-import axios from "axios";
 
 import DragAndDropUploader from "../ImageUploader/MultiDragAndDrop";
 import { NewProduct } from "../../Types/Product";

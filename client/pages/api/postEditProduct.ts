@@ -1,11 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
-import { Product } from "@prisma/client";
-
-type ProductInfo = Pick<
-  Product,
-  "name" | "category" | "price" | "color" | "size" | "details" | "stock" | "id"
->;
 
 export default async function editProduct(
   req: NextApiRequest,
@@ -14,7 +8,7 @@ export default async function editProduct(
   try {
     if (req.method === "POST") {
       try {
-        const productEditData: ProductInfo = req.body;
+        const productEditData = req.body;
 
         const editProduct = await prisma.product.update({
           where: {

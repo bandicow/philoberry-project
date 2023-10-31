@@ -1,6 +1,5 @@
 "use client";
 import React, { FormEvent, useEffect, useState } from "react";
-import axios from "axios";
 import { Product } from "@prisma/client";
 import Select from "react-select";
 import Button from "../UI/Button/SubmitButton";
