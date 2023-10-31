@@ -52,7 +52,9 @@ export const getProduct = async () => {
 //** 작품 업로드를 위해 작가정보 가져오기 */
 export const getArtist = async () => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
-    const response = await axios.get(`${serverUrl}/api/getArtist`);
+    const response = await axios.get(
+      `${"http://localhost:8000"}/api/getArtist`
+    );
 
     return { artistInfo: response.data };
   }
@@ -91,12 +93,15 @@ export const editProduct = async (editData: ProductInfo) => {
 };
 
 //** 갤러리 작가 이름 가져오기*/
-export async function getTodayArtist() {
+export const getTodayArtist = async () => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
-    const response = await axios.get(`${serverUrl}/api/getTodayArtist`);
+    const response = await axios.get(
+      `${"http://localhost:8000"}/api/getTodayArtist`
+    );
+
     return response.data.artistName;
   }
-}
+};
 
 //** 갤러리 작가 이름 가져오기*/
 export async function getArtworks() {
