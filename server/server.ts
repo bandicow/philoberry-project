@@ -1,11 +1,9 @@
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
-
+import prisma from "./lib/prisma";
 import cors from "cors";
-import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
-const prisma = new PrismaClient();
 const dev = process.env.NODE_ENV !== "production";
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -43,10 +41,6 @@ app.get("/api/getTodayArtist", async (req: Request, res: Response) => {
     console.log(error, "서버 에러");
     return res.status(404).json({ message: "아티스트 이름 불러오기 실패" });
   }
-});
-
-app.get("/api/home", (req: Request, res: Response) => {
-  res.json({ message: "Like this video!", people: ["Arpan", "Jack", "Barry"] });
 });
 
 app.listen(PORT, () => {
