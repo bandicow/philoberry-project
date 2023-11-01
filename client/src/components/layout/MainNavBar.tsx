@@ -2,7 +2,7 @@
 import classes from "./MainNavBar.module.css";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { NextPage } from "next";
 
 interface navbarScrollProps {

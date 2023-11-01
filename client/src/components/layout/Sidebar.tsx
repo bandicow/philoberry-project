@@ -17,7 +17,6 @@ const Sidebar = () => {
     { icon: faHouse, text: "홈", href: "/admin" },
     { icon: faRotate, text: "갤러리작가 변경", href: "/admin/pickArtist" },
     { icon: faPalette, text: "색상 변경", href: "/admin/changecolor" },
-    { icon: faImage, text: "갤러리 관리", href: "/admin/gallery" },
     { icon: faCloudArrowUp, text: "작가 등록", href: "/admin/artistupload" },
     { icon: faCloudArrowUp, text: "작품 등록", href: "/admin/uploadartwork" },
     { icon: faCloudArrowUp, text: "제품 등록", href: "/admin/uploadProduct" },
@@ -25,13 +24,17 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="sticky top-0 left-0 w-1/4 h-screen text-lg border border-r-gray-900 sidebar">
-      {/* Sidebar 내용 */}
-      <ul className="flex flex-col items-center justify-start space-y-5">
-        {/* Map through the menuItems array to render each item */}
+    <div className="tabletLandscape:fixed ">
+      <ul className="flex overflow-x-scroll hide-scrollbar tabletLandscape:flex-col tabletLandscape:overflow-visible">
         {menuItems.map((item, index) => (
-          <li key={index} className={`w-full mt-5 pl-3`}>
-            <FontAwesomeIcon icon={item.icon} className={"mr-3"} />
+          <li
+            key={index}
+            className={`min-w-max whitespace-nowrap tabletLandscape:w-full pl-3 m-1`}
+          >
+            <FontAwesomeIcon
+              icon={item.icon}
+              className={`mr-3 opacity-0 tabletLandscape:opacity-100`}
+            />
             <Link href={item.href}>{item.text}</Link>
           </li>
         ))}
