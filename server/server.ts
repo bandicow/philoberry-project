@@ -390,7 +390,8 @@ app.post("/api/postEditProduct", async (req: Request, res: Response) => {
 //** admin 계정 확인 */ 임시
 app.post("/api/checkIsAdmin", async (req: Request, res: Response) => {
   try {
-    const { email } = req.body;
+    const email =
+      typeof req.query.email === "string" ? req.query.email : undefined;
     const user = await prisma.user.findUnique({
       where: {
         email: email,

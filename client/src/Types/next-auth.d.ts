@@ -17,6 +17,6 @@ declare module "next-auth" {
 
 declare module "next-auth" {
   interface User extends User {
-    accessToken?: string; // 추가된 부분
+    accessToken?: string;
   }
 }

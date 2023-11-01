@@ -1,5 +1,6 @@
 
-  {
+  [
+    {
     "name": "${application_name}_frontend",
     "image": "${aws_front_repository}:${tag}",
     "essential": true,
@@ -36,4 +37,40 @@
     }],
     "memory": 4096,
     "volumesFrom": []
+  },
+   {
+    "name": "${application_name}_express",
+    "image": "${aws_express_repository}:${tag}",
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "staging-service",
+        "awslogs-group": "awslogs-service-staging-${service_type}"
+      }
+    },
+    "portMappings": [
+      {
+        "containerPort": ${express_container_port},
+        "protocol": "tcp"
+      }
+    ],
+    "healthCheck":{
+      "command":["CMD-SHELL","curl -f http://localhost:8000 || exit 1"],
+      "interval" :30,
+      "timeout" :5,
+      "retries" :3
+    },
+    "cpu": 1,
+    "environment": [
+      {
+        "name": "PORT",
+        "value": "8000"
+      }
+    ],
+    "mountPoints": [],
+    "memory": 1024,
+    "volumesFrom": []
   }
+  ]
