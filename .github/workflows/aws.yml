@@ -35,8 +35,10 @@ jobs:
           cd server
           npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Build (client)
+        run: |
+          cd client
+          npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
