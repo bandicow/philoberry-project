@@ -28,7 +28,7 @@ const GalleryArtist = ({ artistInfo }: getArtistProps) => {
   };
 
   return (
-    <div>
+    <div className="relative">
       <form onSubmit={submitHandler}>
         <Select
           options={options}
@@ -47,7 +47,9 @@ const GalleryArtist = ({ artistInfo }: getArtistProps) => {
             }
           }}
         />
-        <Button goal={"작가 선택"} />
+        <div className="pt-72">
+          <Button goal={"작가 선택"} />
+        </div>
       </form>
     </div>
   );

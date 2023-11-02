@@ -76,7 +76,7 @@ const Modal = ({ artistInfo }: ModalProps) => {
     }
   };
 
-  /** 작품 올리기 추가 */
+  /** 작품 폼 추가 */
   const addNewForm = () => {
     setArtworks([
       ...artworks,
@@ -96,7 +96,7 @@ const Modal = ({ artistInfo }: ModalProps) => {
     setCurrentSlide(artworks.length);
   };
 
-  /** 올라간 작품 제거 */
+  /** 올라간 작품폼 제거 */
   const removeForm = (index: number) => {
     setArtworks((prevArtworks) => prevArtworks.filter((_, i) => i !== index));
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
@@ -118,7 +118,7 @@ const Modal = ({ artistInfo }: ModalProps) => {
         justifyContent: "center",
         alignItems: "center",
       }}
-      className="w-full h-full margin-0"
+      className="w-5/6 mt-32 h-5/6"
     >
       <Card>
         <form onSubmit={submitHandler}>
@@ -134,10 +134,10 @@ const Modal = ({ artistInfo }: ModalProps) => {
             >
               {artworks.map((item, index) => (
                 <div
-                  className="flex items-center w-full h-full p-5 overflow-hidden text-black border test__body"
+                  className="flex flex-col items-center justify-center w-full h-full p-5 overflow-hidden text-black border tabletLandscape:items-start tabletLandscape:flex-row test__body"
                   key={index}
                 >
-                  <div className="w-1/2 h-full m-5 pb-11 input_image ">
+                  <div className="w-5/6 mx-3 h-1/3 tabletLandscape:h-full tabletLandscape:w-1/2 pb-11 input_image ">
                     <DragAndDropUploader
                       setUploadedImages={(file: File | null) => {
                         if (file) {
@@ -151,7 +151,7 @@ const Modal = ({ artistInfo }: ModalProps) => {
                       uploadedImages={files[index] || undefined}
                     />
                   </div>
-                  <div className="flex-col w-1/2 pb-10 input_text">
+                  <div className="flex-col items-center justify-center w-5/6 pb-10 m-3 h-2/3 tabletLandscape:w-1/2 input_text">
                     <StringInputField
                       label="작품명"
                       id="title"
