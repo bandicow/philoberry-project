@@ -50,3 +50,6 @@ test.tsx
 
 # nginx
 /nginx
+
+#dist
+/dist
