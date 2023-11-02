@@ -9,7 +9,6 @@ import getArtwork from "./routes/getArtwork";
 
 // .env 파일을 읽어서 process.env로 설정합니다.
 dotenv.config();
-const dev = process.env.NODE_ENV !== "production";
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY,

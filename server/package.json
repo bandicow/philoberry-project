@@ -8,8 +8,9 @@
   "license": "ISC",
   "main": "server.ts",
   "scripts": {
-    "start": "node server.ts",
-    "dev": "nodemon --exec ts-node server.ts"
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts"
   },
   "dependencies": {
     "aws-sdk": "^2.1483.0",
