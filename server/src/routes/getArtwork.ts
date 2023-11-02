@@ -1,3 +1,4 @@
+import { Artwork } from "@prisma/client";
 import express from "express";
 import AWS from "aws-sdk";
 import prisma from "../lib/prisma";
@@ -19,7 +20,7 @@ router.get("/:name", async (req, res) => {
     });
 
     const updatedArtworks = await Promise.all(
-      newArtworks.map(async (artwork) => {
+      newArtworks.map(async (artwork: Artwork) => {
         const s3_Key = artwork.s3key;
 
         if (!s3_Key) return artwork;

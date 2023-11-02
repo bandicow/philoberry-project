@@ -24,24 +24,33 @@ export default function ChangeBgColor() {
   };
 
   return (
-    <div style={{ backgroundColor: backgroundColor }} className="flex">
-      test
+    <div className="flex flex-col items-center justify-center">
       {typeof backgroundColor === "string" && (
-        <>
+        <div className="relative">
           <SketchPicker
             color={backgroundColor}
             onChangeComplete={handleColorChange}
-          />
-          <div
-            style={{
-              width: "20rem",
-              height: "20rem",
-              backgroundColor: backgroundColor,
+            styles={{
+              default: {
+                picker: {
+                  width: "95%",
+                  borderRadius: "4px",
+                  margin: "10px",
+                  boxSizing: "border-box",
+                },
+              },
             }}
-            className="rounded-md test"
           />
-        </>
+        </div>
       )}
+      <div className="w-[95vw] h-[50vh] rounded-2xl flex justify-center items-center">
+        <div
+          style={{
+            backgroundColor: backgroundColor,
+          }}
+          className="w-[100%] m-2 border h-[90%] border-s-gray-400 test"
+        />
+      </div>
     </div>
   );
 }

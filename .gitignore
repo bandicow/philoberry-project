@@ -48,5 +48,3 @@ next-env.d.ts
 # test file
 test.tsx
 
-# nginx
-/nginx
