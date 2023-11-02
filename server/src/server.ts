@@ -2,7 +2,14 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import prisma from "./lib/prisma";
 import cors from "cors";
-import AWS from "aws-sdk";
+import {
+  S3Client,
+  PutObjectCommand,
+  ListObjectsV2Command,
+  DeleteObjectsCommand,
+  GetObjectCommand,
+} from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import getProductDetail from "./routes/getProductDetail";
 import getArtwork from "./routes/getArtwork";
@@ -10,13 +17,14 @@ import getArtwork from "./routes/getArtwork";
 // .env 파일을 읽어서 process.env로 설정합니다.
 dotenv.config();
 
-AWS.config.update({
-  accessKeyId: process.env.S3_ACCESS_KEY,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+const s3Client = new S3Client({
   region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY ?? "",
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ?? "",
+  },
 });
 
-const s3 = new AWS.S3();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -39,7 +47,10 @@ app.post("/api/postS3Image", async (req: Request, res: Response) => {
       ContentType: file.type,
     };
 
-    const uploadURL = await s3.getSignedUrlPromise("putObject", params);
+    const uploadURL = await getSignedUrl(
+      s3Client,
+      new PutObjectCommand(params)
+    );
 
     res.status(200).json({ url: uploadURL, key: fileName });
   } catch (error) {
@@ -56,7 +67,7 @@ const deleteS3Objects = async (folder: string) => {
     Prefix: folder,
   };
   try {
-    const nullData = await s3.listObjectsV2(listParams).promise();
+    const nullData = await s3Client.send(new ListObjectsV2Command(listParams));
 
     if (!nullData.Contents || nullData.Contents.length === 0) return;
 
@@ -70,7 +81,7 @@ const deleteS3Objects = async (folder: string) => {
         deleteParams.Delete.Objects.push({ Key });
       }
     });
-    await s3.deleteObjects(deleteParams).promise();
+    await s3Client.send(new DeleteObjectsCommand(deleteParams));
   } catch (err) {
     console.log("S3 이미지 삭제 실패", err);
   }
@@ -311,16 +322,20 @@ app.get("/api/getProducts", async (req: Request, res: Response) => {
 
         if (!s3_Key) return product;
 
-        const signedUrlParams = {
+        const command = new GetObjectCommand({
           Bucket: process.env.S3_BUCKET || "",
           Key: s3_Key,
-          Expires: 3600 * 24,
-        };
+        });
 
-        const presignedUrl = await s3.getSignedUrlPromise(
-          "getObject",
-          signedUrlParams
-        );
+        let presignedUrl;
+
+        try {
+          presignedUrl = await getSignedUrl(s3Client, command, {
+            expiresIn: 3600 * 24,
+          });
+        } catch (err) {
+          console.log("Error creating presigned URL", err);
+        }
 
         return { ...product, mainImage: presignedUrl };
       })

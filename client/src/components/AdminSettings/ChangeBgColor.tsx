@@ -43,7 +43,7 @@ export default function ChangeBgColor() {
           />
         </div>
       )}
-      <div className="w-[95vw] h-[50vh] rounded-2xl flex justify-center items-center">
+      <div className="w-[95vw] h-[50vh] tabletLandscape:h-[100vh] tabletLandscape:w-[70vh] rounded-2xl flex justify-center items-center">
         <div
           style={{
             backgroundColor: backgroundColor,

@@ -41,8 +41,8 @@ export const ArtistUpload = () => {
   return (
     <div>
       <form onSubmit={submitHandler}>
-        <div className="flex justify-center ml-5 mr-5 rounded-md">
-          <div className="w-1/6 m-5">
+        <div className="justify-center ml-5 mr-5 rounded-md tablet:flex">
+          <div className="w-5/6 m-5">
             <DragAndDropUploader
               setUploadedImages={setImage}
               uploadedImages={image}
@@ -79,7 +79,7 @@ export const ArtistUpload = () => {
             />
           </div>
         </div>
-        <div className="fixed h-10 w-30 right-10">
+        <div className="h-10 mt-10 w-30">
           <Button goal={"작가 등록"} />
         </div>
       </form>

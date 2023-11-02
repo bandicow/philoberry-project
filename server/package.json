@@ -13,7 +13,8 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts"
   },
   "dependencies": {
-    "aws-sdk": "^2.1483.0",
+    "@aws-sdk/client-s3": "^3.441.0",
+    "@aws-sdk/s3-request-presigner": "^3.441.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

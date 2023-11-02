@@ -1,16 +1,18 @@
 import express from "express";
-import AWS from "aws-sdk";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+
 import prisma from "../lib/prisma";
 
 const router = express.Router();
 
-AWS.config.update({
-  accessKeyId: process.env.S3_ACCESS_KEY,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+const s3Client = new S3Client({
   region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY ?? "",
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ?? "",
+  },
 });
-
-const s3 = new AWS.S3();
 
 router.get("/:id", async (req, res) => {
   try {
@@ -29,16 +31,20 @@ router.get("/:id", async (req, res) => {
 
         if (!s3_Key) return null;
 
-        const signedUrlParams = {
+        const command = new GetObjectCommand({
           Bucket: process.env.S3_BUCKET || "",
           Key: s3_Key,
-          Expires: 3600,
-        };
+        });
 
-        const presignedUrl = await s3.getSignedUrlPromise(
-          "getObject",
-          signedUrlParams
-        );
+        let presignedUrl;
+
+        try {
+          presignedUrl = await getSignedUrl(s3Client, command, {
+            expiresIn: 3600 * 24,
+          });
+        } catch (err) {
+          console.log("Error creating presigned URL", err);
+        }
 
         return presignedUrl;
       })
