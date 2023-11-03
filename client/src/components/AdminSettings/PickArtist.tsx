@@ -29,8 +29,12 @@ const GalleryArtist = ({ artistInfo }: getArtistProps) => {
 
   return (
     <div className="relative">
-      <form onSubmit={submitHandler}>
+      <form
+        onSubmit={submitHandler}
+        className="flex flex-col items-center justify-center"
+      >
         <Select
+          className="w-1/2"
           options={options}
           onChange={(option) => {
             const selectedArtist = option

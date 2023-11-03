@@ -1,0 +1,12 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer components {
+  .zoombtn {
+    @apply p-2 text-white scale-150 bg-gray-400 rounded-md bg-opacity-80 top-6 right-6;
+  }
+  .zoombtn:hover {
+    @apply bg-gray-700;
+  }
+}

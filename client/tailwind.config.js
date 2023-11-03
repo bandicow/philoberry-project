@@ -25,6 +25,10 @@ module.exports = {
         desktopLarge: "1440px",
       },
 
+      scale: {
+        200: "2",
+      },
+
       keyframes: {
         fadeIn: {
           "0%": { opacity: "0" },

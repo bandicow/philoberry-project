@@ -13,6 +13,8 @@ import {
 import DetailInfo from "@/src/components/Gallery/DetailInfo";
 import IsSold from "../mix/IsSold";
 import IsFullScreen from "../mix/IsFullScreen";
+import "@/styles/tailwind.css";
+
 interface GalleryCardProps {
   imageInfo: Artwork;
   onModal: () => void;
@@ -45,20 +47,20 @@ const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
         left: "50%",
         transform: "translate(-50%,-2%)",
       }}
-      className="fixed flex items-center justify-center"
+      className="fixed flex items-center justify-center mt-5"
     >
       <Card>
         <div
-          className={`flex-col tablet:flex tablet:flex-row items-center p-2 text-black border test__body w-[85vw] h-[85vh] overflow-scroll tablet:overflow-hidden landscape:overflow-scroll`}
+          className={`flex-col tablet:flex tablet:flex-row items-center p-2 text-black border test__body w-[85vw] h-[85vh] overflow-scroll tablet:overflow-hidden `}
         >
           <FontAwesomeIcon
-            className="fixed top-5 right-5"
+            className="absolute z-10 scale-150 top-3 right-5"
             icon={closeIcon}
             onClick={onModal}
           />
-          <div className="relative flex items-center justify-center w-full h-auto pt-5 pb-5 mt-10 desktop:w-1/2 ">
+          <div className="relative flex items-center justify-center w-full h-auto pt-5 pb-5 mt-2 desktop:w-1/2 ">
             <FontAwesomeIcon
-              className="absolute text-gray-400 top-3 right-3 hover:text-gray-800"
+              className="absolute zoombtn"
               icon={zoomInIcon}
               onClick={openFullScreen}
             />

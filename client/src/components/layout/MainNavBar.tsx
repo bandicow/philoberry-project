@@ -54,8 +54,10 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 items-center w-full h-10 px-1 text-white uppercase bg-black shadow-md z-[999] transition-all duration-[300ms] ${
-        isVisible ? "opacity-100" : "opacity-0"
+      className={`sticky top-0 left-0 items-center w-full h-10 px-1 text-white uppercase bg-black shadow-md z-[999] transition-all duration-[300ms] ${
+        isVisible
+          ? "transform-none opacity-100"
+          : "transform -translate-y-full opacity-0"
       }`}
     >
       <div className="flex items-center justify-between h-full px-4 py-3">
