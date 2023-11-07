@@ -7,7 +7,6 @@ import { Artwork } from "@prisma/client";
 import { useFullScreen } from "@/src/hooks/useFullScreen";
 import {
   faMagnifyingGlassPlus,
-  faMagnifyingGlassMinus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import DetailInfo from "@/src/components/Gallery/DetailInfo";

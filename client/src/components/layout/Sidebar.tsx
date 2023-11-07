@@ -32,23 +32,31 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="text-white bg-black tabletLandscape:w-1/4 tabletLandscape:text-gray-700 tabletLandscape:bg-white tabletLandscape:fixed">
-      <ul className="flex overflow-x-scroll border-b-2 border-solid hide-scrollbar tabletLandscape:flex-col tabletLandscape:overflow-visible">
+    <div className="fixed z-20 w-full text-xl text-white bg-black tabletLandscape:text-2xl tabletLandscape:h-full tabletLandscape:w-72 tabletLandscape:text-gray-700 tabletLandscape:bg-white tabletLandscape:fixed">
+      <ul className="flex overflow-x-scroll border-solid hide-scrollbar tabletLandscape:flex-col tabletLandscape:overflow-visible">
         {menuItems.map((item, index) => (
           <li
             key={index}
-            className={`  min-w-max p-1 whitespace-nowrap tabletLandscape:w-full pl-3 m-1 
-            ${
-              currPath === item.href
-                ? "border-solid border-y-2 border-sky-200 tabletLandscape:border-0  tabletLandscape:bg-sky-200 tabletLandscape:rounded-tr-lg tabletLandscape:rounded-br-lg"
-                : ""
-            }`}
+            className={`min-w-max my-2 tabletLandscape:pr-10 whitespace-nowrap tabletLandscape:w-full m-1 
+    ${
+      currPath === item.href
+        ? "border-double border-y-2 text-gray-300 border-sky-200 tabletLandscape:border-0 tabletLandscape:rounded-tr-lg tabletLandscape:rounded-br-lg"
+        : ""
+    }`}
           >
-            <FontAwesomeIcon
-              icon={item.icon}
-              className={`mr-3 tabletLandscape:hidden`}
-            />
-            <Link href={item.href}>{item.text}</Link>
+            <div
+              className={`flex items-center ${
+                currPath === item.href
+                  ? "tabletLandscape:bg-sky-200 tabletLandscape:py-1 tabletLandscape:rounded-tr-lg tabletLandscape:rounded-br-lg tabletLandscape:text-blue-600"
+                  : ""
+              }`}
+            >
+              <FontAwesomeIcon
+                icon={item.icon}
+                className={`mr-3 pl-3 hidden tabletLandscape:block`}
+              />
+              <Link href={item.href}>{item.text}</Link>
+            </div>
           </li>
         ))}
       </ul>

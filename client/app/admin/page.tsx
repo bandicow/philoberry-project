@@ -38,7 +38,7 @@ const Admin = () => {
 
   return (
     <div>
-      <div className="p-2 text-4xl">
+      <div className="p-2 mt-10 text-4xl">
         <AdminInfo ClientInfo={session} />
       </div>
     </div>

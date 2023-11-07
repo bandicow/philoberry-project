@@ -39,8 +39,9 @@ export const ArtistUpload = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={submitHandler}>
+    <div className="w-full center">
+      <h1 className="mt-10 text-xl font-bold">작가 등록</h1>
+      <form onSubmit={submitHandler} className="w-full">
         <div className="justify-center ml-5 mr-5 rounded-md tablet:flex">
           <div className="w-5/6 m-5">
             <DragAndDropUploader

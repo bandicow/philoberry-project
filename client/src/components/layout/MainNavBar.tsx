@@ -4,45 +4,41 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { NextPage } from "next";
+import { usePathname } from "next/navigation";
 
 interface navbarScrollProps {
   hideOnScroll?: boolean;
 }
 
 const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  const { data: session } = useSession();
-
-  // // 창 크기에 따라 모바일 여부 판단
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 980);
-    };
-    // 윈도우 창 크기 변경 이벤트에 대한 리스너 추가
-    window.addEventListener("resize", handleResize);
-    // 컴포넌트 언마운트 시 리스너 제거
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
+  const pathname = usePathname();
+  const [currPath, setCurrPath] = useState("");
   const [isVisible, setIsVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+  const NAVBAR_HEIGHT = 200;
+  const SCROLL_DELTA = 10;
+
+  const { data: session } = useSession();
 
   //특정 페이지 네비바 숨기기
   useEffect(() => {
     const handleScroll = () => {
+      setCurrPath(pathname ? pathname : "");
+
+      console.log(pathname + "url 명");
+
       const currentScrollPos = window.scrollY;
       const visible =
-        prevScrollPos > currentScrollPos || currentScrollPos === 0;
+        prevScrollPos - currentScrollPos > SCROLL_DELTA ||
+        currentScrollPos <= NAVBAR_HEIGHT;
 
       setIsVisible(visible);
       setPrevScrollPos(currentScrollPos);
     };
 
     // hideOnScroll prop이 true일 때만 스크롤 이벤트 리스너 등록
-    if (hideOnScroll) {
+    if (hideOnScroll && !pathname?.startsWith("/admin")) {
       window.addEventListener("scroll", handleScroll);
     }
 
@@ -50,7 +46,7 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
       // 컴포넌트 언마운트 시에는 항상 스크롤 이벤트 리스너 제거
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [hideOnScroll, prevScrollPos, isVisible]);
+  }, [hideOnScroll, prevScrollPos, isVisible, pathname]);
 
   return (
     <nav

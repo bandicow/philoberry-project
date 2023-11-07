@@ -62,8 +62,11 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
       : undefined;
 
   return (
-    <div>
+    <div className="center">
+      <h1 className="mt-10 font-extrabold">제품 선택</h1>
       <Select
+        className="w-2/3 m-2"
+        instanceId="unique-id"
         options={options}
         onChange={(option) => {
           const selectedProduct = option
@@ -76,7 +79,7 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
       />
 
       {selectedOption && (
-        <form className="m-10" onSubmit={submitHandler}>
+        <form className="w-5/6 m-10" onSubmit={submitHandler}>
           <StringInputField
             label="제품명"
             id="name"

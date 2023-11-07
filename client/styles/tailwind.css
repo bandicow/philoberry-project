@@ -9,4 +9,8 @@
   .zoombtn:hover {
     @apply bg-gray-700;
   }
+
+  .center {
+    @apply flex flex-col items-center justify-center;
+  }
 }
