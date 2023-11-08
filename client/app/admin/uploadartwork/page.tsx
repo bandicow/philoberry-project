@@ -14,7 +14,7 @@ const uploadArtwork = async () => {
   const { artistInfo }: getArtistProps = artistList;
 
   return (
-    <div>
+    <div className="mt-10 border-solid border-t-slate-800">
       <UploadGallery artistInfo={artistInfo} />
     </div>
   );

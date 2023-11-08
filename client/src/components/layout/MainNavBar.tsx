@@ -21,12 +21,11 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
 
   const { data: session } = useSession();
 
-  //특정 페이지 네비바 숨기기
+  //페이지 네비바 숨기기
+  //페이지 네비바 숨기기
   useEffect(() => {
     const handleScroll = () => {
       setCurrPath(pathname ? pathname : "");
-
-      console.log(pathname + "url 명");
 
       const currentScrollPos = window.scrollY;
       const visible =
@@ -42,6 +41,11 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
       window.addEventListener("scroll", handleScroll);
     }
 
+    // '/admin' 경로일 경우 항상 네비게이션 바가 보이도록 함
+    if (pathname?.startsWith("/admin")) {
+      setIsVisible(true);
+    }
+
     return () => {
       // 컴포넌트 언마운트 시에는 항상 스크롤 이벤트 리스너 제거
       window.removeEventListener("scroll", handleScroll);
@@ -50,7 +54,9 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
 
   return (
     <nav
-      className={`sticky top-0 left-0 items-center w-full h-10 px-1 text-white uppercase bg-black shadow-md z-[999] transition-all duration-[300ms] ${
+      className={`${
+        pathname?.startsWith("/admin") ? "relative" : "sticky"
+      } top-0 left-0 items-center w-full h-10 px-1 text-white uppercase bg-black shadow-md z-[999] transition-all duration-[300ms] ${
         isVisible
           ? "transform-none opacity-100"
           : "transform -translate-y-full opacity-0"

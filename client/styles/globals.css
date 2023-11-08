@@ -165,3 +165,8 @@ body {
   content: "<";
   font-size: 30px;
 }
+
+.reflect {
+  -webkit-box-reflect: below 5px
+    linear-gradient(transparent, rgba(0, 0, 0, 0.3));
+}

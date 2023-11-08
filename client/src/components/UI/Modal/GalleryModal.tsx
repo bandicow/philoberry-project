@@ -1,3 +1,4 @@
+"use client";
 import Card from "../Card/GalleryCard";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -70,6 +71,7 @@ const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
                 width={1000}
                 height={1000}
                 object-fit="cover"
+                priority
               />
             </div>
           </div>

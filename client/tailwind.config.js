@@ -10,6 +10,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        reflect:
+          "0 0 1px rgba(0,0,0,0.5), 0 1px 1px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(255,255,255,0.2)",
+      },
+      textShadow: {
+        default: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+      },
       filter: {
         invert: "invert(100%)",
       },
@@ -37,5 +44,10 @@ module.exports = {
       },
     },
   },
-  plugins: ["@tailwindcss/forms"],
+  variants: {
+    extend: {
+      textShadow: ["responsive", "hover", "focus"],
+    },
+  },
+  plugins: ["@tailwindcss/forms", require("tailwindcss-textshadow")],
 };

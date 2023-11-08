@@ -32,7 +32,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="fixed z-20 w-full text-xl text-white bg-black tabletLandscape:text-2xl tabletLandscape:h-full tabletLandscape:w-72 tabletLandscape:text-gray-700 tabletLandscape:bg-white tabletLandscape:fixed">
+    <div className="relative z-10 w-full text-xl text-white bg-black  tabletLandscape:text-2xl tabletLandscape:h-full tabletLandscape:w-72 tabletLandscape:text-gray-700 tabletLandscape:bg-white tabletLandscape:fixed">
       <ul className="flex overflow-x-scroll border-solid hide-scrollbar tabletLandscape:flex-col tabletLandscape:overflow-visible">
         {menuItems.map((item, index) => (
           <li

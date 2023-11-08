@@ -5,7 +5,11 @@ import { Suspense } from "react";
 import Loading from "../loading";
 
 const Gallery = async () => {
-  const backgroundColor = await getBackgroundColor();
+  let backgroundColor = await getBackgroundColor();
+
+  if (!backgroundColor) {
+    backgroundColor = "gray";
+  }
 
   return (
     <div

@@ -24,8 +24,10 @@ export const UploadGallery = ({ artistInfo }: getArtistProps) => {
   }, [selectedOption]);
 
   return (
-    <div>
+    <div className="relative center">
+      <h1 className="mb-2 font-extrabold">작품 선택</h1>
       <Select
+        className="w-5/6"
         options={options}
         onChange={(option) => {
           const selectedArtist = option
@@ -37,14 +39,14 @@ export const UploadGallery = ({ artistInfo }: getArtistProps) => {
       {isOpen && selectedOption && (
         <div
           onClick={closeModal}
-          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
+          className="fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50"
         >
           <div onClick={(e) => e.stopPropagation()}>
             <Modal artistInfo={selectedOption} />
           </div>
           <button
             onClick={closeModal}
-            className="fixed p-2 text-white bg-black rounded-full bottom-5 left-[46%]"
+            className="fixed p-2 text-white bg-black rounded-full bottom-1 left-[55%]"
           >
             창 닫기
           </button>

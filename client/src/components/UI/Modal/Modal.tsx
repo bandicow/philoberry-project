@@ -9,6 +9,7 @@ import DragAndDropUploader from "../../ImageUploader/MultiFormDragandDrop";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { handleUpload, postArtwork } from "@/lib/action";
+import OnClickButton from "../Button/OnClickButton";
 
 type UploadArtwork = Omit<Artwork, "artwork_id">;
 
@@ -110,19 +111,13 @@ const Modal = ({ artistInfo }: ModalProps) => {
   return (
     <div
       style={{
-        position: "fixed",
         top: `${window.scrollY + 15}px`,
-        left: "50%",
-        transform: "translate(-50%,-2%)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
       }}
-      className="w-5/6 mt-32 h-5/6"
+      className="mt-10 transform -translate-x-1/2 -translate-y-[2%] fixed flex justify-center items-center w-5/6  tabletLandscape:mt-20 left-1/2 tabletLandscape:left-[63%] tabletLandscape:w-4/6 tabletLandscape:h-5/6 hide-scrollbar"
     >
       <Card>
         <form onSubmit={submitHandler}>
-          <div className="relative">
+          <div>
             <Carousel
               selectedItem={currentSlide}
               onChange={setCurrentSlide}
@@ -137,7 +132,7 @@ const Modal = ({ artistInfo }: ModalProps) => {
                   className="flex flex-col items-center justify-center w-full h-full p-5 overflow-hidden text-black border tabletLandscape:items-start tabletLandscape:flex-row test__body"
                   key={index}
                 >
-                  <div className="w-5/6 mx-3 h-1/3 tabletLandscape:h-full tabletLandscape:w-1/2 pb-11 input_image ">
+                  <div className="w-5/6 h-full mx-3 tabletLandscape:w-1/2 pb-11 input_image ">
                     <DragAndDropUploader
                       setUploadedImages={(file: File | null) => {
                         if (file) {
@@ -231,17 +226,14 @@ const Modal = ({ artistInfo }: ModalProps) => {
                 </div>
               ))}
             </Carousel>
-
-            <button
-              onClick={addNewForm}
-              className="absolute z-20 pt-0 pl-1 pr-1 font-extrabold text-gray-500 rounded-full shadow-md hover:bg-red-200 shadow-black bottom-2 right-1/4 "
-            >
-              +
-            </button>
           </div>
-
-          <div className="mb-4">
-            <Button goal="작품 등록" />
+          <div className="flex items-center justify-center button">
+            <div className="mx-1 mb-4">
+              <Button goal="작품 등록" />
+            </div>
+            <div className="mx-1 mb-4">
+              <OnClickButton goal="작품 추가" onClick={addNewForm} />
+            </div>
           </div>
         </form>
       </Card>
