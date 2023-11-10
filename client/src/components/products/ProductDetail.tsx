@@ -72,7 +72,7 @@ export default function ProductDetail() {
             </div>
           ))}
       </div>
-      <div className="static tablet:fixed tablet:overflow-scroll tablet:w-5/12  tablet:right-0 tablet:top-0 w-full  bg-opacity-40 h-[100vh] min-w-min">
+      <div className="static tablet:fixed tablet:overflow-scroll tablet:w-5/12  tablet:right-0 tablet:top-0 w-full  bg-opacity-40 h-[90vh] tabletLandscape:h-[100vh] min-w-min">
         <div className="flex-col p-5 m-5 text-left h-5/6">
           {DetailInfos.map((info, index) => (
             <DetailInfo key={index} {...info} />

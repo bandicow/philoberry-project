@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import prisma from "./lib/prisma";
 import cors from "cors";
+
+import { createTunnel } from "tunnel-ssh";
+
 import {
   S3Client,
   PutObjectCommand,
@@ -262,7 +265,7 @@ app.post("api/postArtwork", async (req: Request, res: Response) => {
 });
 
 //** 작품 불러오기*/
-app.use("/routes/getArtwork", getArtwork);
+app.use("/api/getArtwork", getArtwork);
 
 //################ 제품 ##################//
 //** 제품 등록하기 */
@@ -319,7 +322,7 @@ app.post("/api/postProduct", async (req: Request, res: Response) => {
 });
 
 //** 제품 상세 정보 가져오기 router (하나의 제품)*/
-app.use("/routes/getProductDetail", getProductDetail);
+app.use("/api/getProductDetail", getProductDetail);
 
 //** 모든 제품 정보 가져오기 */
 app.get("/api/getProducts", async (req: Request, res: Response) => {

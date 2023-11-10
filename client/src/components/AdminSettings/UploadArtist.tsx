@@ -2,16 +2,16 @@
 import React, { FormEvent, useState } from "react";
 import { Artist } from "@prisma/client";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
-import { StringInputField } from "../UI/Input/InputField";
+import { InputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
 import { artistUploadHandler, handleUpload } from "@/lib/action";
 
 type NewArtist = Omit<Artist, "artist_id">;
 
-export const ArtistUpload = () => {
+export const UploadArtist = () => {
+  const [image, setImage] = useState<File | null>(null);
   const [name, setName] = useState("");
   const [major, setMajor] = useState("");
-  const [image, setImage] = useState<File | null>(null);
   const [profile, setProfile] = useState("");
   const [siteUrl, setSiteUrl] = useState("");
 
@@ -42,7 +42,7 @@ export const ArtistUpload = () => {
     <div className="w-full h-full center">
       <h1 className="mt-10 text-xl font-bold">작가 등록</h1>
       <form onSubmit={submitHandler} className="w-full">
-        <div className="justify-center w-full h-full ml-5 mr-5 rounded-md  tabletLandscape:flex">
+        <div className="justify-center w-full h-full ml-5 mr-5 rounded-md tabletLandscape:flex">
           <div className="w-5/6 m-5">
             <DragAndDropUploader
               setUploadedImages={setImage}
@@ -50,32 +50,36 @@ export const ArtistUpload = () => {
             />
           </div>
           <div className="w-5/6 m-5">
-            <StringInputField
+            <InputField
               label="작가명"
               id="name"
               value={name}
               type="text"
+              required={true}
               setValue={setName}
             />
-            <StringInputField
+            <InputField
               label="전공"
               id="major"
               value={major}
               type="text"
+              required={true}
               setValue={setMajor}
             />
-            <StringInputField
+            <InputField
               label="작가설명"
               id="profile"
               value={profile}
               type="text"
+              required={true}
               setValue={setProfile}
             />
-            <StringInputField
-              label="작가 개인 사이트"
+            <InputField
+              label="작가 인스타"
               id="url"
               value={siteUrl}
               type="url"
+              required={true}
               setValue={setSiteUrl}
             />
           </div>

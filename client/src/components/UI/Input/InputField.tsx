@@ -1,88 +1,52 @@
 import { ChangeEvent } from "react";
 
-interface StringInputFieldProps {
+interface InputFieldProps {
   label: string;
   id: string;
-  value: string;
+  value: string | number;
   type: string;
   placeholder?: string;
-  setValue(value: string): void;
+  setValue?(value: string): void;
+  setNumberValue?(value: number): void;
   disabled?: boolean;
+  required: boolean;
 }
 
-export function StringInputField({
+export function InputField({
   label,
   id,
   type = "text",
   value,
   setValue,
+  setNumberValue,
   placeholder,
   disabled = false,
-}: StringInputFieldProps) {
+  required = true,
+}: InputFieldProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
-  return (
-    <div className="mb-2">
-      <label htmlFor={id} className="block mb-2 font-bold">
-        {label}
-      </label>
-      <input
-        disabled={disabled}
-        type={type}
-        placeholder={placeholder}
-        required
-        id={id}
-        value={value}
-        onChange={handleChange}
-        className="w-full border rounded px-1 py-0.5 border-gray-300 focus:border-gray-700"
-      />
-    </div>
-  );
-}
-
-interface NumberInputFieldProps {
-  label: string;
-  id: string;
-  value: number;
-  type: string;
-  placeholder?: string;
-  setValue(value: number): void;
-}
-
-export function NumberInputField({
-  label,
-  id,
-  type = "text",
-  placeholder,
-  value,
-  setValue,
-}: NumberInputFieldProps) {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-
-    // Only call setValue when inputValue is not empty
-    if (inputValue !== "") {
-      setValue(Number(inputValue));
+    if (type === "number") {
+      // 입력 타입이 number인 경우에만 string을 number로 변환
+      setNumberValue && setNumberValue(Number(e.target.value));
+    } else {
+      setValue && setValue(e.target.value);
     }
   };
 
   return (
-    <div className="mb-2">
-      <label htmlFor={id} className="block mt-2 mb-2 font-bold">
+    <div className="flex justify-between mb-2 tabletLandscape:block">
+      <label htmlFor={id} className="block mb-2 mr-3 font-bold min-w-[100px]">
         {label}
       </label>
       <input
         min="0"
+        disabled={disabled}
         type={type}
-        required
-        id={id}
         placeholder={placeholder}
+        required={required}
+        id={id}
         value={value}
         onChange={handleChange}
-        autoComplete="off"
-        className="w-full border rounded px-1 py-0.5 border-gray-300 focus:border-gray-700"
+        className="w-4/5 border rounded px-1 py-0.5 border-gray-300 focus:border-gray-700"
       />
     </div>
   );

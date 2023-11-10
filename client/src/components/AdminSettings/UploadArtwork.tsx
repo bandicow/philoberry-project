@@ -5,7 +5,7 @@ import { ArtistInfo, getArtistProps } from "../../Types/Art";
 import Modal from "../UI/Modal/Modal";
 import { useModal } from "../../hooks/useModal";
 
-export const UploadGallery = ({ artistInfo }: getArtistProps) => {
+export const UploadArtwork = ({ artistInfo }: getArtistProps) => {
   const [selectedOption, setSelectedOption] = useState<ArtistInfo | null>(null);
   const { isOpen, openModal, closeModal } = useModal(); // Use the hook
 
@@ -42,14 +42,8 @@ export const UploadGallery = ({ artistInfo }: getArtistProps) => {
           className="fixed top-0 left-0 z-50 w-full h-full bg-black bg-opacity-50"
         >
           <div onClick={(e) => e.stopPropagation()}>
-            <Modal artistInfo={selectedOption} />
+            <Modal artistInfo={selectedOption} closeModal={closeModal} />
           </div>
-          <button
-            onClick={closeModal}
-            className="fixed p-2 text-white bg-black rounded-full bottom-1 left-[55%]"
-          >
-            창 닫기
-          </button>
         </div>
       )}
     </div>

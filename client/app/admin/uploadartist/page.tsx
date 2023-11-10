@@ -1,10 +1,10 @@
 import React from "react";
-import { ArtistUpload } from "../../../src/components/AdminSettings/ArtistUpload";
+import { UploadArtist } from "../../../src/components/AdminSettings/UploadArtist";
 
 const page = () => {
   return (
     <div>
-      <ArtistUpload />
+      <UploadArtist />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import React, { FormEvent, useState } from "react";
 import { Artwork } from "@prisma/client";
 import Button from "../Button/SubmitButton";
 import { ArtistInfo } from "../../../Types/Art";
-import { StringInputField, NumberInputField } from "../Input/InputField";
+import { InputField } from "../Input/InputField";
 import DragAndDropUploader from "../../ImageUploader/MultiFormDragandDrop";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -15,9 +15,10 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 
 interface ModalProps {
   artistInfo: ArtistInfo;
+  closeModal: () => void;
 }
 
-const Modal = ({ artistInfo }: ModalProps) => {
+const Modal = ({ artistInfo, closeModal }: ModalProps) => {
   const [name] = useState(artistInfo.name);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -108,13 +109,10 @@ const Modal = ({ artistInfo }: ModalProps) => {
     }
   };
 
+  const isTabletLandscape = window.matchMedia("(min-width: 1024px)").matches;
+
   return (
-    <div
-      style={{
-        top: `${window.scrollY + 15}px`,
-      }}
-      className="mt-10 transform -translate-x-1/2 -translate-y-[2%] fixed flex justify-center items-center w-5/6  tabletLandscape:mt-20 left-1/2 tabletLandscape:left-[63%] tabletLandscape:w-4/6 tabletLandscape:h-5/6 hide-scrollbar"
-    >
+    <div className="top-16 tabletLandscape:top-1 overflow-scroll transform -translate-x-1/2 -translate-y-[2%] fixed flex justify-center items-center w-5/6  tabletLandscape:mt-20 left-1/2 tabletLandscape:left-[50%] tabletLandscape:w-4/6 tabletLandscape:h-5/6 hide-scrollbar">
       <Card>
         <form onSubmit={submitHandler}>
           <div>
@@ -129,10 +127,10 @@ const Modal = ({ artistInfo }: ModalProps) => {
             >
               {artworks.map((item, index) => (
                 <div
-                  className="flex flex-col items-center justify-center w-full h-full p-5 overflow-hidden text-black border tabletLandscape:items-start tabletLandscape:flex-row test__body"
+                  className="flex flex-col items-center justify-center w-full h-full p-5 mt-1 overflow-hidden text-black border tabletLandscape:mt-0 tabletLandscape:items-start tabletLandscape:flex-row test__body"
                   key={index}
                 >
-                  <div className="w-5/6 h-full mx-3 tabletLandscape:w-1/2 pb-11 input_image ">
+                  <div className="w-5/6 pb-3 mx-3 h-52 tabletLandscape:h-full tabletLandscape:w-5/6 input_image ">
                     <DragAndDropUploader
                       setUploadedImages={(file: File | null) => {
                         if (file) {
@@ -146,67 +144,73 @@ const Modal = ({ artistInfo }: ModalProps) => {
                       uploadedImages={files[index] || undefined}
                     />
                   </div>
-                  <div className="flex-col items-center justify-center w-5/6 pb-10 m-3 h-2/3 tabletLandscape:w-1/2 input_text">
-                    <StringInputField
+                  <div className="flex-col items-center justify-center w-5/6 pb-1 m-1 h-2/3 tabletLandscape:w-full input_text">
+                    <InputField
                       label="작품명"
                       id="title"
                       value={item.title}
                       type="text"
+                      required={true}
                       setValue={(value: string) =>
                         handleInputChange(index)({
                           target: { keyname: "title", value },
                         })
                       }
                     />
-                    <NumberInputField
+                    <InputField
                       label="제작년도"
                       id="createdAt"
                       value={item.createdAt as number}
                       type="number"
-                      setValue={(value: number) =>
+                      required={true}
+                      setNumberValue={(value: number) =>
                         handleInputChange(index)({
                           target: { keyname: "createdAt", value },
                         })
                       }
                     />
-                    <StringInputField
+                    <InputField
                       label="재료"
                       id="material"
                       value={item.material ? item.material : ""}
                       type="text"
+                      required={true}
                       setValue={(value: string) =>
                         handleInputChange(index)({
                           target: { keyname: "material", value },
                         })
                       }
                     />
-                    <StringInputField
+                    <InputField
                       label="크기"
                       id="size"
                       value={item.size ? item.size : ""}
                       type="text"
+                      required={true}
                       setValue={(value: string) =>
                         handleInputChange(index)({
                           target: { keyname: "size", value },
                         })
                       }
                     />
-                    <NumberInputField
+                    <InputField
                       label="가격"
                       id="price"
                       value={item.price ? item.price : 0}
                       type="number"
-                      setValue={(value: number) =>
+                      required={true}
+                      setNumberValue={(value: number) =>
                         handleInputChange(index)({
                           target: { keyname: "price", value },
                         })
                       }
                     />
-                    <StringInputField
+                    <InputField
                       label="작품설명"
                       id="description"
                       value={item.description ? item.description : ""}
                       type="text"
+                      required={true}
                       setValue={(value: string) =>
                         handleInputChange(index)({
                           target: { keyname: "description", value },
@@ -218,7 +222,7 @@ const Modal = ({ artistInfo }: ModalProps) => {
                     <button
                       type="button"
                       onClick={() => removeForm(index)}
-                      className="absolute top-0 z-10 p-2 m-2 text-white bg-red-500 rounded-full right-5"
+                      className="absolute right-0 z-10 p-2 m-2 font-bold text-white bg-red-500 rounded-md -top-1"
                     >
                       삭제
                     </button>
@@ -233,6 +237,9 @@ const Modal = ({ artistInfo }: ModalProps) => {
             </div>
             <div className="mx-1 mb-4">
               <OnClickButton goal="작품 추가" onClick={addNewForm} />
+            </div>
+            <div className="mx-1 mb-4">
+              <OnClickButton goal="창 닫기" onClick={closeModal} />
             </div>
           </div>
         </form>

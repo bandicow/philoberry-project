@@ -6,7 +6,7 @@ export default function Footer() {
       <footer>
         <div className="flex justify-center w-full text-center md:w-2/6">
           <div className="w-auto pl-3 pr-3 border-r border-r-gray-600">
-            ©2023 PB All Rights Reserved
+            ©2023 세계로서점 All Rights Reserved
           </div>
           <div className="w-auto pl-3 pr-3 text-center">
             <a href="https://www.instagram.com/" target="_blank" rel="test">

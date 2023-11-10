@@ -1,8 +1,6 @@
 import React from "react";
 import GalleryImageList from "../../src/components/Gallery/GalleryImageList";
 import { getBackgroundColor } from "../../lib/action";
-import { Suspense } from "react";
-import Loading from "../loading";
 
 const Gallery = async () => {
   let backgroundColor = await getBackgroundColor();
@@ -18,9 +16,7 @@ const Gallery = async () => {
         backdropFilter: "blur(100px)",
       }}
     >
-      <Suspense fallback={<Loading />}>
-        <GalleryImageList />
-      </Suspense>
+      <GalleryImageList />
     </div>
   );
 };

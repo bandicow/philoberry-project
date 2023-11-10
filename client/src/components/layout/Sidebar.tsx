@@ -25,14 +25,14 @@ const Sidebar = () => {
     { icon: faHouse, text: "홈", href: "/admin" },
     { icon: faRotate, text: "갤러리작가 변경", href: "/admin/pickArtist" },
     { icon: faPalette, text: "색상 변경", href: "/admin/changecolor" },
-    { icon: faCloudArrowUp, text: "작가 등록", href: "/admin/artistupload" },
+    { icon: faCloudArrowUp, text: "작가 등록", href: "/admin/uploadartist" },
     { icon: faCloudArrowUp, text: "작품 등록", href: "/admin/uploadartwork" },
     { icon: faCloudArrowUp, text: "제품 등록", href: "/admin/uploadProduct" },
     { icon: faRotate, text: "제품 정보 변경", href: "/admin/editproduct" },
   ];
 
   return (
-    <div className="relative z-10 w-full text-xl text-white bg-black  tabletLandscape:text-2xl tabletLandscape:h-full tabletLandscape:w-72 tabletLandscape:text-gray-700 tabletLandscape:bg-white tabletLandscape:fixed">
+    <div className="relative z-10 w-full text-xl text-white bg-black tabletLandscape:text-2xl tabletLandscape:h-full tabletLandscape:w-72 tabletLandscape:text-gray-700 tabletLandscape:bg-white tabletLandscape:fixed">
       <ul className="flex overflow-x-scroll border-solid hide-scrollbar tabletLandscape:flex-col tabletLandscape:overflow-visible">
         {menuItems.map((item, index) => (
           <li
