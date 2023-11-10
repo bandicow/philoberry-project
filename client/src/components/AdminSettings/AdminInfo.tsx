@@ -22,7 +22,7 @@ const AdminInfo = (props: ClientAccountProps) => {
             <ProfileImage />
           </div>
           <div className="col-span-3">
-            <p>Welcome {props.ClientInfo.user?.name}</p>
+            <div>Welcome</div> <div>{props.ClientInfo.user?.name}</div>
             <button onClick={SignoutHandler}>로그아웃</button>
           </div>
         </div>

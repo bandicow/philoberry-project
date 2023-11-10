@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import AdminInfo from "../../src/components/AdminSettings/AdminInfo";
+import Loading from "../loading";
 
 const Admin = () => {
   const { data: session } = useSession();
@@ -33,12 +34,12 @@ const Admin = () => {
 
   //임시
   if (!session.user) {
-    return <div>loading...</div>;
+    return <Loading />;
   }
 
   return (
     <div>
-      <div className="p-2 text-4xl">
+      <div className="p-2 mt-10 text-4xl">
         <AdminInfo ClientInfo={session} />
       </div>
     </div>

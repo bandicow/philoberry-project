@@ -57,8 +57,9 @@ function NewProductForm() {
   }
 
   return (
-    <div className="w-full">
-      <form className="flex-col p-10 rounded-md" onSubmit={submitHandler}>
+    <div className="w-5/6 center">
+      <h1 className="mt-10 text-xl font-bold">제품 등록</h1>
+      <form className="flex-col w-full p-5 rounded-md" onSubmit={submitHandler}>
         <div>
           <DragAndDropUploader
             setUploadedImages={setUploadedImages}

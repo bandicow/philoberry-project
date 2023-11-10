@@ -39,7 +39,7 @@ const DragAndDropUploader = ({
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full ">
       <div
         className={`dropzone ${
           isDragActive ? "active" : ""
@@ -56,7 +56,7 @@ const DragAndDropUploader = ({
         {uploadedImages && (
           <div className="relative w-full h-full">
             <div
-              className="rounded-md"
+              className="rounded-md h-96"
               onClick={(event) => event.stopPropagation()}
             >
               <Image

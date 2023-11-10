@@ -6,15 +6,19 @@ const Loader = () => {
   return (
     <div
       className="
-      h-[70vh]
+      h-[100vh]
       flex 
       flex-col 
       justify-center 
       items-center 
-    "
+      "
     >
-      {/* <PuffLoader size={100} color="red" /> */}
-      로딩중...
+      <div className="flex items-center justify-center">
+        <div className="w-20 h-20 mb-5 border-t-2 border-b-2 border-purple-500 rounded-full animate-spin"></div>
+      </div>
+      <div className="text-4xl reflect">
+        <div>Loading...</div>
+      </div>
     </div>
   );
 };

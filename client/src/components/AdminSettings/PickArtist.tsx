@@ -28,9 +28,12 @@ const GalleryArtist = ({ artistInfo }: getArtistProps) => {
   };
 
   return (
-    <div className="relative">
-      <form onSubmit={submitHandler}>
+    <div className="relative center">
+      <h1 className="font-extrabold">제품 선택</h1>
+
+      <form onSubmit={submitHandler} className="w-full center">
         <Select
+          className="w-5/6"
           options={options}
           onChange={(option) => {
             const selectedArtist = option

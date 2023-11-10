@@ -1,7 +1,9 @@
+"use client";
 import { faMagnifyingGlassMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import React from "react";
+import "@/styles/tailwind.css";
 
 const zoomOutIcon = faMagnifyingGlassMinus;
 
@@ -17,7 +19,7 @@ export default function IsFullScreen({
   image,
 }: IsFullScreenProps) {
   return (
-    <div>
+    <div className="z-20">
       {isFullScreen && (
         <div
           className={`fixed top-0 left-0 flex items-center justify-center w-full h-full ${
@@ -25,7 +27,7 @@ export default function IsFullScreen({
           }`}
         >
           <FontAwesomeIcon
-            className="absolute z-50 text-gray-700 top-10 right-5 hover:text-gray-800"
+            className="absolute z-50 zoombtn"
             icon={zoomOutIcon}
             onClick={closeFullScreen}
           />

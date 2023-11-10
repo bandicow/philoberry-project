@@ -1,6 +1,8 @@
 import { SketchPicker, ColorResult } from "react-color";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getBackgroundColor, setBackgroundColor } from "../../../lib/action";
+import Image from "next/image";
+import mainpage from "../../../public/images/mainpage.jpg";
 
 export default function ChangeBgColor() {
   const queryClient = useQueryClient();
@@ -43,13 +45,18 @@ export default function ChangeBgColor() {
           />
         </div>
       )}
-      <div className="w-[95vw] h-[50vh] tabletLandscape:h-[100vh] tabletLandscape:w-[70vh] rounded-2xl flex justify-center items-center">
+      <div className=" flex-col w-[100%] h-[50vh] tabletLandscape:h-[90vh] rounded-2xl flex justify-center items-center">
+        <h1 className="text-xl font-bold text-gray-800">배경 미리보기</h1>
         <div
           style={{
             backgroundColor: backgroundColor,
           }}
-          className="w-[100%] m-2 border h-[90%] border-s-gray-400 test"
-        />
+          className="max-w-[650px] max-h-[600px] center rounded-md shadow-md w-[100%] my-3 border h-[100%] border-s-gray-400 test"
+        >
+          <div className="relative w-52 h-52 tabletLandscape:w-96 tabletLandscape:h-96">
+            <Image src={mainpage} alt={"예시 이미지"} fill object-fit="cover" />
+          </div>
+        </div>
       </div>
     </div>
   );

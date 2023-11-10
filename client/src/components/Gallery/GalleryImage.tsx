@@ -18,7 +18,8 @@ const GalleryImage = (props: Artwork) => {
               alt={props.title}
               fill
               object-fit="cover"
-              loading="lazy"
+              sizes="(max-width: 600px) 400px, (max-width: 900px) 600px, 800px"
+              priority
             />
           </div>
         </Card>
@@ -30,7 +31,6 @@ const GalleryImage = (props: Artwork) => {
           style={{ zIndex: 1000 }}
         >
           <div onClick={(e) => e.stopPropagation()}>
-            {/* Prevent event bubbling */}
             <GalleryModal imageInfo={props} onModal={closeModal} />
           </div>
         </div>

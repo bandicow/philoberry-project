@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { getProductDetail } from "../../../lib/action";
 import DetailInfo from "@/src/components/Gallery/DetailInfo";
 import CarouselProduct from "./CarouselProduct";
+import Loading from "@/app/loading";
 interface SaleItemProps extends Product {
   s3key: string[];
 }
@@ -38,11 +39,7 @@ export default function ProductDetail() {
   }, [id]);
 
   if (!product) {
-    return (
-      <div className="w-full h-full font-extrabold text-8xl">
-        <p>Loading...</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   const { name, material, color, size, details, precautions, s3key } = product;
@@ -75,7 +72,7 @@ export default function ProductDetail() {
             </div>
           ))}
       </div>
-      <div className="static tablet:fixed tablet:overflow-scroll tablet:w-5/12  tablet:right-0 tablet:top-0 w-full  bg-opacity-40 h-[100vh] min-w-min">
+      <div className="static tablet:fixed tablet:overflow-scroll tablet:w-5/12  tablet:right-0 tablet:top-0 w-full  bg-opacity-40 h-[90vh] tabletLandscape:h-[100vh] min-w-min">
         <div className="flex-col p-5 m-5 text-left h-5/6">
           {DetailInfos.map((info, index) => (
             <DetailInfo key={index} {...info} />
@@ -84,9 +81,11 @@ export default function ProductDetail() {
           <div className="py-4 mt-5 text-center border-t-2 item_desc_url border-t-slate-600">
             {product.url && (
               <Link href={product.url as string}>
-                <p className="mb-2 text-xl font-semibold">
-                  <p>{!product.stock ? "품절" : `구매문의 ${product.url}`}</p>
-                </p>
+                <div className="mb-2 text-xl font-semibold">
+                  <div>
+                    {!product.stock ? "품절" : `구매문의 ${product.url}`}
+                  </div>
+                </div>
               </Link>
             )}
           </div>

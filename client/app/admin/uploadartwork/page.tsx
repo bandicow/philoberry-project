@@ -1,5 +1,5 @@
 import React from "react";
-import { UploadGallery } from "../../../src/components/AdminSettings/UploadGallery";
+import { UploadArtwork } from "../../../src/components/AdminSettings/UploadArtwork";
 import { getArtist } from "../../../lib/action";
 import { getArtistProps } from "@/src/Types/Art";
 
@@ -14,8 +14,8 @@ const uploadArtwork = async () => {
   const { artistInfo }: getArtistProps = artistList;
 
   return (
-    <div>
-      <UploadGallery artistInfo={artistInfo} />
+    <div className="mt-10 border-solid border-t-slate-800">
+      <UploadArtwork artistInfo={artistInfo} />
     </div>
   );
 };

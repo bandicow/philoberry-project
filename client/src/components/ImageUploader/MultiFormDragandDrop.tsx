@@ -56,7 +56,7 @@ const DragAndDropUploader = ({
         {uploadedImages && (
           <div className="relative w-full h-full">
             <div
-              className="rounded-md"
+              className="rounded-md h-52"
               onClick={(event) => event.stopPropagation()}
             >
               <Image

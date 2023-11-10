@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 interface InfoProps {
@@ -12,9 +13,9 @@ const DetailInfo = ({ label, value }: InfoProps) => (
     </span>
     <span className="flex-col ml-5 text-lg font-bold text-left text-black ">
       {Array.isArray(value) ? (
-        value.map((val, index) => <p key={index}>{val}</p>)
+        value.map((val, index) => <div key={index}>{val}</div>)
       ) : (
-        <p>{value}</p>
+        <div>{value}</div>
       )}
     </span>
   </div>
