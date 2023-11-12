@@ -1,6 +1,7 @@
 import express from "express";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { ProductImage } from "@prisma/client";
 
 import prisma from "../lib/prisma";
 
@@ -21,12 +22,12 @@ router.get("/:id", async (req, res) => {
       where: { id: Number(id) },
     });
 
-    const productImages = await prisma.productImage.findMany({
+    const productImages: ProductImage[] = await prisma.productImage.findMany({
       where: { productId: Number(id) },
     });
 
     const updatedProducts = await Promise.all(
-      productImages.map(async (product) => {
+      productImages.map(async (product: ProductImage) => {
         const s3_Key = product.s3key;
 
         if (!s3_Key) return null;
