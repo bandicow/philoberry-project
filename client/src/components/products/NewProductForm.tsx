@@ -3,10 +3,7 @@ import { FormEvent, useState } from "react";
 
 import DragAndDropUploader from "../ImageUploader/MultiDragAndDrop";
 import { NewProduct } from "../../Types/Product";
-import {
-  StringInputField,
-  NumberInputField,
-} from "../../components/UI/Input/InputField";
+import { InputField } from "../../components/UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
 import { addProductHandler, handleMultipleUploads } from "@/lib/action";
 
@@ -66,81 +63,92 @@ function NewProductForm() {
             uploadedImages={uploadedImages}
           />
         </div>
-        <StringInputField
+        <InputField
           label="제품명"
           id="name"
           value={name}
           type="text"
+          required={true}
           setValue={setName}
         />
-        <StringInputField
+        <InputField
           label="분류"
           id="category"
           value={category}
           type="text"
+          required={true}
           setValue={setCategory}
         />
-        <NumberInputField
+        <InputField
           label="가격"
           id="price"
           value={price}
           type="number"
-          setValue={setPrice}
+          required={true}
+          setNumberValue={setPrice}
         />
-        <StringInputField
+        <InputField
           label="소재"
           id="material"
           value={material}
           type="text"
+          required={true}
           setValue={setMaterial}
         />
-        <StringInputField
+        <InputField
           label="색상"
           id="color"
           value={color}
           type="color"
+          required={true}
           setValue={setColor}
         />
-        <StringInputField
+        <InputField
           label="크기"
           id="size"
           value={size}
           type="text"
+          required={true}
           setValue={setSize}
         />
-        <NumberInputField
+        <InputField
           label="재고량"
           id="stock"
           value={stock}
           type="number"
-          setValue={setStock}
+          required={true}
+          setNumberValue={setStock}
         />
-        <StringInputField
+        <InputField
           label="판매자"
           id="seller"
           value={seller}
           type="text"
+          required={true}
           setValue={setSeller}
         />
-        <StringInputField
+        <InputField
           label="판매 URL"
           id="url"
           value={url}
           type="url"
+          required={true}
           setValue={setUrl}
         />
-        <StringInputField
+        <InputField
           label="제품 설명"
           id="details"
           value={details}
           type="text"
+          required={true}
           setValue={setDetails}
         />
-        <StringInputField
+        <InputField
           label="취급 주의사항"
           id="precautions"
           value={precautions}
           type="text"
+          required={true}
           setValue={setPrecautions}
         />
         <Button goal="제품 추가하기" />

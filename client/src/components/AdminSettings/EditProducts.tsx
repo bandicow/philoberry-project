@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import Select from "react-select";
 import Button from "../UI/Button/SubmitButton";
-import { NumberInputField, StringInputField } from "../UI/Input/InputField";
+import { InputField } from "../UI/Input/InputField";
 import { editProduct } from "../../../lib/action";
 type ProductInfo = Pick<
   Product,
@@ -80,61 +80,68 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
 
       {selectedOption && (
         <form className="w-5/6 m-10" onSubmit={submitHandler}>
-          <StringInputField
+          <InputField
             label="제품명"
             id="name"
             value={name}
             type="text"
             setValue={setName}
+            required={true}
             placeholder={selectedOption.name}
             disabled={true}
           />
-          <StringInputField
+          <InputField
             label="분류"
             id="category"
             value={category}
             type="text"
+            required={true}
             setValue={setCategory}
             placeholder={selectedOption.category}
           />
-          <NumberInputField
+          <InputField
             label="가격"
             id="price"
             value={price}
             type="number"
-            setValue={setPrice}
+            required={true}
+            setNumberValue={setPrice}
             placeholder={selectedOption.price.toString()}
           />
-          <StringInputField
+          <InputField
             label="색상"
             id="color"
             value={color}
             type="color"
+            required={true}
             setValue={setColor}
             placeholder={placeholderColor}
           />
-          <StringInputField
+          <InputField
             label="크기"
             id="size"
             value={size}
             type="text"
+            required={true}
             setValue={setSize}
             placeholder={placeholderSize}
           />
-          <StringInputField
+          <InputField
             label="상세정보"
             id="details"
             value={details}
             type="text"
+            required={true}
             setValue={setDetails}
             placeholder={placeholderDetails}
           />
-          <NumberInputField
+          <InputField
             label="재고량"
             id="stock"
             value={stock}
             type="number"
-            setValue={setStock}
+            required={true}
+            setNumberValue={setStock}
             placeholder={selectedOption.stock.toString()}
           />
           <Button goal={"제품 변경하기"} />
