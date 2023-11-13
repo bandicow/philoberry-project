@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { getArtistProps } from "@/src/Types/Art";
 import { getArtist } from "@/lib/action";

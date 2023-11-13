@@ -15,10 +15,9 @@ type ProductInfo = Pick<
 type NewArtist = Omit<Artist, "artist_id">;
 
 //######################## 배경색 ##########################
-
 //** 배경색 가져오기 */ OK
 export const getBackgroundColor = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     const response = await fetch(`${serverUrl}/api/getBackgroundColor`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -30,7 +29,7 @@ export const getBackgroundColor = async () => {
 
 //** 배경색 설정하기 */ OK
 export async function setBackgroundColor(data: { backgroundColor: string }) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const response = await fetch(`${serverUrl}/api/setBackgroundColor`, {
         method: "POST",
@@ -55,7 +54,7 @@ export async function setBackgroundColor(data: { backgroundColor: string }) {
 //########################## 작품 ##########################
 //** 작품 업로드를 위해 작가정보 가져오기 */ OK
 export const getArtist = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     const response = await fetch(`${serverUrl}/api/getArtist`);
 
     if (!response.ok) {
@@ -76,7 +75,7 @@ async function isUrlExpired(url: string) {
 
 //** 작품 가져오기*/ OK
 export async function getArtworks() {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     let name = await getTodayArtist();
     if (!name) return [];
 
@@ -107,7 +106,7 @@ export async function getArtworks() {
 
 //** 작품 등록하기 */ OK
 export async function postArtwork(artwork: UploadArtwork) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const response = await fetch(`${serverUrl}/api/postArtwork`, {
         method: "POST",
@@ -131,7 +130,7 @@ export async function postArtwork(artwork: UploadArtwork) {
 //########################## 작가 ##########################
 //** 작가 이름 가져오기*/ OK
 export const getTodayArtist = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     const response = await fetch(`${serverUrl}/api/getTodayArtist`);
 
     if (!response.ok) {
@@ -146,7 +145,7 @@ export const getTodayArtist = async () => {
 
 //** 작가 등록하기 */ OK
 export async function artistUploadHandler(artistData: NewArtist) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const response = await fetch(`${serverUrl}/api/postArtist`, {
         method: "POST",
@@ -166,7 +165,7 @@ export async function artistUploadHandler(artistData: NewArtist) {
 //########################## 제품 ##########################
 //** 제품 등록하기 */ OK
 export async function addProductHandler(productData: NewProduct) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const response = await fetch(`${serverUrl}/api/postProduct`, {
         method: "POST",
@@ -187,7 +186,7 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 
 //**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     const response = await fetch(`${serverUrl}/api/getProducts`);
 
     if (!response.ok) {
@@ -203,7 +202,7 @@ export const getProducts = async () => {
 
 //** 제품 상세 정보하기 (하나의 제품)*/ OK
 export const getProductDetail = async (id: number) => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     const response = await fetch(`${serverUrl}/api/getProductDetail/${id}`);
 
     if (!response.ok) {
@@ -218,7 +217,7 @@ export const getProductDetail = async (id: number) => {
 
 //** 제품 수정을 위한 정보 가져오기*/ OK
 export const getProduct = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     const response = await fetch(`${serverUrl}/api/getEditProduct`);
 
     if (!response.ok) {
@@ -232,7 +231,7 @@ export const getProduct = async () => {
 
 //**제품 수정을 위한 요청*/ OK
 export const editProduct = async (editData: ProductInfo) => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const response = await fetch(`${serverUrl}/api/postEditProduct`, {
         method: "POST",
@@ -255,7 +254,7 @@ export const editProduct = async (editData: ProductInfo) => {
 
 //**s3에 이미지 업로드 */ OK
 export async function handleUpload(file: File, name: string) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const response = await fetch(`${serverUrl}/api/postS3Image`, {
         method: "POST",
@@ -297,7 +296,7 @@ export async function handleMultipleUploads(
   files: File[],
   name: string
 ): Promise<string[]> {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const uploadPromises = files.map((file) => handleUpload(file, name));
       const keys = await Promise.all(uploadPromises);
@@ -316,7 +315,7 @@ export async function handleMultipleUploads(
 //####################### 로그인 ##########################
 // admin 계정확인 (임시) OK
 export async function checkIsAdmin(email: string) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const response = await fetch(`${serverUrl}/api/checkIsAdmin`, {
         method: "POST",
@@ -335,7 +334,7 @@ export async function checkIsAdmin(email: string) {
 
 // 작가 선택하기 post로 todayArtist 변경 OK
 export async function postTodayArtist(artist: PickArtist) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.BUILDING_IMAGE !== "true") {
     try {
       const response = await fetch(`${serverUrl}/api/postPickArtist`, {
         method: "POST",

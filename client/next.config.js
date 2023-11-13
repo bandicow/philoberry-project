@@ -7,6 +7,8 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
+  experimental: { appDir: true },
+
   swcMinify: true,
 
   compiler: {
@@ -15,4 +17,3 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-// images.imageSizes, images.deviceSizes 미지정 시 설정되는 default 값

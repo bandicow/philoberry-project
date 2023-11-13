@@ -1,3 +1,5 @@
+"use client";
+
 import { Product } from "@prisma/client";
 import { EditProducts } from "../../../src/components/AdminSettings/EditProducts";
 import { getProduct } from "../../../lib/action";

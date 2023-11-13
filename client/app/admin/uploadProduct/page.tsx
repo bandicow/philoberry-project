@@ -1,3 +1,5 @@
+"use client";
+
 import NewProductForm from "../../../src/components/products/NewProductForm";
 
 function MyApp() {

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { UploadArtwork } from "../../../src/components/AdminSettings/UploadArtwork";
 import { getArtist } from "../../../lib/action";
