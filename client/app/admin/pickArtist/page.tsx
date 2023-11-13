@@ -1,19 +1,32 @@
 "use client";
-
-import React from "react";
-import { getArtistProps } from "@/src/Types/Art";
+import React, { useEffect, useState } from "react";
+import { ArtistInfo, getArtistProps } from "@/src/Types/Art";
 import { getArtist } from "@/lib/action";
 import PickArtist from "@/src/components/AdminSettings/PickArtist";
 
-const pickArtist = async () => {
-  const artistList = await getArtist();
+const PickArtistPage = () => {
+  const [artistInfo, setArtistInfo] = useState<ArtistInfo[]>([]);
 
-  if (!artistList) {
-    console.error("Failed to get product");
+  useEffect(() => {
+    const fetchArtist = async () => {
+      const artistList = await getArtist();
+
+      if (!artistList) {
+        console.error("Failed to get product");
+        return;
+      }
+
+      const { artistInfo }: getArtistProps = artistList;
+      setArtistInfo(artistInfo);
+    };
+
+    fetchArtist();
+  }, []);
+
+  if (!artistInfo) {
     return <div> 데이터 불러오기 실패</div>;
   }
 
-  const { artistInfo }: getArtistProps = artistList;
   return (
     <div className="mt-10 border-solid border-t-slate-800">
       <PickArtist artistInfo={artistInfo} />
@@ -21,4 +34,4 @@ const pickArtist = async () => {
   );
 };
 
-export default pickArtist;
+export default PickArtistPage;

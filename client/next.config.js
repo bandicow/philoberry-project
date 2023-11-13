@@ -11,6 +11,10 @@ const nextConfig = {
 
   swcMinify: true,
 
+  env: {
+    BUILDING_IMAGE: process.env.BUILDING_IMAGE,
+  },
+
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },

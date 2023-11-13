@@ -1,5 +1,5 @@
 "use client";
-
+import React, { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import { EditProducts } from "../../../src/components/AdminSettings/EditProducts";
 import { getProduct } from "../../../lib/action";
@@ -9,19 +9,32 @@ type ProductInfo = Pick<
   "name" | "category" | "price" | "color" | "size" | "details" | "stock" | "id"
 >;
 
-interface editProductsProps {
+interface EditProductsProps {
   productsInfo: ProductInfo[];
 }
 
-const editProduct = async () => {
-  const productResult = await getProduct();
+const EditProductPage = () => {
+  const [productsInfo, setProductsInfo] = useState<ProductInfo[]>([]);
 
-  if (!productResult) {
-    console.error("Failed to get product");
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productResult = await getProduct();
+
+      if (!productResult) {
+        console.error("Failed to get product");
+        return;
+      }
+
+      const { productsInfo }: EditProductsProps = productResult;
+      setProductsInfo(productsInfo);
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (!productsInfo) {
     return <div> 데이터 불러오기 실패</div>;
   }
-
-  const { productsInfo }: editProductsProps = productResult;
 
   return (
     <div>
@@ -30,4 +43,4 @@ const editProduct = async () => {
   );
 };
 
-export default editProduct;
+export default EditProductPage;

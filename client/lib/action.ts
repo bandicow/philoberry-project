@@ -29,25 +29,23 @@ export const getBackgroundColor = async () => {
 
 //** 배경색 설정하기 */ OK
 export async function setBackgroundColor(data: { backgroundColor: string }) {
-  if (process.env.BUILDING_IMAGE !== "true") {
-    try {
-      const response = await fetch(`${serverUrl}/api/setBackgroundColor`, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
-      });
+  try {
+    const response = await fetch(`${serverUrl}/api/setBackgroundColor`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const responseData = await response.json();
-
-      return responseData.backgroundColor;
-    } catch (error) {
-      console.log(error);
-      throw error;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const responseData = await response.json();
+
+    return responseData.backgroundColor;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }
 
@@ -99,39 +97,17 @@ export async function getArtworks() {
         break;
       }
     }
-
-    return data;
   }
 }
 
 //** 작품 등록하기 */ OK
 export async function postArtwork(artwork: UploadArtwork) {
-  if (process.env.BUILDING_IMAGE !== "true") {
-    try {
-      const response = await fetch(`${serverUrl}/api/postArtwork`, {
-        method: "POST",
-        body: JSON.stringify(artwork),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-}
-
-//########################## 작가 ##########################
-//** 작가 이름 가져오기*/ OK
-export const getTodayArtist = async () => {
-  if (process.env.BUILDING_IMAGE !== "true") {
-    const response = await fetch(`${serverUrl}/api/getTodayArtist`);
+  try {
+    const response = await fetch(`${serverUrl}/api/postArtwork`, {
+      method: "POST",
+      body: JSON.stringify(artwork),
+      headers: { "Content-Type": "application/json" },
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -139,26 +115,40 @@ export const getTodayArtist = async () => {
 
     const data = await response.json();
 
-    return data.artistName;
+    return data;
+  } catch (error) {
+    console.error(error);
   }
+}
+
+//########################## 작가 ##########################
+//** 작가 이름 가져오기*/ OK
+export const getTodayArtist = async () => {
+  const response = await fetch(`${serverUrl}/api/getTodayArtist`);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data.artistName;
 };
 
 //** 작가 등록하기 */ OK
 export async function artistUploadHandler(artistData: NewArtist) {
-  if (process.env.BUILDING_IMAGE !== "true") {
-    try {
-      const response = await fetch(`${serverUrl}/api/postArtist`, {
-        method: "POST",
-        body: JSON.stringify(artistData),
-        headers: { "Content-Type": "application/json" },
-      });
+  try {
+    const response = await fetch(`${serverUrl}/api/postArtist`, {
+      method: "POST",
+      body: JSON.stringify(artistData),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (err) {
-      console.log(err);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+  } catch (err) {
+    console.log(err);
   }
 }
 
@@ -315,38 +305,34 @@ export async function handleMultipleUploads(
 //####################### 로그인 ##########################
 // admin 계정확인 (임시) OK
 export async function checkIsAdmin(email: string) {
-  if (process.env.BUILDING_IMAGE !== "true") {
-    try {
-      const response = await fetch(`${serverUrl}/api/checkIsAdmin`, {
-        method: "POST",
-        body: JSON.stringify({ email }),
-        headers: { "Content-Type": "application/json" },
-      });
+  try {
+    const response = await fetch(`${serverUrl}/api/checkIsAdmin`, {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 }
 
 // 작가 선택하기 post로 todayArtist 변경 OK
 export async function postTodayArtist(artist: PickArtist) {
-  if (process.env.BUILDING_IMAGE !== "true") {
-    try {
-      const response = await fetch(`${serverUrl}/api/postPickArtist`, {
-        method: "POST",
-        body: JSON.stringify(artist),
-        headers: { "Content-Type": "application/json" },
-      });
+  try {
+    const response = await fetch(`${serverUrl}/api/postPickArtist`, {
+      method: "POST",
+      body: JSON.stringify(artist),
+      headers: { "Content-Type": "application/json" },
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
+    return data;
+  } catch (error) {
+    console.error(error);
   }
 }
