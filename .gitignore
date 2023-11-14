@@ -53,3 +53,6 @@ test.tsx
 
 #dist
 /dist
+
+#Docker 
+./client/Dockerfile.next

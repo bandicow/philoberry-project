@@ -30,7 +30,11 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middlewares 적용
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.NEXT_PUBLIC_SERVER_URL,
+  })
+);
 app.use(express.json());
 
 //#################### aws 헬스체크 ####################//
