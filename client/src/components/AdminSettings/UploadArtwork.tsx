@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { ArtistInfo, getArtistProps } from "../../Types/Art";
+import { ArtistInfo, getArtistProps } from "@/src/Types/Art";
 import Modal from "../UI/Modal/Modal";
-import { useModal } from "../../hooks/useModal";
+import { useModal } from "@/src/hooks/useModal";
 
 export const UploadArtwork = ({ artistInfo }: getArtistProps) => {
   const [selectedOption, setSelectedOption] = useState<ArtistInfo | null>(null);
@@ -25,7 +25,7 @@ export const UploadArtwork = ({ artistInfo }: getArtistProps) => {
 
   return (
     <div className="relative center">
-      <h1 className="mb-2 font-extrabold">작품 선택</h1>
+      <h1 className="mb-2 font-extrabold">작가 선택</h1>
       <Select
         className="w-5/6"
         options={options}

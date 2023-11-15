@@ -1,4 +1,5 @@
 /**  @type {import('tailwindcss').Config}  */
+
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -22,6 +23,9 @@ module.exports = {
       },
       animation: {
         "fade-in": "fadeIn 0.7s",
+        "slide-up": "slide-up 3s forwards",
+        shake: "shake 0.3s cubic-bezier(.36,.07,.19,.97) both",
+        "shake-modal": "shake-modal 0.3s cubic-bezier(.36,.07,.19,.97) both",
       },
       screens: {
         mobile: "480px",
@@ -40,6 +44,26 @@ module.exports = {
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        "slide-up": {
+          "0%": { transform: "translateY(100%)", opacity: "0" },
+          "50%": { transform: "translateY(0)", opacity: "1" },
+          "75%": { transform: "translateY(0)", opacity: "1" },
+          "100%": { transform: "translateY(0)", opacity: "0" },
+        },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "10%, 30%, 50%, 70%, 90%": { transform: "translateX(-10px)" },
+          "20%, 40%, 60%, 80%": { transform: "translateX(10px)" },
+        },
+        "shake-modal": {
+          "0%, 100%": { transform: "translateX(0) translate(-50%, -2%)" },
+          "10%, 30%, 50%, 70%, 90%": {
+            transform: "translateX(-10px) translate(-50%, -2%)",
+          },
+          "20%, 40%, 60%, 80%": {
+            transform: "translateX(10px) translate(-50%, -2%)",
+          },
         },
       },
     },

@@ -19,7 +19,8 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
   const NAVBAR_HEIGHT = 200;
   const SCROLL_DELTA = 10;
 
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
 
   //페이지 네비바 숨기기
   //페이지 네비바 숨기기
@@ -76,11 +77,12 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
               <Link href="/notices">공지</Link>
             </li>
             <li>
-              {!session ? (
-                <Link href="/login">로그인</Link>
-              ) : (
-                <Link href="/admin">관리자 설정</Link>
-              )}
+              {!loading &&
+                (!session ? (
+                  <Link href="/login">로그인</Link>
+                ) : (
+                  <Link href="/admin">관리자 설정</Link>
+                ))}
             </li>
           </ul>
         </nav>

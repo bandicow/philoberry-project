@@ -10,6 +10,8 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { handleUpload, postArtwork } from "@/lib/action";
 import OnClickButton from "../Button/OnClickButton";
+import { useNotification } from "@/src/hooks/useNotification";
+import SlideUpMessage from "../Alert/Slideup";
 
 type UploadArtwork = Omit<Artwork, "artwork_id">;
 
@@ -21,6 +23,13 @@ interface ModalProps {
 const Modal = ({ artistInfo, closeModal }: ModalProps) => {
   const [name] = useState(artistInfo.name);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const {
+    shake,
+    showFailureMessage,
+    showSuccessMessage,
+    startFailureNotification,
+    startSuccessNotification,
+  } = useNotification();
 
   const [artworks, setArtworks] = useState<UploadArtwork[]>([
     {
@@ -56,13 +65,8 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
     if (files) {
       for (let i = 0; i < artworks.length; i++) {
         if (files[i]) {
-          try {
-            let key = await handleUpload(files[i], name);
-            keys.push(key);
-          } catch (err) {
-            alert("이미지 업로드 실패");
-            return;
-          }
+          let key = await handleUpload(files[i], name);
+          keys.push(key);
         }
       }
     }
@@ -73,8 +77,14 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
       order: index + 1,
     }));
 
-    for (let i = 0; i < newFormData.length; i++) {
-      await postArtwork(newFormData[i]);
+    try {
+      for (let i = 0; i < newFormData.length; i++) {
+        await postArtwork(newFormData[i]);
+      }
+
+      startSuccessNotification();
+    } catch (error) {
+      startFailureNotification();
     }
   };
 
@@ -109,12 +119,14 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
     }
   };
 
-  const isTabletLandscape = window.matchMedia("(min-width: 1024px)").matches;
-
   return (
-    <div className="top-16 tabletLandscape:top-1 overflow-scroll transform -translate-x-1/2 -translate-y-[2%] fixed flex justify-center items-center w-5/6  tabletLandscape:mt-20 left-1/2 tabletLandscape:left-[50%] tabletLandscape:w-4/6 tabletLandscape:h-5/6 hide-scrollbar">
+    <div
+      className={`top-16 tabletLandscape:top-1 overflow-scroll transform -translate-x-1/2 -translate-y-[2%] fixed flex justify-center items-center w-5/6  tabletLandscape:mt-20 left-1/2 tabletLandscape:left-[50%] tabletLandscape:w-4/6 tabletLandscape:h-5/6 hide-scrollbar ${
+        shake ? "animate-shake-modal" : ""
+      }`}
+    >
       <Card>
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} className="mb-10">
           <div>
             <Carousel
               selectedItem={currentSlide}
@@ -244,6 +256,15 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
           </div>
         </form>
       </Card>
+      <SlideUpMessage
+        message="작품 등록이 완료되었습니다."
+        show={showSuccessMessage}
+      />
+      <SlideUpMessage
+        message="작품 등록에 실패하였습니다."
+        show={showFailureMessage}
+        fail={true}
+      />
     </div>
   );
 };

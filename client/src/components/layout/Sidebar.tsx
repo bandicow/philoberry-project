@@ -40,14 +40,14 @@ const Sidebar = () => {
             className={`min-w-max my-2 tabletLandscape:pr-10 whitespace-nowrap tabletLandscape:w-full m-1 
     ${
       currPath === item.href
-        ? "border-double border-y-2 text-gray-300 border-sky-200 tabletLandscape:border-0 tabletLandscape:rounded-tr-lg tabletLandscape:rounded-br-lg"
+        ? "border-double border-y-2 mx-2  text-gray-300 border-sky-200 tabletLandscape:border-0 tabletLandscape:rounded-tr-lg tabletLandscape:rounded-br-lg"
         : ""
     }`}
           >
             <div
               className={`flex items-center ${
                 currPath === item.href
-                  ? "tabletLandscape:bg-sky-200 tabletLandscape:py-1 tabletLandscape:rounded-tr-lg tabletLandscape:rounded-br-lg tabletLandscape:text-blue-600"
+                  ? "tabletLandscape:bg-sky-200  tabletLandscape:py-1 tabletLandscape:rounded-tr-lg tabletLandscape:rounded-br-lg tabletLandscape:text-blue-600"
                   : ""
               }`}
             >
@@ -55,7 +55,9 @@ const Sidebar = () => {
                 icon={item.icon}
                 className={`mr-3 pl-3 hidden tabletLandscape:block`}
               />
-              <Link href={item.href}>{item.text}</Link>
+              <Link className="whitespace-nowrap" href={item.href}>
+                {item.text}
+              </Link>
             </div>
           </li>
         ))}

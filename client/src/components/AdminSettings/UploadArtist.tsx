@@ -5,6 +5,8 @@ import DragAndDropUploader from "../ImageUploader/DragAndDrop";
 import { InputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
 import { artistUploadHandler, handleUpload } from "@/lib/action";
+import SlideUpMessage from "../UI/Alert/Slideup";
+import { useNotification } from "@/src/hooks/useNotification";
 
 type NewArtist = Omit<Artist, "artist_id">;
 
@@ -14,6 +16,13 @@ export const UploadArtist = () => {
   const [major, setMajor] = useState("");
   const [profile, setProfile] = useState("");
   const [siteUrl, setSiteUrl] = useState("");
+  const {
+    shake,
+    showFailureMessage,
+    showSuccessMessage,
+    startFailureNotification,
+    startSuccessNotification,
+  } = useNotification();
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
@@ -35,13 +44,23 @@ export const UploadArtist = () => {
       profile: profile,
       website_url: siteUrl,
     };
-    artistUploadHandler(artistData);
+    try {
+      await artistUploadHandler(artistData);
+      startSuccessNotification();
+      setName("");
+      setMajor("");
+      setProfile("");
+      setSiteUrl("");
+      setImage(null);
+    } catch (error) {
+      startFailureNotification();
+    }
   };
 
   return (
-    <div className="w-full h-full center">
+    <div className={`w-full h-full center ${shake ? "animate-shake" : ""}`}>
       <h1 className="mt-10 text-xl font-bold">작가 등록</h1>
-      <form onSubmit={submitHandler} className="w-full">
+      <form onSubmit={submitHandler} className="w-full mb-20">
         <div className="justify-center w-full h-full ml-5 mr-5 rounded-md tabletLandscape:flex">
           <div className="w-5/6 m-5">
             <DragAndDropUploader
@@ -88,6 +107,15 @@ export const UploadArtist = () => {
           <Button goal={"작가 등록"} />
         </div>
       </form>
+      <SlideUpMessage
+        message="작가 등록이 완료되었습니다."
+        show={showSuccessMessage}
+      />
+      <SlideUpMessage
+        message="작가 등록에 실패하였습니다."
+        show={showFailureMessage}
+        fail={true}
+      />
     </div>
   );
 };

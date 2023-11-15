@@ -1,3 +1,4 @@
+"use client";
 import { SketchPicker, ColorResult } from "react-color";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getBackgroundColor, setBackgroundColor } from "../../../lib/action";

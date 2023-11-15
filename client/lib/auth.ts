@@ -47,6 +47,7 @@ export const authConfig: NextAuthOptions = {
       clientSecret: process.env.KAKAO_CLIENT_SECRET || "",
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

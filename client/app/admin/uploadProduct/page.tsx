@@ -1,6 +1,6 @@
 "use client";
 
-import NewProductForm from "../../../src/components/products/NewProductForm";
+import NewProductForm from "../../../src/components/AdminSettings/NewProductForm";
 
 function MyApp() {
   return (

@@ -30,11 +30,13 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Middlewares 적용
-app.use(
-  cors({
-    origin: process.env.NEXT_PUBLIC_SERVER_URL,
-  })
-);
+// app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: process.env.NEXT_PUBLIC_SERVER_URL,
+//   })
+// );
 app.use(express.json());
 
 //#################### aws 헬스체크 ####################//
@@ -229,7 +231,7 @@ app.post("/api/postPickArtist", async (req: Request, res: Response) => {
 //################# 작품 ###################//
 
 //** 작품 등록하기 */
-app.post("api/postArtwork", async (req: Request, res: Response) => {
+app.post("/api/postArtwork", async (req: Request, res: Response) => {
   try {
     const artworkData = req.body;
 

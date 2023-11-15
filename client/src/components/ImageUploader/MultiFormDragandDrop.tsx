@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,6 +38,10 @@ const DragAndDropUploader = ({
     setUploadedImages(null);
   };
 
+  const imageURL: string | null = useMemo(() => {
+    return uploadedImages ? URL.createObjectURL(uploadedImages) : null;
+  }, [uploadedImages]);
+
   return (
     <div className="w-full h-full">
       <div
@@ -53,14 +57,14 @@ const DragAndDropUploader = ({
           </>
         )}
 
-        {uploadedImages && (
+        {imageURL && (
           <div className="relative w-full h-full">
             <div
               className="rounded-md h-52"
               onClick={(event) => event.stopPropagation()}
             >
               <Image
-                src={URL.createObjectURL(uploadedImages)}
+                src={imageURL}
                 alt={`업로드 에러`}
                 onClick={upLoadedImageRemover}
                 fill
