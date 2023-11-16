@@ -17,7 +17,7 @@ type NewArtist = Omit<Artist, "artist_id">;
 //######################## 배경색 ##########################
 //** 배경색 가져오기 */ OK
 export const getBackgroundColor = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const response = await fetch(`${serverUrl}/api/getBackgroundColor`);
       if (!response.ok) {
@@ -57,7 +57,7 @@ export async function setBackgroundColor(data: { backgroundColor: string }) {
 //########################## 작품 ##########################
 //** 작품 업로드를 위해 작가정보 가져오기 */ OK
 export const getArtist = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const response = await fetch(`${serverUrl}/api/getArtist`);
 
@@ -196,7 +196,7 @@ export async function postTodayArtist(artist: PickArtist) {
 //########################## 제품 ##########################
 //** 제품 등록하기 */ OK
 export async function addProductHandler(productData: NewProduct) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const response = await fetch(`${serverUrl}/api/postProducts`, {
         method: "POST",
@@ -218,7 +218,7 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 
 //**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const response = await fetch(`${serverUrl}/api/getProducts`);
 
@@ -239,7 +239,7 @@ export const getProducts = async () => {
 
 //** 제품 상세 정보하기 (하나의 제품)*/ OK
 export const getProductDetail = async (id: number) => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const response = await fetch(`${serverUrl}/api/getProductDetail/${id}`);
 
@@ -259,7 +259,7 @@ export const getProductDetail = async (id: number) => {
 
 //** 제품 수정을 위한 정보 가져오기*/ OK
 export const getProduct = async () => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const response = await fetch(`${serverUrl}/api/getEditProduct`);
 
@@ -278,7 +278,7 @@ export const getProduct = async () => {
 
 //**제품 수정을 위한 요청*/ OK
 export const editProduct = async (editData: ProductInfo) => {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const response = await fetch(`${serverUrl}/api/postEditProduct`, {
         method: "POST",
@@ -302,7 +302,7 @@ export const editProduct = async (editData: ProductInfo) => {
 
 //**s3에 이미지 업로드 */ OK
 export async function handleUpload(file: File, name: string) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const response = await fetch(`${serverUrl}/api/postS3Image`, {
         method: "POST",
@@ -345,7 +345,7 @@ export async function handleMultipleUploads(
   files: File[],
   name: string
 ): Promise<string[]> {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
+  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
     try {
       const uploadPromises = files.map((file) => handleUpload(file, name));
       const keys = await Promise.all(uploadPromises);

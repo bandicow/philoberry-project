@@ -188,3 +188,10 @@ input::-webkit-inner-spin-button {
 input[type="number"]::-ms-clear {
   display: none;
 }
+
+/* 컬러박스 */
+.colorBox {
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+}

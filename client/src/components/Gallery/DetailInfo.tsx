@@ -15,7 +15,13 @@ const DetailInfo = ({ label, value }: InfoProps) => (
       {Array.isArray(value) ? (
         value.map((val, index) => <div key={index}>{val}</div>)
       ) : (
-        <div>{value}</div>
+        <div>
+          {typeof value === "string" && /^#[0-9A-F]{6}$/i.test(value) ? (
+            <div className="colorBox" style={{ backgroundColor: value }}></div>
+          ) : (
+            value
+          )}
+        </div>
       )}
     </span>
   </div>

@@ -24,7 +24,6 @@ const store = immer<ProductState>((set) => ({
     value: ProductDataValue
   ) =>
     set((state) => {
-      console.log(`Updating ${key} to ${value}`);
       state.productData[key] = value;
       return state;
     }),

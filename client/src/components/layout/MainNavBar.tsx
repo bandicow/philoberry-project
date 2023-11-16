@@ -17,12 +17,10 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   const NAVBAR_HEIGHT = 200;
-  const SCROLL_DELTA = 10;
 
   const { data: session, status } = useSession();
   const loading = status === "loading";
 
-  //페이지 네비바 숨기기
   //페이지 네비바 숨기기
   useEffect(() => {
     const handleScroll = () => {
@@ -30,8 +28,7 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
 
       const currentScrollPos = window.scrollY;
       const visible =
-        prevScrollPos - currentScrollPos > SCROLL_DELTA ||
-        currentScrollPos <= NAVBAR_HEIGHT;
+        prevScrollPos > currentScrollPos || currentScrollPos <= NAVBAR_HEIGHT;
 
       setIsVisible(visible);
       setPrevScrollPos(currentScrollPos);

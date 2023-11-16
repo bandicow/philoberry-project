@@ -23,9 +23,7 @@ export function InputField({
   disabled = false,
   required = true,
 }: InputFieldProps) {
-  useEffect(() => {
-    console.log(`Value of ${id} changed to ${value}`); // 로그 추가
-  }, [id, value]);
+  useEffect(() => {}, [id, value]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // 입력 타입이 number인 경우에만 string을 number로 변환

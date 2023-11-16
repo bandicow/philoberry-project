@@ -74,7 +74,6 @@ function NewProductForm() {
             required={true}
             onChange={(value) => {
               if (typeof value === "string" || typeof value === "number") {
-                console.log(`Setting ${field.id} to ${value}`);
                 store.setProductData(field.id, value);
               }
             }}
