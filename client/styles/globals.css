@@ -170,3 +170,21 @@ body {
   -webkit-box-reflect: below 5px
     linear-gradient(transparent, rgba(0, 0, 0, 0.3));
 }
+
+/* 브라우저 별 input type number 버튼 숨기기 */
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* IE */
+input[type="number"]::-ms-clear {
+  display: none;
+}

@@ -1,4 +1,6 @@
+"use client";
 import { ChangeEvent } from "react";
+import { useEffect } from "react";
 
 interface InputFieldProps {
   label: string;
@@ -6,8 +8,7 @@ interface InputFieldProps {
   value: string | number;
   type: string;
   placeholder?: string;
-  setValue?(value: string): void;
-  setNumberValue?(value: number): void;
+  onChange(value: string | number): void;
   disabled?: boolean;
   required: boolean;
 }
@@ -17,19 +18,20 @@ export function InputField({
   id,
   type = "text",
   value,
-  setValue,
-  setNumberValue,
+  onChange,
   placeholder,
   disabled = false,
   required = true,
 }: InputFieldProps) {
+  useEffect(() => {
+    console.log(`Value of ${id} changed to ${value}`); // 로그 추가
+  }, [id, value]);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (type === "number") {
-      // 입력 타입이 number인 경우에만 string을 number로 변환
-      setNumberValue && setNumberValue(Number(e.target.value));
-    } else {
-      setValue && setValue(e.target.value);
-    }
+    // 입력 타입이 number인 경우에만 string을 number로 변환
+    type === "number"
+      ? onChange(Number(e.target.value))
+      : onChange(e.target.value);
   };
 
   return (

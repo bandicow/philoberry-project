@@ -1,12 +1,9 @@
 import { NewProduct } from "@/src/Types/Product";
-import {
-  ProductDataKey,
-  ProductDataValue,
-  ProductState,
-} from "@/src/Types/ZustandType";
+import { ProductDataValue, ProductState } from "@/src/Types/ZustandType";
 import { create } from "zustand";
+import { immer } from "zustand/middleware/immer";
 
-export const useProductStore = create<ProductState>((set) => ({
+const store = immer<ProductState>((set) => ({
   productData: {
     name: "",
     category: "",
@@ -27,6 +24,7 @@ export const useProductStore = create<ProductState>((set) => ({
     value: ProductDataValue
   ) =>
     set((state) => {
+      console.log(`Updating ${key} to ${value}`);
       state.productData[key] = value;
       return state;
     }),
@@ -37,3 +35,5 @@ export const useProductStore = create<ProductState>((set) => ({
       return state;
     }),
 }));
+
+export const useProductStore = create(store);

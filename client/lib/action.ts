@@ -83,35 +83,33 @@ async function isUrlExpired(url: string) {
 
 //** 작품 가져오기*/ OK
 export async function getArtworks() {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE !== "true") {
-    try {
-      let name = await getTodayArtist();
-      if (!name) return [];
+  try {
+    let name = await getTodayArtist();
+    if (!name) return [];
 
-      let response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
+    let response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      let data = await response.json();
-
-      // Check if any URL is expired
-      for (const artwork of data) {
-        if (await isUrlExpired(artwork.s3key)) {
-          // If expired, request a new URL
-          response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          data = await response.json();
-          break;
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      throw error;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    let data = await response.json();
+
+    // Check if any URL is expired
+    for (const artwork of data) {
+      if (await isUrlExpired(artwork.s3key)) {
+        // If expired, request a new URL
+        response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        data = await response.json();
+        break;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }
 
