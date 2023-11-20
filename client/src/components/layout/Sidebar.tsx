@@ -27,7 +27,7 @@ const Sidebar = () => {
     { icon: faPalette, text: "색상 변경", href: "/admin/changecolor" },
     { icon: faCloudArrowUp, text: "작가 등록", href: "/admin/uploadartist" },
     { icon: faCloudArrowUp, text: "작품 등록", href: "/admin/uploadartwork" },
-    { icon: faCloudArrowUp, text: "제품 등록", href: "/admin/uploadProduct" },
+    { icon: faCloudArrowUp, text: "제품 등록", href: "/admin/uploadproduct" },
     { icon: faRotate, text: "제품 정보 변경", href: "/admin/editproduct" },
   ];
 

@@ -4,7 +4,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Image from "next/image";
-import { Artwork } from "@prisma/client";
+import { Artwork } from "@/prismaType";
 import { useFullScreen } from "@/src/hooks/useFullScreen";
 import {
   faMagnifyingGlassPlus,
@@ -51,7 +51,7 @@ const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
     >
       <Card>
         <div
-          className={`flex-col tablet:flex tablet:flex-row items-center p-2 text-black border test__body w-[85vw] h-[85vh] overflow-scroll tablet:overflow-hidden `}
+          className={`flex-col tabletLandscape:flex tabletLandscape:flex-row items-center p-2 text-black border test__body w-[85vw] h-[85vh] overflow-scroll tabletLandscape:overflow-hidden `}
         >
           <FontAwesomeIcon
             className="absolute z-10 scale-150 top-3 right-5"

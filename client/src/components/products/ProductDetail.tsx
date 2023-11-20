@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Product } from "@prisma/client";
+import { Product } from "@/prismaType";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getProductDetail } from "../../../lib/action";
@@ -54,11 +54,11 @@ export default function ProductDetail() {
   ];
 
   return (
-    <div className="flex-col tablet:flex">
-      <div className="tablet:hidden">
+    <div className="flex-col tabletLandscape:flex">
+      <div className="tabletLandscape:hidden">
         <CarouselProduct images={s3key} />
       </div>
-      <div className="flex-col hidden m-0 tablet:w-7/12 tablet:flex">
+      <div className="flex-col hidden m-0 tabletLandscape:w-7/12 tabletLandscape:flex">
         {product.s3key &&
           product.s3key.map((s3key) => (
             <div className="w-full item_img" key={s3key}>
@@ -72,7 +72,7 @@ export default function ProductDetail() {
             </div>
           ))}
       </div>
-      <div className="static tablet:fixed tablet:overflow-scroll tablet:w-5/12  tablet:right-0 tablet:top-0 w-full  bg-opacity-40 h-[90vh] tabletLandscape:h-[100vh] min-w-min">
+      <div className="static tabletLandscape:fixed tabletLandscape:overflow-scroll tabletLandscape:w-5/12  tabletLandscape:right-0 tabletLandscape:top-0 w-full  bg-opacity-40 h-[90vh] tabletLandscape:h-[100vh] min-w-min">
         <div className="flex-col p-5 m-5 text-left h-5/6">
           {DetailInfos.map((info, index) => (
             <DetailInfo key={index} {...info} />

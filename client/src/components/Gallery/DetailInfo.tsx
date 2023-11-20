@@ -8,9 +8,7 @@ interface InfoProps {
 
 const DetailInfo = ({ label, value }: InfoProps) => (
   <div className="flex mt-5 text-gray-600">
-    <span className="w-1/4 text-xs tablet:text-sm desktop:text-base">
-      {label}
-    </span>
+    <span className="w-1/4 text-xs tabletLandscape:text-base">{label}</span>
     <span className="flex-col ml-5 text-lg font-bold text-left text-black ">
       {Array.isArray(value) ? (
         value.map((val, index) => <div key={index}>{val}</div>)

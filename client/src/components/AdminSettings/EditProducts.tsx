@@ -1,32 +1,41 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import { Product } from "@prisma/client";
 import Select from "react-select";
 import Button from "../UI/Button/SubmitButton";
 import { InputField } from "../UI/Input/InputField";
-import { editProduct } from "../../../lib/action";
-type ProductInfo = Pick<
-  Product,
-  "name" | "category" | "price" | "color" | "size" | "details" | "stock" | "id"
->;
+import { ProductInfo } from "@/src/Types/Product";
+import { useEditProductStore } from "@/utils/store/editproductStore";
+import { useNotification } from "@/src/hooks/useNotification";
+import SlideUpMessage from "../UI/Alert/Slideup";
 
-interface editProductsProps {
+type InputField = {
+  label: string;
+  id: keyof ProductInfo;
+
+  type: string;
+  required: boolean;
+  disabled?: boolean;
+};
+
+type ProductInfoProps = {
   productsInfo: ProductInfo[];
-}
+};
 
-export const EditProducts = ({ productsInfo }: editProductsProps) => {
+export const EditProducts = ({ productsInfo }: ProductInfoProps) => {
+  const { editProduct, setEditProduct } = useEditProductStore();
+
+  const {
+    shake,
+    showFailureMessage,
+    showSuccessMessage,
+    startFailureNotification,
+    startSuccessNotification,
+  } = useNotification();
+
   const [selectedOption, setSelectedOption] = useState<ProductInfo | null>(
     null
   );
 
-  const [id, setId] = useState(0);
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [price, setPrice] = useState(0);
-  const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
-  const [details, setDetails] = useState("");
-  const [stock, setStock] = useState(0);
   const options = productsInfo.map((product) => ({
     value: product.name,
     label: product.name,
@@ -35,34 +44,49 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
 
+    if (!selectedOption || editProduct === null) {
+      return;
+    }
+
     const editData: ProductInfo = {
-      id: id,
-      name: name,
-      category: category,
-      price: price,
-      color: color,
-      size: size,
-      details: details,
-      stock: stock,
+      id: selectedOption.id,
+      name: editProduct.name,
+      category: editProduct.category,
+      price: editProduct.price,
+      color: editProduct.color,
+      size: editProduct.size,
+      details: editProduct.details,
+      stock: editProduct.stock,
     };
 
-    editProduct(editData);
+    try {
+      setEditProduct(editData);
+      setEditProduct(null);
+      setSelectedOption(null);
+      startSuccessNotification();
+    } catch (error) {
+      startFailureNotification();
+    }
   };
 
-  // 기본값
-  const placeholderColor =
-    selectedOption && selectedOption.color ? selectedOption.color : undefined;
-
-  const placeholderSize =
-    selectedOption && selectedOption.size ? selectedOption.size : undefined;
-
-  const placeholderDetails =
-    selectedOption && selectedOption.details
-      ? selectedOption.details
-      : undefined;
+  const fields: InputField[] = [
+    {
+      label: "제품명",
+      id: "name",
+      type: "text",
+      required: true,
+      disabled: true,
+    },
+    { label: "분류", id: "category", type: "text", required: true },
+    { label: "가격", id: "price", type: "number", required: true },
+    { label: "색상", id: "color", type: "color", required: true },
+    { label: "크기", id: "size", type: "text", required: true },
+    { label: "상세정보", id: "details", type: "text", required: true },
+    { label: "재고량", id: "stock", type: "number", required: true },
+  ];
 
   return (
-    <div className="center">
+    <div className={`center ${shake ? "animate-shake" : ""}`}>
       <h1 className="mt-10 font-extrabold">제품 선택</h1>
       <Select
         className="w-2/3 m-2"
@@ -74,79 +98,48 @@ export const EditProducts = ({ productsInfo }: editProductsProps) => {
             : null;
 
           setSelectedOption(selectedProduct || null);
-          setId(selectedProduct?.id || 0);
+          if (selectedProduct) {
+            setEditProduct(selectedProduct);
+          }
         }}
       />
 
       {selectedOption && (
         <form className="w-5/6 m-10" onSubmit={submitHandler}>
-          <InputField
-            label="제품명"
-            id="name"
-            value={name}
-            type="text"
-            setValue={setName}
-            required={true}
-            placeholder={selectedOption.name}
-            disabled={true}
-          />
-          <InputField
-            label="분류"
-            id="category"
-            value={category}
-            type="text"
-            required={true}
-            setValue={setCategory}
-            placeholder={selectedOption.category}
-          />
-          <InputField
-            label="가격"
-            id="price"
-            value={price}
-            type="number"
-            required={true}
-            setNumberValue={setPrice}
-            placeholder={selectedOption.price.toString()}
-          />
-          <InputField
-            label="색상"
-            id="color"
-            value={color}
-            type="color"
-            required={true}
-            setValue={setColor}
-            placeholder={placeholderColor}
-          />
-          <InputField
-            label="크기"
-            id="size"
-            value={size}
-            type="text"
-            required={true}
-            setValue={setSize}
-            placeholder={placeholderSize}
-          />
-          <InputField
-            label="상세정보"
-            id="details"
-            value={details}
-            type="text"
-            required={true}
-            setValue={setDetails}
-            placeholder={placeholderDetails}
-          />
-          <InputField
-            label="재고량"
-            id="stock"
-            value={stock}
-            type="number"
-            required={true}
-            setNumberValue={setStock}
-            placeholder={selectedOption.stock.toString()}
-          />
+          {fields.map((field) => (
+            <InputField
+              key={field.id}
+              label={field.label}
+              id={field.id}
+              value={editProduct ? editProduct[field.id] || "" : ""}
+              type={field.type}
+              required={field.required}
+              onChange={(value) => {
+                if (editProduct) {
+                  setEditProduct({
+                    ...editProduct,
+                    [field.id]: value,
+                  });
+                }
+              }}
+              placeholder={
+                selectedOption ? String(selectedOption[field.id]) : ""
+              }
+              disabled={field.disabled}
+            />
+          ))}
           <Button goal={"제품 변경하기"} />
         </form>
       )}
+      <SlideUpMessage
+        message="변경이 완료되었습니다."
+        show={showSuccessMessage}
+      />
+      <SlideUpMessage
+        message="변경에 실패하였습니다."
+        show={showFailureMessage}
+        fail={true}
+      />
     </div>
   );
 };

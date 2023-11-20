@@ -14,6 +14,7 @@ import {
 
 import getProductDetail from "./routes/getProductDetail";
 import getArtwork from "./routes/getArtwork";
+import { Setting } from "@prisma/client";
 
 // .env 파일을 읽어서 process.env로 설정합니다.
 dotenv.config();
@@ -86,14 +87,14 @@ const deleteS3Objects = async (folder: string) => {
   };
   try {
     const nullData = await s3Client.send(new ListObjectsV2Command(listParams));
-
+    console.log(nullData);
     if (!nullData.Contents || nullData.Contents.length === 0) return;
 
     const deleteParams = {
       Bucket: process.env.S3_BUCKET as string,
       Delete: { Objects: [] as Array<{ Key: string }> },
     };
-
+    console.log(deleteParams);
     nullData.Contents.forEach(({ Key }) => {
       if (Key) {
         deleteParams.Delete.Objects.push({ Key });
@@ -110,7 +111,7 @@ const deleteS3Objects = async (folder: string) => {
 //################## 배경색 ##################//
 //** 배경색 설정하기 */
 app.post("/api/setBackgroundColor", async (req: Request, res: Response) => {
-  const { backgroundColor }: { backgroundColor: string } = req.body;
+  const { backgroundColor }: Setting = req.body;
 
   try {
     // 색상 정보를 파일에 저장합니다.
@@ -177,34 +178,29 @@ app.get("/api/getTodayArtist", async (req: Request, res: Response) => {
 
 //** 작가 등록하기 */
 app.post("/api/postArtist", async (req: Request, res: Response) => {
+  const artistData = req.body;
   try {
-    // POST 요청 처리: 새로운 Product 생성
-    const productData = req.body;
-
     // S3 이미지 업로드 후 Key받아오기(null 일때 s3 막 업로드된거 delete, create X)
-    if (!productData.artist_image) {
-      const folder = `${productData.name}/`; // 삭제하려는 폴더 이름// 해당 폴더에 속한 모든 객체를 나열합니다.
-      await deleteS3Objects(folder);
-      return res
-        .status(200)
-        .json({ message: "Images deleted successfully from S3" });
-    }
-
-    const newProduct = await prisma.artist.create({
+    const newArtist = await prisma.artist.create({
       data: {
-        name: productData.name,
-        major: productData.major,
-        profile: productData.profile,
-        website_url: productData.website_url,
-        artist_image: productData.artist_image,
+        name: artistData.name,
+        major: artistData.major,
+        profile: artistData.profile,
+        website_url: artistData.website_url,
+        artist_image: artistData.artist_image,
       },
     });
 
-    return res.status(201).json(newProduct);
+    return res.status(201).json(newArtist);
   } catch (e) {
     console.error(e);
-    return res.status(500).json({ message: "Server Error" });
+    if (artistData && artistData.artist_name) {
+      const folder = `${artistData.artist_name}/`;
+      await deleteS3Objects(folder);
+      console.log({ message: "Images deleted successfully from S3" });
+    }
   }
+  return res.status(500).json({ message: "Server Error" });
 });
 
 //** 작가 선택하기 */
@@ -232,19 +228,8 @@ app.post("/api/postPickArtist", async (req: Request, res: Response) => {
 
 //** 작품 등록하기 */
 app.post("/api/postArtwork", async (req: Request, res: Response) => {
+  const artworkData = req.body;
   try {
-    const artworkData = req.body;
-
-    if (!artworkData.s3key) {
-      const folder = `${artworkData.artist_name}/`; // 삭제하려는 폴더 이름// 해당 폴더에 속한 모든 객체를 나열합니다.
-
-      await deleteS3Objects(folder);
-
-      return res
-        .status(200)
-        .json({ message: "Images deleted successfully from S3" });
-    }
-
     const artworkInfo = await prisma.artwork.create({
       data: {
         title: artworkData.title,
@@ -263,6 +248,11 @@ app.post("/api/postArtwork", async (req: Request, res: Response) => {
     return res.status(201).json(artworkInfo);
   } catch (err) {
     console.log(err);
+    if (artworkData && artworkData.artist_name) {
+      const folder = `${artworkData.artist_name}/`;
+      await deleteS3Objects(folder);
+      console.log({ message: "Images deleted successfully from S3" });
+    }
 
     return res.status(500).json({ message: "작품 업로드 요청 실패" });
   }
@@ -274,17 +264,9 @@ app.use("/api/getArtwork", getArtwork);
 //################ 제품 ##################//
 //** 제품 등록하기 */
 app.post("/api/postProduct", async (req: Request, res: Response) => {
+  const productData = req.body;
+
   try {
-    const productData = req.body;
-
-    if (!productData.mainImage) {
-      const folder = `${productData.name}/`;
-      await deleteS3Objects(folder);
-      return res
-        .status(200)
-        .json({ message: "Images deleted successfully from S3" });
-    }
-
     const uploadedImageUrls = productData.productImages;
 
     const newProduct = await prisma.product.create({
@@ -321,6 +303,14 @@ app.post("/api/postProduct", async (req: Request, res: Response) => {
     }
     return res.status(201).json(newProduct);
   } catch (error) {
+    console.error(error);
+    if (productData && productData.name) {
+      {
+        const folder = `${productData.name}/`;
+        await deleteS3Objects(folder);
+        console.log({ message: "Images deleted successfully from S3" });
+      }
+    }
     return res.status(500).json({ message: "Server Error" });
   }
 });

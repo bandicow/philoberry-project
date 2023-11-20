@@ -36,7 +36,7 @@ router.get("/:name", async (req, res) => {
 
         try {
           presignedUrl = await getSignedUrl(s3Client, command, {
-            expiresIn: 3600 * 24,
+            expiresIn: 3600,
           });
         } catch (err) {
           console.log("Error creating presigned URL", err);

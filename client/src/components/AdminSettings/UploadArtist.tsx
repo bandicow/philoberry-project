@@ -1,6 +1,6 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import { Artist } from "@prisma/client";
+import { Artist } from "@/prismaType";
 import DragAndDropUploader from "../ImageUploader/DragAndDrop";
 import { InputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
@@ -9,6 +9,13 @@ import SlideUpMessage from "../UI/Alert/Slideup";
 import { useNotification } from "@/src/hooks/useNotification";
 
 type NewArtist = Omit<Artist, "artist_id">;
+type InputField = {
+  label: string;
+  id: string;
+  value: string | number;
+  type: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+};
 
 export const UploadArtist = () => {
   const [image, setImage] = useState<File | null>(null);
@@ -57,6 +64,37 @@ export const UploadArtist = () => {
     }
   };
 
+  const inputFields: InputField[] = [
+    {
+      label: "작가명",
+      id: "name",
+      value: name,
+      type: "text",
+      setValue: setName,
+    },
+    {
+      label: "전공",
+      id: "major",
+      value: major,
+      type: "text",
+      setValue: setMajor,
+    },
+    {
+      label: "작가설명",
+      id: "profile",
+      value: profile,
+      type: "text",
+      setValue: setProfile,
+    },
+    {
+      label: "작가 인스타",
+      id: "url",
+      value: siteUrl,
+      type: "url",
+      setValue: setSiteUrl,
+    },
+  ];
+
   return (
     <div className={`w-full h-full center ${shake ? "animate-shake" : ""}`}>
       <h1 className="mt-10 text-xl font-bold">작가 등록</h1>
@@ -69,38 +107,23 @@ export const UploadArtist = () => {
             />
           </div>
           <div className="w-5/6 m-5">
-            <InputField
-              label="작가명"
-              id="name"
-              value={name}
-              type="text"
-              required={true}
-              setValue={setName}
-            />
-            <InputField
-              label="전공"
-              id="major"
-              value={major}
-              type="text"
-              required={true}
-              setValue={setMajor}
-            />
-            <InputField
-              label="작가설명"
-              id="profile"
-              value={profile}
-              type="text"
-              required={true}
-              setValue={setProfile}
-            />
-            <InputField
-              label="작가 인스타"
-              id="url"
-              value={siteUrl}
-              type="url"
-              required={true}
-              setValue={setSiteUrl}
-            />
+            {inputFields.map((field) => {
+              return (
+                <InputField
+                  key={field.id}
+                  label={field.label}
+                  id={field.id}
+                  value={field.value}
+                  type={field.type}
+                  required={true}
+                  onChange={(value) => {
+                    if (typeof value === "string") {
+                      field.setValue(value);
+                    }
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
         <div className="h-10 mt-10 w-30">

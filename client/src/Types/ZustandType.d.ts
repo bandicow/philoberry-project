@@ -7,6 +7,7 @@ type ProductState = {
     value: NewProduct[keyof NewProduct]
   ) => void;
   setImages: (images: string[]) => void;
+  resetProductData: () => void;
 };
 
 export type ProductDataKey = keyof NewProduct;

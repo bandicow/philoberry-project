@@ -1,13 +1,13 @@
 import React from "react";
 import Products from "./Products";
-import { Product } from "@prisma/client";
+import { Product } from "@/prismaType";
 
 interface SaleProps {
   items: Product[];
 }
 const ProductList = ({ items }: SaleProps) => {
   return (
-    <ol className="grid grid-cols-1 m-0 tablet:grid-cols-2 desktop:grid-cols-3">
+    <ol className="grid grid-cols-1 m-0 tablet:grid-cols-2 tabletLandscape:grid-cols-3">
       {items &&
         items.map(
           (

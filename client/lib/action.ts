@@ -1,5 +1,5 @@
 import { NewProduct } from "@/src/Types/Product";
-import { Artist, Artwork, PickArtist, Product } from "@prisma/client";
+import { Artist, Artwork, PickArtist, Product } from "@/prismaType";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -55,6 +55,12 @@ export async function setBackgroundColor(data: { backgroundColor: string }) {
 }
 
 //########################## 작품 ##########################
+//** url 만료 확인 */
+async function isUrlExpired(url: string) {
+  const response = await fetch(url, { method: "HEAD" }); // HEAD request to get only the headers
+  return response.status === 403; // Change this to the status code that your server returns for expired URLs
+}
+
 //** 작품 업로드를 위해 작가정보 가져오기 */ OK
 export const getArtist = async () => {
   if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
@@ -75,17 +81,13 @@ export const getArtist = async () => {
   }
 };
 
-//** url 만료 확인 */
-async function isUrlExpired(url: string) {
-  const response = await fetch(url, { method: "HEAD" }); // HEAD request to get only the headers
-  return response.status === 403; // Change this to the status code that your server returns for expired URLs
-}
-
 //** 작품 가져오기*/ OK
 export async function getArtworks() {
   try {
     let name = await getTodayArtist();
-    if (!name) return [];
+    if (!name) {
+      throw new Error("작가를 먼저 선택해주세요");
+    }
 
     let response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
 
@@ -98,15 +100,14 @@ export async function getArtworks() {
     // Check if any URL is expired
     for (const artwork of data) {
       if (await isUrlExpired(artwork.s3key)) {
-        // If expired, request a new URL
         response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         data = await response.json();
-        break;
       }
     }
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -195,22 +196,26 @@ export async function postTodayArtist(artist: PickArtist) {
 
 //########################## 제품 ##########################
 //** 제품 등록하기 */ OK
-export async function addProductHandler(productData: NewProduct) {
-  if (process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false") {
-    try {
-      const response = await fetch(`${serverUrl}/api/postProducts`, {
-        method: "POST",
-        body: JSON.stringify(productData),
-        headers: { "Content-Type": "application/json" },
-      });
+export async function uploadProduct(productData: NewProduct) {
+  try {
+    const convertedProductData = {
+      ...productData,
+      price: Number(productData.price),
+      stock: Number(productData.stock),
+    };
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (error) {
-      console.log(error);
-      throw error;
+    const response = await fetch(`${serverUrl}/api/postProduct`, {
+      method: "POST",
+      body: JSON.stringify(convertedProductData),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }
 

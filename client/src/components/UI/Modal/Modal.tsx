@@ -1,7 +1,7 @@
 "use client";
 import Card from "../Card/GalleryCard";
 import React, { FormEvent, useState } from "react";
-import { Artwork } from "@prisma/client";
+import { Artwork } from "@/prismaType";
 import Button from "../Button/SubmitButton";
 import { ArtistInfo } from "../../../Types/Art";
 import { InputField } from "../Input/InputField";
@@ -163,7 +163,7 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
                       value={item.title}
                       type="text"
                       required={true}
-                      setValue={(value: string) =>
+                      onChange={(value: string) =>
                         handleInputChange(index)({
                           target: { keyname: "title", value },
                         })
@@ -175,7 +175,7 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
                       value={item.createdAt as number}
                       type="number"
                       required={true}
-                      setNumberValue={(value: number) =>
+                      onChange={(value: number) =>
                         handleInputChange(index)({
                           target: { keyname: "createdAt", value },
                         })
@@ -187,7 +187,7 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
                       value={item.material ? item.material : ""}
                       type="text"
                       required={true}
-                      setValue={(value: string) =>
+                      onChange={(value: string) =>
                         handleInputChange(index)({
                           target: { keyname: "material", value },
                         })
@@ -199,7 +199,7 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
                       value={item.size ? item.size : ""}
                       type="text"
                       required={true}
-                      setValue={(value: string) =>
+                      onChange={(value: string) =>
                         handleInputChange(index)({
                           target: { keyname: "size", value },
                         })
@@ -211,7 +211,7 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
                       value={item.price ? item.price : 0}
                       type="number"
                       required={true}
-                      setNumberValue={(value: number) =>
+                      onChange={(value: number) =>
                         handleInputChange(index)({
                           target: { keyname: "price", value },
                         })
@@ -223,7 +223,7 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
                       value={item.description ? item.description : ""}
                       type="text"
                       required={true}
-                      setValue={(value: string) =>
+                      onChange={(value: string) =>
                         handleInputChange(index)({
                           target: { keyname: "description", value },
                         })

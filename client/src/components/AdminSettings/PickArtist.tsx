@@ -3,7 +3,7 @@
 import React, { FormEvent, useState } from "react";
 import Select from "react-select";
 import Button from "../UI/Button/SubmitButton";
-import { PickArtist } from "@prisma/client";
+import { PickArtist } from "@/prismaType";
 import { postTodayArtist } from "@/lib/action";
 import { getArtistProps } from "@/src/Types/Art";
 import SlideUpMessage from "../UI/Alert/Slideup";

@@ -32,8 +32,7 @@ module.exports = {
         mobileLandscape: "640px",
         tablet: "768px",
         tabletLandscape: "1024px",
-        desktop: "1024px",
-        desktopLarge: "1440px",
+        desktop: "1440px",
       },
 
       scale: {

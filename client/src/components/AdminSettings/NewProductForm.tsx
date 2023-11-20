@@ -5,11 +5,26 @@ import DragAndDropUploader from "../ImageUploader/MultiDragAndDrop";
 import { NewProduct } from "../../Types/Product";
 import { InputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
-import { addProductHandler, handleMultipleUploads } from "@/lib/action";
-import { useProductStore } from "@/utils/productStore";
+import { uploadProduct, handleMultipleUploads } from "@/lib/action";
+import { useProductStore } from "@/utils/store/productStore";
+import SlideUpMessage from "../UI/Alert/Slideup";
+import { useNotification } from "@/src/hooks/useNotification";
+
+type InputField = {
+  label: string;
+  id: keyof Omit<NewProduct, "productImages" | "mainImage">;
+  type: string;
+};
 
 function NewProductForm() {
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const {
+    shake,
+    showFailureMessage,
+    showSuccessMessage,
+    startFailureNotification,
+    startSuccessNotification,
+  } = useNotification();
 
   const store = useProductStore(); // store 사용
 
@@ -24,23 +39,23 @@ function NewProductForm() {
         store.productData.name
       );
       // 여기서 모든 파일들이 올라갔으며 uploadedImageKeys 도 갱신된 상태입니다.
+      //Promise 이므로 await해야 에러 걸러냄
+      await uploadProduct({
+        ...store.productData,
+        mainImage: keys && keys.length > 0 ? keys[0] : null,
+        productImages: keys,
+      });
+      startSuccessNotification();
+      store.resetProductData();
+      setUploadedImages([]);
     } catch (error) {
-      alert("이미지 업로드 실패");
+      startFailureNotification();
+
       return ""; // 에러 발생 시 여기서 종료
     }
-
-    addProductHandler({
-      ...store.productData,
-      mainImage: keys && keys.length > 0 ? keys[0] : null,
-      productImages: keys,
-    });
   }
 
-  const inputFields: {
-    label: string;
-    id: keyof Omit<NewProduct, "productImages" | "mainImage">;
-    type: string;
-  }[] = [
+  const inputFields: InputField[] = [
     { label: "제품명", id: "name", type: "text" },
     { label: "분류", id: "category", type: "text" },
     { label: "가격", id: "price", type: "number" },
@@ -55,10 +70,13 @@ function NewProductForm() {
   ];
 
   return (
-    <div className="w-5/6 center">
+    <div className={`w-5/6 center ${shake ? "animate-shake" : ""}`}>
       <h1 className="mt-10 text-xl font-bold">제품 등록</h1>
-      <form className="flex-col w-full p-5 rounded-md" onSubmit={submitHandler}>
-        <div>
+      <form
+        className="mb-10 flex-col w-full p-5 rounded-md"
+        onSubmit={submitHandler}
+      >
+        <div className="mb-5">
           <DragAndDropUploader
             setUploadedImages={setUploadedImages}
             uploadedImages={uploadedImages}
@@ -82,6 +100,15 @@ function NewProductForm() {
 
         <Button goal="제품 추가하기" />
       </form>
+      <SlideUpMessage
+        message="제품을 추가하였습니다."
+        show={showSuccessMessage}
+      />
+      <SlideUpMessage
+        message="제품 추가에 실패하였습니다."
+        show={showFailureMessage}
+        fail={true}
+      />
     </div>
   );
 }

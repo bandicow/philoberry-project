@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,9 +17,6 @@ const DragAndDropUploader = ({
   setUploadedImages,
   uploadedImages,
 }: DragAndDropUploaderProps) => {
-  //올린 이미지들
-  // const [uploadedImages, setUploadedImages] = useState<File[]>([]);
-
   // 의존성이 변치 않은 한 재사용으로 성능향상
   // 추가적으로 파일이 이미지 파일만 가능하게 변경
   const onDrop = useCallback(
@@ -60,6 +57,20 @@ const DragAndDropUploader = ({
     }
   };
 
+  const imageURLs: string[] = useMemo(() => {
+    return uploadedImages
+      ? uploadedImages.map((image) => URL.createObjectURL(image))
+      : [];
+  }, [uploadedImages]);
+
+  useEffect(() => {
+    // 컴포넌트가 언마운트되거나 imageURLs가 변경될 때
+    // 이전 URL을 해제합니다.
+    return () => {
+      imageURLs.forEach(URL.revokeObjectURL);
+    };
+  }, [imageURLs]);
+
   return (
     <div className="w-full h-full">
       <div
@@ -79,22 +90,24 @@ const DragAndDropUploader = ({
         {uploadedImages.length > 0 && (
           <div className="flex flex-col w-full">
             <h3 className="">내가 선택한 이미지 : </h3>
-            {uploadedImages.map((imageFile, index) => (
+            {imageURLs.map((url, index) => (
               <div key={index} className="flex justify-between w-full">
                 <div
                   className="flex p-1"
                   onClick={(event) => event.stopPropagation()}
                 >
                   <Image
-                    src={URL.createObjectURL(imageFile)}
+                    src={url}
                     alt={`Preview ${index}`}
                     onClick={() => upLoadedImageRemover(index)}
                     width={30}
                     height={30}
                   />
-                  <p>{imageFile.name}</p>
+                  <p>{uploadedImages[index].name}</p>
                 </div>
-                <p className="pt-1">{formAtBytes(imageFile.size)}</p>
+                <p className="pt-1">
+                  {formAtBytes(uploadedImages[index].size)}
+                </p>
               </div>
             ))}
           </div>

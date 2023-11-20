@@ -3,22 +3,24 @@ import { ProductDataValue, ProductState } from "@/src/Types/ZustandType";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
+const initialState: NewProduct = {
+  name: "",
+  category: "",
+  price: 0,
+  material: "",
+  color: "",
+  size: "",
+  details: "",
+  precautions: "",
+  seller: "",
+  url: "",
+  stock: 0,
+  mainImage: null,
+  productImages: [],
+};
+
 const store = immer<ProductState>((set) => ({
-  productData: {
-    name: "",
-    category: "",
-    price: 0,
-    material: "",
-    color: "",
-    size: "",
-    details: "",
-    precautions: "",
-    seller: "",
-    url: "",
-    stock: 0,
-    mainImage: null,
-    productImages: [],
-  },
+  productData: initialState,
   setProductData: <ProductDataKey extends keyof NewProduct>(
     key: ProductDataKey,
     value: ProductDataValue
@@ -33,6 +35,7 @@ const store = immer<ProductState>((set) => ({
       state.productData.productImages = images;
       return state;
     }),
+  resetProductData: () => set(() => ({ productData: initialState })),
 }));
 
 export const useProductStore = create(store);

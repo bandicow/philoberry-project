@@ -1,4 +1,4 @@
-import { Artist } from "@prisma/client";
+import { Artist } from "@/prismaType";
 
 export type ISODateString = string;
 export interface DefaultSession {

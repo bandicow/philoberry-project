@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "@prisma/client";
+import { Product } from "@/prismaType";
 import { getProducts } from "../../lib/action";
 import ProductList from "@/src/components/products/ProductList";
 

@@ -1,6 +1,5 @@
 "use client";
 import { ChangeEvent } from "react";
-import { useEffect } from "react";
 
 interface InputFieldProps {
   label: string;
@@ -23,13 +22,9 @@ export function InputField({
   disabled = false,
   required = true,
 }: InputFieldProps) {
-  useEffect(() => {}, [id, value]);
-
+  // 0을 위해 일단 string으로 하고 api에서 number로 바꿔줌
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // 입력 타입이 number인 경우에만 string을 number로 변환
-    type === "number"
-      ? onChange(Number(e.target.value))
-      : onChange(e.target.value);
+    onChange(e.target.value);
   };
 
   return (
@@ -38,7 +33,7 @@ export function InputField({
         {label}
       </label>
       <input
-        min="0"
+        {...(type === "number" ? { min: "0" } : {})}
         disabled={disabled}
         type={type}
         placeholder={placeholder}
@@ -46,7 +41,7 @@ export function InputField({
         id={id}
         value={value}
         onChange={handleChange}
-        className="w-4/5 border rounded px-1 py-0.5 border-gray-300 focus:border-gray-700"
+        className="w-4/5 tabletLandscape:w-full border rounded px-1 py-0.5 border-gray-300 focus:border-gray-700"
       />
     </div>
   );
