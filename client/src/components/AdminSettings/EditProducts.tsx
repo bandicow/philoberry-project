@@ -11,7 +11,6 @@ import SlideUpMessage from "../UI/Alert/Slideup";
 type InputField = {
   label: string;
   id: keyof ProductInfo;
-
   type: string;
   required: boolean;
   disabled?: boolean;

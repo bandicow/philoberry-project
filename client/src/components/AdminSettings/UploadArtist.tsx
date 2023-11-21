@@ -1,28 +1,23 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import { Artist } from "@prisma/client";
-import DragAndDropUploader from "../ImageUploader/DragAndDrop";
+import DragAndDropUploader from "../ImageUploader/MultiFormDragandDrop";
 import { InputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
 import { artistUploadHandler, handleUpload } from "@/lib/action";
 import SlideUpMessage from "../UI/Alert/Slideup";
 import { useNotification } from "@/src/hooks/useNotification";
+import { useArtistStore } from "@/utils/store/artistStore";
+import { NewArtist } from "@/src/Types/ZustandType";
 
-type NewArtist = Omit<Artist, "artist_id">;
 type InputField = {
   label: string;
-  id: string;
-  value: string | number;
+  id: keyof NewArtist;
   type: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const UploadArtist = () => {
   const [image, setImage] = useState<File | null>(null);
-  const [name, setName] = useState("");
-  const [major, setMajor] = useState("");
-  const [profile, setProfile] = useState("");
-  const [siteUrl, setSiteUrl] = useState("");
+  const { ArtistData, setArtist } = useArtistStore();
   const {
     shake,
     showFailureMessage,
@@ -35,63 +30,60 @@ export const UploadArtist = () => {
     event.preventDefault();
 
     let key: string = "";
-    if (image) {
+
+    if (image && ArtistData.name) {
       try {
-        key = await handleUpload(image, name);
+        key = await handleUpload(image, ArtistData.name);
       } catch (error) {
         alert("이미지 업로드 실패");
-        return ""; // 에러 발생 시 여기서 종료
+        return "";
       }
     }
 
-    const artistData: NewArtist = {
-      name: name,
-      major: major,
-      artist_image: key,
-      profile: profile,
-      website_url: siteUrl,
-    };
-    try {
-      await artistUploadHandler(artistData);
-      startSuccessNotification();
-      setName("");
-      setMajor("");
-      setProfile("");
-      setSiteUrl("");
-      setImage(null);
-    } catch (error) {
-      startFailureNotification();
+    if (ArtistData) {
+      const artistData = {
+        ...ArtistData,
+        name: ArtistData.name || "",
+        major: ArtistData.major || "",
+        profile: ArtistData.profile || "",
+        website_url: ArtistData.website_url || "",
+        artist_image: key,
+      };
+
+      try {
+        await artistUploadHandler(artistData);
+        startSuccessNotification();
+        setArtist("name", "");
+        setArtist("major", "");
+        setArtist("profile", "");
+        setArtist("website_url", "");
+        setArtist("artist_image", null);
+        setImage(null);
+      } catch (error) {
+        startFailureNotification();
+      }
     }
   };
-
   const inputFields: InputField[] = [
     {
       label: "작가명",
       id: "name",
-      value: name,
       type: "text",
-      setValue: setName,
     },
     {
       label: "전공",
       id: "major",
-      value: major,
       type: "text",
-      setValue: setMajor,
     },
     {
       label: "작가설명",
       id: "profile",
-      value: profile,
       type: "text",
-      setValue: setProfile,
     },
     {
       label: "작가 인스타",
-      id: "url",
-      value: siteUrl,
+      id: "website_url",
       type: "url",
-      setValue: setSiteUrl,
     },
   ];
 
@@ -113,12 +105,15 @@ export const UploadArtist = () => {
                   key={field.id}
                   label={field.label}
                   id={field.id}
-                  value={field.value}
+                  value={ArtistData[field.id] || ""}
                   type={field.type}
                   required={true}
                   onChange={(value) => {
-                    if (typeof value === "string") {
-                      field.setValue(value);
+                    if (
+                      typeof value === "string" ||
+                      typeof value === "number"
+                    ) {
+                      setArtist(field.id, value);
                     }
                   }}
                 />

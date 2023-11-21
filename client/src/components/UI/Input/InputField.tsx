@@ -41,7 +41,7 @@ export function InputField({
         id={id}
         value={value}
         onChange={handleChange}
-        className="w-4/5 tabletLandscape:w-full border rounded px-1 py-0.5 border-gray-300 focus:border-gray-700"
+        className="w-4/5 tabletLandscape:w-full border rounded px-1 py-0.5 border-gray-300 bg-gray-100 focus:bg-gray-300 focus:border-gray-500"
       />
     </div>
   );
