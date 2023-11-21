@@ -117,9 +117,16 @@ export async function getArtworks() {
 //** 작품 등록하기 */ OK
 export async function postArtwork(artwork: UploadArtwork) {
   try {
+    const convertedArtworkData = {
+      ...artwork,
+      order: Number(artwork.order),
+      price: Number(artwork.price),
+      createdAt: Number(artwork.createdAt),
+    };
+
     const response = await fetch(`${serverUrl}/api/postArtwork`, {
       method: "POST",
-      body: JSON.stringify(artwork),
+      body: JSON.stringify(convertedArtworkData),
       headers: { "Content-Type": "application/json" },
     });
 

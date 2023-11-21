@@ -83,6 +83,9 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
       }
 
       startSuccessNotification();
+      setTimeout(() => {
+        closeModal();
+      }, 3000);
     } catch (error) {
       startFailureNotification();
     }
