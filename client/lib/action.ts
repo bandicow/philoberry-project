@@ -1,5 +1,5 @@
 import { NewProduct } from "@/src/Types/Product";
-import { Artist, Artwork, PickArtist, Product } from "@/prismaType";
+import { Artist, Artwork, PickArtist, Product } from "/@prisma/client";
 
 const isProduction = process.env.NODE_ENV === "production";
 

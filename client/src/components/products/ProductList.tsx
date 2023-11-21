@@ -1,6 +1,6 @@
 import React from "react";
 import Products from "./Products";
-import { Product } from "@/prismaType";
+import { Product } from "/@prisma/client";
 
 interface SaleProps {
   items: Product[];

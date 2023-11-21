@@ -1,7 +1,7 @@
 import React from "react";
 import SaleItemCard from "../UI/Card/Card";
 import Image from "next/image";
-import { Product } from "@/prismaType";
+import { Product } from "/@prisma/client";
 
 interface SaleItemProps {
   item: Product;

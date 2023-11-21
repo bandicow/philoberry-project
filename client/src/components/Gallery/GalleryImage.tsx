@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Card from "../UI/Card/GalleryCard";
 import GalleryModal from "../UI/Modal/GalleryModal";
-import { Artwork } from "@/prismaType";
+import { Artwork } from "/@prisma/client";
 import { useModal } from "../../hooks/useModal"; // Import the hook
 
 const GalleryImage = (props: Artwork) => {
