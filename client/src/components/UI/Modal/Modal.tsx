@@ -1,7 +1,7 @@
 "use client";
 import Card from "../Card/GalleryCard";
 import React, { FormEvent, useState } from "react";
-import { Artwork } from "/@prisma/client";
+import { Artwork } from "@prisma/client";
 import Button from "../Button/SubmitButton";
 import { ArtistInfo } from "../../../Types/Art";
 import { InputField } from "../Input/InputField";

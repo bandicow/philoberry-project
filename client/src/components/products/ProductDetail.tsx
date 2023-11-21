@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Product } from "/@prisma/client";
+import { Product } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getProductDetail } from "../../../lib/action";

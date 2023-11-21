@@ -1,4 +1,4 @@
-import { Product, ProductImage } from "/@prisma/client";
+import { Product, ProductImage } from "@prisma/client";
 
 export interface ProductData {
   id?: number;

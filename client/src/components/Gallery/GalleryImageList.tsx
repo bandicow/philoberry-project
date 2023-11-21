@@ -1,6 +1,6 @@
 import React from "react";
 import GalleryImage from "./GalleryImage";
-import { Artwork } from "/@prisma/client";
+import { Artwork } from "@prisma/client";
 import { getArtworks } from "../../../lib/action";
 import Loading from "@/app/loading";
 

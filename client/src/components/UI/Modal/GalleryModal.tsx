@@ -4,7 +4,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Image from "next/image";
-import { Artwork } from "/@prisma/client";
+import { Artwork } from "@prisma/client";
 import { useFullScreen } from "@/src/hooks/useFullScreen";
 import {
   faMagnifyingGlassPlus,
