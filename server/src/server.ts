@@ -53,7 +53,7 @@ app.get("/healthcheck", async (req: Request, res: Response) => {
 
 //################## s3 이미지 업로드 ###################//
 //** s3 이미지 업로드 */
-app.post("/api/postS3Image", async (req: Request, res: Response) => {
+app.post("/express/postS3Image", async (req: Request, res: Response) => {
   try {
     const productImage = req.body;
     const file = productImage.file;
@@ -110,7 +110,7 @@ const deleteS3Objects = async (folder: string) => {
 
 //################## 배경색 ##################//
 //** 배경색 설정하기 */
-app.post("/api/setBackgroundColor", async (req: Request, res: Response) => {
+app.post("/express/setBackgroundColor", async (req: Request, res: Response) => {
   const { backgroundColor }: Setting = req.body;
 
   try {
@@ -130,7 +130,7 @@ app.post("/api/setBackgroundColor", async (req: Request, res: Response) => {
 });
 
 //** 배경색 가져오기 */
-app.get("/api/getBackgroundColor", async (req: Request, res: Response) => {
+app.get("/express/getBackgroundColor", async (req: Request, res: Response) => {
   try {
     const bgColor = await prisma.setting.findFirst();
     if (bgColor) {
@@ -146,7 +146,7 @@ app.get("/api/getBackgroundColor", async (req: Request, res: Response) => {
 
 //#################### 작가 ####################//
 //** 모든 작가 정보 가져오기 */
-app.get("/api/getArtist", async (req: Request, res: Response) => {
+app.get("/express/getArtist", async (req: Request, res: Response) => {
   try {
     const artistInfo = await prisma.artist.findMany({
       select: {
@@ -162,7 +162,7 @@ app.get("/api/getArtist", async (req: Request, res: Response) => {
 });
 
 //** 콜라보 작가 이름 가져오기 */
-app.get("/api/getTodayArtist", async (req: Request, res: Response) => {
+app.get("/express/getTodayArtist", async (req: Request, res: Response) => {
   try {
     const todayArtist = await prisma.pickArtist.findFirst();
     if (todayArtist) {
@@ -177,7 +177,7 @@ app.get("/api/getTodayArtist", async (req: Request, res: Response) => {
 });
 
 //** 작가 등록하기 */
-app.post("/api/postArtist", async (req: Request, res: Response) => {
+app.post("/express/postArtist", async (req: Request, res: Response) => {
   const artistData = req.body;
   try {
     // S3 이미지 업로드 후 Key받아오기(null 일때 s3 막 업로드된거 delete, create X)
@@ -204,7 +204,7 @@ app.post("/api/postArtist", async (req: Request, res: Response) => {
 });
 
 //** 작가 선택하기 */
-app.post("/api/postPickArtist", async (req: Request, res: Response) => {
+app.post("/express/postPickArtist", async (req: Request, res: Response) => {
   try {
     const { artist_name } = req.body;
 
@@ -227,7 +227,7 @@ app.post("/api/postPickArtist", async (req: Request, res: Response) => {
 //################# 작품 ###################//
 
 //** 작품 등록하기 */
-app.post("/api/postArtwork", async (req: Request, res: Response) => {
+app.post("/express/postArtwork", async (req: Request, res: Response) => {
   const artworkData = req.body;
   try {
     const artworkInfo = await prisma.artwork.create({
@@ -259,11 +259,11 @@ app.post("/api/postArtwork", async (req: Request, res: Response) => {
 });
 
 //** 작품 불러오기*/
-app.use("/api/getArtwork", getArtwork);
+app.use("/express/getArtwork", getArtwork);
 
 //################ 제품 ##################//
 //** 제품 등록하기 */
-app.post("/api/postProduct", async (req: Request, res: Response) => {
+app.post("/express/postProduct", async (req: Request, res: Response) => {
   const productData = req.body;
 
   try {
@@ -316,10 +316,10 @@ app.post("/api/postProduct", async (req: Request, res: Response) => {
 });
 
 //** 제품 상세 정보 가져오기 router (하나의 제품)*/
-app.use("/api/getProductDetail", getProductDetail);
+app.use("/express/getProductDetail", getProductDetail);
 
 //** 모든 제품 정보 가져오기 */
-app.get("/api/getProducts", async (req: Request, res: Response) => {
+app.get("/express/getProducts", async (req: Request, res: Response) => {
   try {
     const allProducts = await prisma.product.findMany();
 
@@ -357,7 +357,7 @@ app.get("/api/getProducts", async (req: Request, res: Response) => {
 });
 
 //** 제품 수정하기을 위한 제품 정보 가져오기 */
-app.get("/api/getEditProduct", async (req: Request, res: Response) => {
+app.get("/express/getEditProduct", async (req: Request, res: Response) => {
   try {
     const productsName = await prisma.product.findMany({
       select: {
@@ -380,7 +380,7 @@ app.get("/api/getEditProduct", async (req: Request, res: Response) => {
 });
 
 //** 제품 수정하기 */
-app.post("/api/postEditProduct", async (req: Request, res: Response) => {
+app.post("/express/postEditProduct", async (req: Request, res: Response) => {
   try {
     const productEditData = req.body;
 
@@ -410,7 +410,7 @@ app.post("/api/postEditProduct", async (req: Request, res: Response) => {
 
 //################## 계정 ##################//
 //** admin 계정 확인 */ 임시
-app.post("/api/checkIsAdmin", async (req: Request, res: Response) => {
+app.post("/express/checkIsAdmin", async (req: Request, res: Response) => {
   try {
     const email =
       typeof req.query.email === "string" ? req.query.email : undefined;

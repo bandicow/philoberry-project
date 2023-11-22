@@ -18,7 +18,7 @@ type NewArtist = Omit<Artist, "artist_id">;
 //** 배경색 가져오기 */ OK
 export const getBackgroundColor = async () => {
   try {
-    const response = await fetch(`${serverUrl}/api/getBackgroundColor`);
+    const response = await fetch(`${serverUrl}/express/getBackgroundColor`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -33,7 +33,7 @@ export const getBackgroundColor = async () => {
 //** 배경색 설정하기 */ OK
 export async function setBackgroundColor(data: { backgroundColor: string }) {
   try {
-    const response = await fetch(`${serverUrl}/api/setBackgroundColor`, {
+    const response = await fetch(`${serverUrl}/express/setBackgroundColor`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" },
@@ -62,7 +62,7 @@ async function isUrlExpired(url: string) {
 //** 작품 업로드를 위해 작가정보 가져오기 */ OK
 export const getArtist = async () => {
   try {
-    const response = await fetch(`${serverUrl}/api/getArtist`);
+    const response = await fetch(`${serverUrl}/express/getArtist`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -85,7 +85,7 @@ export async function getArtworks() {
       throw new Error("작가를 먼저 선택해주세요");
     }
 
-    let response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
+    let response = await fetch(`${serverUrl}/express/getArtwork/${name}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -96,7 +96,7 @@ export async function getArtworks() {
     // Check if any URL is expired
     for (const artwork of data) {
       if (await isUrlExpired(artwork.s3key)) {
-        response = await fetch(`${serverUrl}/api/getArtwork/${name}`);
+        response = await fetch(`${serverUrl}/express/getArtwork/${name}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -120,7 +120,7 @@ export async function postArtwork(artwork: UploadArtwork) {
       createdAt: Number(artwork.createdAt),
     };
 
-    const response = await fetch(`${serverUrl}/api/postArtwork`, {
+    const response = await fetch(`${serverUrl}/express/postArtwork`, {
       method: "POST",
       body: JSON.stringify(convertedArtworkData),
       headers: { "Content-Type": "application/json" },
@@ -142,7 +142,7 @@ export async function postArtwork(artwork: UploadArtwork) {
 //** 작가 이름 가져오기*/ OK
 export const getTodayArtist = async () => {
   try {
-    const response = await fetch(`${serverUrl}/api/getTodayArtist`);
+    const response = await fetch(`${serverUrl}/express/getTodayArtist`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -160,7 +160,7 @@ export const getTodayArtist = async () => {
 //** 작가 등록하기 */ OK
 export async function artistUploadHandler(artistData: NewArtist) {
   try {
-    const response = await fetch(`${serverUrl}/api/postArtist`, {
+    const response = await fetch(`${serverUrl}/express/postArtist`, {
       method: "POST",
       body: JSON.stringify(artistData),
       headers: { "Content-Type": "application/json" },
@@ -178,7 +178,7 @@ export async function artistUploadHandler(artistData: NewArtist) {
 // 작가 선택하기 post로 todayArtist 변경 OK
 export async function postTodayArtist(artist: PickArtist) {
   try {
-    const response = await fetch(`${serverUrl}/api/postPickArtist`, {
+    const response = await fetch(`${serverUrl}/express/postPickArtist`, {
       method: "POST",
       body: JSON.stringify(artist),
       headers: { "Content-Type": "application/json" },
@@ -207,7 +207,7 @@ export async function uploadProduct(productData: NewProduct) {
       stock: Number(productData.stock),
     };
 
-    const response = await fetch(`${serverUrl}/api/postProduct`, {
+    const response = await fetch(`${serverUrl}/express/postProduct`, {
       method: "POST",
       body: JSON.stringify(convertedProductData),
       headers: { "Content-Type": "application/json" },
@@ -227,7 +227,7 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 //**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
   try {
-    const response = await fetch(`${serverUrl}/api/getProducts`);
+    const response = await fetch(`${serverUrl}/express/getProducts`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -245,7 +245,7 @@ export const getProducts = async () => {
 //** 제품 상세 정보하기 (하나의 제품)*/ OK
 export const getProductDetail = async (id: number) => {
   try {
-    const response = await fetch(`${serverUrl}/api/getProductDetail/${id}`);
+    const response = await fetch(`${serverUrl}/express/getProductDetail/${id}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -263,7 +263,7 @@ export const getProductDetail = async (id: number) => {
 //** 제품 수정을 위한 정보 가져오기*/ OK
 export const getProduct = async () => {
   try {
-    const response = await fetch(`${serverUrl}/api/getEditProduct`);
+    const response = await fetch(`${serverUrl}/express/getEditProduct`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -286,7 +286,7 @@ export const postEditProduct = async (editData: ProductInfo) => {
   };
 
   try {
-    const response = await fetch(`${serverUrl}/api/postEditProduct`, {
+    const response = await fetch(`${serverUrl}/express/postEditProduct`, {
       method: "POST",
       body: JSON.stringify(dataToPost),
       headers: { "Content-Type": "application/json" },
@@ -308,7 +308,7 @@ export const postEditProduct = async (editData: ProductInfo) => {
 //**s3에 이미지 업로드 */ OK
 export async function handleUpload(file: File, name: string) {
   try {
-    const response = await fetch(`${serverUrl}/api/postS3Image`, {
+    const response = await fetch(`${serverUrl}/express/postS3Image`, {
       method: "POST",
       body: JSON.stringify({
         file: { name: file.name, type: file.type },
@@ -366,7 +366,7 @@ export async function handleMultipleUploads(
 // admin 계정확인 (임시) OK
 export async function checkIsAdmin(email: string) {
   try {
-    const response = await fetch(`${serverUrl}/api/checkIsAdmin`, {
+    const response = await fetch(`${serverUrl}/express/checkIsAdmin`, {
       method: "POST",
       body: JSON.stringify({ email }),
       headers: { "Content-Type": "application/json" },

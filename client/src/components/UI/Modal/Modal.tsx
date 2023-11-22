@@ -5,7 +5,7 @@ import { Artwork } from "@prisma/client";
 import Button from "../Button/SubmitButton";
 import { ArtistInfo } from "../../../Types/Art";
 import { InputField } from "../Input/InputField";
-import DragAndDropUploader from "../../ImageUploader/MultiFormDragandDrop";
+import DragAndDropUploader from "../../ImageUploader/soloDragandDrop";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { handleUpload, postArtwork } from "@/lib/action";

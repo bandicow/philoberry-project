@@ -1,6 +1,6 @@
 "use client";
 import React, { FormEvent, useState } from "react";
-import DragAndDropUploader from "../ImageUploader/MultiFormDragandDrop";
+import DragAndDropUploader from "../ImageUploader/soloDragandDrop";
 import { InputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
 import { artistUploadHandler, handleUpload } from "@/lib/action";

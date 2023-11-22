@@ -19,8 +19,11 @@ interface InfoProps {
 
 export default function ProductDetail() {
   const pathname = usePathname();
-  const splitPathname = pathname?.split("/");
-  const stringid = splitPathname?.slice(-1)[0];
+  // const splitPathname = pathname?.split("/");
+  // const stringid = splitPathname?.slice(-1)[0];
+
+  const stringid = pathname?.split("/")?.slice(-1)[0];
+
   let id = 0;
   if (typeof stringid !== "number" && stringid !== undefined) {
     id = parseInt(stringid);
@@ -72,7 +75,7 @@ export default function ProductDetail() {
             </div>
           ))}
       </div>
-      <div className="static tabletLandscape:fixed tabletLandscape:overflow-scroll tabletLandscape:w-5/12  tabletLandscape:right-0 tabletLandscape:top-0 w-full  bg-opacity-40 h-[90vh] tabletLandscape:h-[100vh] min-w-min">
+      <div className="hide-scrollbar static tabletLandscape:fixed tabletLandscape:overflow-scroll tabletLandscape:w-5/12  tabletLandscape:right-0 tabletLandscape:top-0 w-full  bg-opacity-40 h-[90vh] tabletLandscape:h-[100vh] min-w-min">
         <div className="flex-col p-5 m-5 text-left h-5/6">
           {DetailInfos.map((info, index) => (
             <DetailInfo key={index} {...info} />
