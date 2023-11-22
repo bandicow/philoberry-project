@@ -6,6 +6,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import Image from "next/image";
 import { Artwork } from "@prisma/client";
 import { useFullScreen } from "@/src/hooks/useFullScreen";
+import { useWindowSize } from "@/src/hooks/useWindowSize";
 import {
   faMagnifyingGlassPlus,
   faXmark,
@@ -27,6 +28,7 @@ interface InfoProps {
 
 const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
   const { isFullScreen, openFullScreen, closeFullScreen } = useFullScreen(); // Use the hook
+  const { width, height } = useWindowSize();
 
   const zoomInIcon: IconDefinition = faMagnifyingGlassPlus;
   const closeIcon: IconDefinition = faXmark;
@@ -41,9 +43,7 @@ const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
     <div
       style={{
         top:
-          window.innerWidth > window.innerHeight
-            ? `${window.scrollY}px`
-            : `${window.scrollY + 40}px`,
+          width > height ? `${window.scrollY}px` : `${window.scrollY + 40}px`,
         left: "50%",
         transform: "translate(-50%,-2%)",
       }}
@@ -51,7 +51,7 @@ const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
     >
       <Card>
         <div
-          className={`flex-col tabletLandscape:flex tabletLandscape:flex-row items-center p-2 text-black border test__body w-[85vw] h-[85vh] overflow-scroll tabletLandscape:overflow-hidden `}
+          className={`hide-scrollbar flex-col tabletLandscape:flex tabletLandscape:flex-row items-center p-2 text-black border test__body w-[85vw] h-[85vh] overflow-scroll tabletLandscape:overflow-hidden `}
         >
           <FontAwesomeIcon
             className="absolute z-10 scale-150 top-3 right-5"
