@@ -278,11 +278,17 @@ export const getProduct = async () => {
 };
 
 //**제품 수정을 위한 요청*/ OK
-export const editProduct = async (editData: ProductInfo) => {
+export const postEditProduct = async (editData: ProductInfo) => {
+  const dataToPost = {
+    ...editData,
+    price: Number(editData.price),
+    stock: Number(editData.stock),
+  };
+
   try {
     const response = await fetch(`${serverUrl}/api/postEditProduct`, {
       method: "POST",
-      body: JSON.stringify(editData),
+      body: JSON.stringify(dataToPost),
       headers: { "Content-Type": "application/json" },
     });
 

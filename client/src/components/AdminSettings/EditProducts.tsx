@@ -7,10 +7,12 @@ import { ProductInfo } from "@/src/Types/Product";
 import { useEditProductStore } from "@/utils/store/editproductStore";
 import { useNotification } from "@/src/hooks/useNotification";
 import SlideUpMessage from "../UI/Alert/Slideup";
+import { postEditProduct } from "@/lib/action";
 
 type InputField = {
   label: string;
   id: keyof ProductInfo;
+
   type: string;
   required: boolean;
   disabled?: boolean;
@@ -59,7 +61,7 @@ export const EditProducts = ({ productsInfo }: ProductInfoProps) => {
     };
 
     try {
-      setEditProduct(editData);
+      await postEditProduct(editData); // API 요청 추가
       setEditProduct(null);
       setSelectedOption(null);
       startSuccessNotification();
