@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 // app.use(
 //   cors({
-//     origin: process.env.NEXT_PUBLIC_SERVER_URL,
+//     origin: process.env.NEXTAUTH_URL,
 //   })
 // );
 app.use(express.json());

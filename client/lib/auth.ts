@@ -49,6 +49,9 @@ export const authConfig: NextAuthOptions = {
   ],
   debug: true,
   secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    error: "/api/error", // 커스텀 에러 페이지의 url
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
