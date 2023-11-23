@@ -7,6 +7,8 @@ const serverUrl = isProduction
   ? process.env.NEXT_PUBLIC_URL
   : process.env.NEXT_PUBLIC_EXPRESS_URL;
 
+const BUILDING = process.env.NEXT_PUBLIC_BUILDING_IMAGE;
+
 type ProductInfo = Pick<
   Product,
   "name" | "category" | "price" | "color" | "size" | "details" | "stock" | "id"
@@ -79,34 +81,36 @@ export const getArtist = async () => {
 
 //** 작품 가져오기*/ OK
 export async function getArtworks() {
-  try {
-    let name = await getTodayArtist();
-    if (!name) {
-      throw new Error("작가를 먼저 선택해주세요");
-    }
-
-    let response = await fetch(`${serverUrl}/express/getArtwork/${name}`);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    let data = await response.json();
-
-    // Check if any URL is expired
-    for (const artwork of data) {
-      if (await isUrlExpired(artwork.s3key)) {
-        response = await fetch(`${serverUrl}/express/getArtwork/${name}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        data = await response.json();
+  if (BUILDING !== "true") {
+    try {
+      let name = await getTodayArtist();
+      if (!name) {
+        throw new Error("작가를 먼저 선택해주세요");
       }
+
+      let response = await fetch(`${serverUrl}/express/getArtwork/${name}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let data = await response.json();
+
+      // Check if any URL is expired
+      for (const artwork of data) {
+        if (await isUrlExpired(artwork.s3key)) {
+          response = await fetch(`${serverUrl}/express/getArtwork/${name}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          data = await response.json();
+        }
+      }
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 }
 
@@ -141,19 +145,21 @@ export async function postArtwork(artwork: UploadArtwork) {
 //########################## 작가 ##########################
 //** 작가 이름 가져오기*/ OK
 export const getTodayArtist = async () => {
-  try {
-    const response = await fetch(`${serverUrl}/express/getTodayArtist`);
+  if (BUILDING !== "true") {
+    try {
+      const response = await fetch(`${serverUrl}/express/getTodayArtist`);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return data.artistName;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-
-    const data = await response.json();
-
-    return data.artistName;
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 };
 
@@ -226,54 +232,62 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 
 //**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
-  try {
-    const response = await fetch(`${serverUrl}/express/getProducts`);
+  if (BUILDING !== "true") {
+    try {
+      const response = await fetch(`${serverUrl}/express/getProducts`);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return { items: data };
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-
-    const data = await response.json();
-
-    return { items: data };
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 };
 
 //** 제품 상세 정보하기 (하나의 제품)*/ OK
 export const getProductDetail = async (id: number) => {
-  try {
-    const response = await fetch(`${serverUrl}/express/getProductDetail/${id}`);
+  if (BUILDING !== "true") {
+    try {
+      const response = await fetch(
+        `${serverUrl}/express/getProductDetail/${id}`
+      );
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 };
 
 //** 제품 수정을 위한 정보 가져오기*/ OK
 export const getProduct = async () => {
-  try {
-    const response = await fetch(`${serverUrl}/express/getEditProduct`);
+  if (BUILDING !== "true") {
+    try {
+      const response = await fetch(`${serverUrl}/express/getEditProduct`);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+
+      return { productsInfo: data };
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-    const data = await response.json();
-
-    return { productsInfo: data };
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 };
 
