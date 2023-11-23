@@ -10,17 +10,27 @@ type ModalProps = {
   isOpen: boolean;
   closeModal: () => void;
   imageInfo: Artwork;
+  openModalId: number;
 };
 
-const ModalWrapper = ({ isOpen, closeModal, imageInfo }: ModalProps) => {
-  return isOpen ? (
+const ModalWrapper = ({
+  isOpen,
+  closeModal,
+  imageInfo,
+  openModalId,
+}: ModalProps) => {
+  return isOpen && openModalId === imageInfo.artwork_id ? (
     <div
       onClick={closeModal}
       className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
       style={{ zIndex: 1000 }}
     >
       <div onClick={(e) => e.stopPropagation()}>
-        <GalleryModal imageInfo={imageInfo} onModal={closeModal} />
+        <GalleryModal
+          artworkId={imageInfo.artwork_id}
+          imageInfo={imageInfo}
+          onModal={closeModal}
+        />
       </div>
     </div>
   ) : null;
@@ -28,7 +38,10 @@ const ModalWrapper = ({ isOpen, closeModal, imageInfo }: ModalProps) => {
 
 const GalleryImage = (props: Artwork) => {
   const { isOpen, openModal, closeModal } = useModal();
-  const handleClick = useCallback(openModal, [openModal]);
+  const handleClick = useCallback(
+    () => openModal(props.artwork_id),
+    [openModal, props.artwork_id]
+  );
 
   return (
     <div>
@@ -57,6 +70,7 @@ const GalleryImage = (props: Artwork) => {
               isOpen={isOpen}
               closeModal={closeModal}
               imageInfo={props}
+              openModalId={props.artwork_id}
             />
           </div>
         </div>

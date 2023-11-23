@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 export const useModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [openModalId, setOpenModalId] = useState<number | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -15,7 +16,8 @@ export const useModal = () => {
     };
   }, [isOpen]);
 
-  function openModal() {
+  function openModal(id: number): void {
+    setOpenModalId(id);
     setIsOpen(true);
   }
 
@@ -23,5 +25,5 @@ export const useModal = () => {
     setIsOpen(false);
   }
 
-  return { isOpen, openModal, closeModal };
+  return { isOpen, openModal, closeModal, openModalId };
 };

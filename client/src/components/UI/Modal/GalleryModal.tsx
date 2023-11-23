@@ -18,7 +18,8 @@ import "@/styles/tailwind.css";
 
 interface GalleryCardProps {
   imageInfo: Artwork;
-  onModal: () => void;
+  onModal: (id: number) => void;
+  artworkId: number;
 }
 
 interface InfoProps {
@@ -26,7 +27,7 @@ interface InfoProps {
   value: string | number | string[];
 }
 
-const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
+const GalleryModal = ({ imageInfo, onModal, artworkId }: GalleryCardProps) => {
   const { isFullScreen, openFullScreen, closeFullScreen } = useFullScreen(); // Use the hook
   const { width, height } = useWindowSize();
 
@@ -56,7 +57,7 @@ const GalleryModal = ({ imageInfo, onModal }: GalleryCardProps) => {
           <FontAwesomeIcon
             className="absolute z-10 scale-150 top-3 right-5"
             icon={closeIcon}
-            onClick={onModal}
+            onClick={() => onModal(artworkId)}
           />
           <div className="relative flex items-center justify-center w-full h-auto pt-5 pb-5 mt-2 desktop:w-1/2 ">
             <FontAwesomeIcon
