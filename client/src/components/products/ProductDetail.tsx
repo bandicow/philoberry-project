@@ -45,10 +45,12 @@ export default function ProductDetail() {
     return <Loading />;
   }
 
-  const { name, material, color, size, details, precautions, s3key } = product;
+  const { name, material, color, size, details, precautions, s3key, price } =
+    product;
 
   const DetailInfos: InfoProps[] = [
     { label: "제품명", value: name },
+    { label: "가격", value: price },
     { label: "소재", value: material },
     { label: "색상", value: color },
     { label: "사이즈", value: size },

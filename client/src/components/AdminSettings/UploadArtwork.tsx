@@ -16,7 +16,7 @@ export const UploadArtwork = ({ artistInfo }: getArtistProps) => {
 
   useEffect(() => {
     if (selectedOption && selectedOption.name) {
-      openModal();
+      openModal(selectedOption.artist_id);
     } else {
       closeModal();
     }

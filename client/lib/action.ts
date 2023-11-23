@@ -4,8 +4,8 @@ import { Artist, Artwork, PickArtist, Product } from "@prisma/client";
 const isProduction = process.env.NODE_ENV === "production";
 
 const serverUrl = isProduction
-  ? process.env.NEXTAUTH_URL
-  : "http://localhost:8000";
+  ? process.env.NEXT_PUBLIC_URL
+  : process.env.NEXT_PUBLIC_EXPRESS_URL;
 
 type ProductInfo = Pick<
   Product,

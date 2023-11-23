@@ -8,23 +8,22 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "Noto Sans";
+  src: url("./../styles/fonts/NotoSans-Regular.ttf") format("truetype");
+}
+
+html,
+body {
+  font-family: "Noto Sans", sans-serif;
+}
+
 html,
 body {
   min-height: 100vh;
   padding: 0;
   margin: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
+  font-family: "Noto Sans", sans-serif;
 }
 
 body {
