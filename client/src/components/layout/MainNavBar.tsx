@@ -48,13 +48,11 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
       // 컴포넌트 언마운트 시에는 항상 스크롤 이벤트 리스너 제거
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [hideOnScroll, prevScrollPos, isVisible, pathname]);
+  }, [hideOnScroll, prevScrollPos, pathname]);
 
   return (
     <nav
-      className={`${
-        pathname?.startsWith("/admin") ? "relative" : "sticky"
-      } top-0 left-0 items-center w-full h-10 px-1 text-white uppercase bg-black shadow-md z-[999] transition-all duration-[300ms] ${
+      className={`sticky top-0 left-0 items-center w-full h-10 px-1 text-white uppercase bg-black shadow-md z-[999] transition-all duration-[300ms] ${
         isVisible
           ? "transform-none opacity-100"
           : "transform -translate-y-full opacity-0"
