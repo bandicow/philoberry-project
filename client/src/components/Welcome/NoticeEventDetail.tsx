@@ -19,8 +19,9 @@ export default function NoticeEventDetail() {
   //   const [detail, setDetail] = useState<NoticeEvent | null>(null);
   const [notices, setNotices] = useState<NoticeEvent>({
     id: 1,
-    title: "사이트테스트입니다.",
-    content: "개발중에 있으며, 근시일 내에 완성될 예정입니다.",
+    title: "테스트 중 입니다.",
+    content:
+      "테스트중에 있으며 로그인 기능도 비활성화 되어있습니다. 근시일 내에 완성될 예정입니다.",
     date: "2023-12-01",
   });
 

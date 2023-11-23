@@ -4,8 +4,8 @@ import { Artist, Artwork, PickArtist, Product } from "@prisma/client";
 const isProduction = process.env.NODE_ENV === "production";
 
 const serverUrl = isProduction
-  ? process.env.NEXT_PUBLIC_URL
-  : process.env.NEXT_PUBLIC_EXPRESS_URL;
+  ? process.env.NEXT_PUBLIC_URL || "https://www.philoberry.com"
+  : process.env.NEXT_PUBLIC_EXPRESS_URL || "http://localhost:8000";
 
 const BUILDING = process.env.NEXT_PUBLIC_BUILDING_IMAGE;
 
@@ -19,38 +19,107 @@ type NewArtist = Omit<Artist, "artist_id">;
 //######################## 배경색 ##########################
 //** 배경색 가져오기 */ OK
 export const getBackgroundColor = async () => {
-  try {
-    const response = await fetch(`${serverUrl}/express/getBackgroundColor`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  if (BUILDING === "false") {
+    try {
+      const response = await fetch(`${serverUrl}/express/getBackgroundColor`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data.backgroundColor;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-    const data = await response.json();
-    return data.backgroundColor;
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 };
 
 //** 배경색 설정하기 */ OK
 export async function setBackgroundColor(data: { backgroundColor: string }) {
-  try {
-    const response = await fetch(`${serverUrl}/express/setBackgroundColor`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    });
+  if (BUILDING === "false") {
+    try {
+      const response = await fetch(`${serverUrl}/express/setBackgroundColor`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+
+      return responseData.backgroundColor;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
+  }
+}
 
-    const responseData = await response.json();
+//########################## 작가 ##########################
+//** 작가 이름 가져오기*/ OK
+export const getTodayArtist = async () => {
+  if (BUILDING === "false") {
+    try {
+      const response = await fetch(`${serverUrl}/express/getTodayArtist`);
 
-    return responseData.backgroundColor;
-  } catch (error) {
-    console.log(error);
-    throw error;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return data.artistName;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+};
+
+//** 작가 등록하기 */ OK
+export async function artistUploadHandler(artistData: NewArtist) {
+  if (BUILDING === "false") {
+    try {
+      const response = await fetch(`${serverUrl}/express/postArtist`, {
+        method: "POST",
+        body: JSON.stringify(artistData),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+}
+
+// 작가 선택하기 post로 todayArtist 변경 OK
+export async function postTodayArtist(artist: PickArtist) {
+  if (BUILDING === "false") {
+    try {
+      const response = await fetch(`${serverUrl}/express/postPickArtist`, {
+        method: "POST",
+        body: JSON.stringify(artist),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 }
 
@@ -63,25 +132,27 @@ async function isUrlExpired(url: string) {
 
 //** 작품 업로드를 위해 작가정보 가져오기 */ OK
 export const getArtist = async () => {
-  try {
-    const response = await fetch(`${serverUrl}/express/getArtist`);
+  if (BUILDING === "false") {
+    try {
+      const response = await fetch(`${serverUrl}/express/getArtist`);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return { artistInfo: data };
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-
-    const data = await response.json();
-
-    return { artistInfo: data };
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 };
 
 //** 작품 가져오기*/ OK
 export async function getArtworks() {
-  if (BUILDING !== "true") {
+  if (BUILDING === "false") {
     try {
       let name = await getTodayArtist();
       if (!name) {
@@ -116,115 +187,58 @@ export async function getArtworks() {
 
 //** 작품 등록하기 */ OK
 export async function postArtwork(artwork: UploadArtwork) {
-  try {
-    const convertedArtworkData = {
-      ...artwork,
-      order: Number(artwork.order),
-      price: Number(artwork.price),
-      createdAt: Number(artwork.createdAt),
-    };
-
-    const response = await fetch(`${serverUrl}/express/postArtwork`, {
-      method: "POST",
-      body: JSON.stringify(convertedArtworkData),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-//########################## 작가 ##########################
-//** 작가 이름 가져오기*/ OK
-export const getTodayArtist = async () => {
-  if (BUILDING !== "true") {
+  if (BUILDING === "false") {
     try {
-      const response = await fetch(`${serverUrl}/express/getTodayArtist`);
+      const convertedArtworkData = {
+        ...artwork,
+        order: Number(artwork.order),
+        price: Number(artwork.price),
+        createdAt: Number(artwork.createdAt),
+      };
+
+      const response = await fetch(`${serverUrl}/express/postArtwork`, {
+        method: "POST",
+        body: JSON.stringify(convertedArtworkData),
+        headers: { "Content-Type": "application/json" },
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
 
-      return data.artistName;
+      return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw error;
     }
-  }
-};
-
-//** 작가 등록하기 */ OK
-export async function artistUploadHandler(artistData: NewArtist) {
-  try {
-    const response = await fetch(`${serverUrl}/express/postArtist`, {
-      method: "POST",
-      body: JSON.stringify(artistData),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
-
-// 작가 선택하기 post로 todayArtist 변경 OK
-export async function postTodayArtist(artist: PickArtist) {
-  try {
-    const response = await fetch(`${serverUrl}/express/postPickArtist`, {
-      method: "POST",
-      body: JSON.stringify(artist),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Request failed status: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
 }
 
 //########################## 제품 ##########################
 //** 제품 등록하기 */ OK
 export async function uploadProduct(productData: NewProduct) {
-  try {
-    const convertedProductData = {
-      ...productData,
-      price: Number(productData.price),
-      stock: Number(productData.stock),
-    };
+  if (BUILDING === "false") {
+    try {
+      const convertedProductData = {
+        ...productData,
+        price: Number(productData.price),
+        stock: Number(productData.stock),
+      };
 
-    const response = await fetch(`${serverUrl}/express/postProduct`, {
-      method: "POST",
-      body: JSON.stringify(convertedProductData),
-      headers: { "Content-Type": "application/json" },
-    });
+      const response = await fetch(`${serverUrl}/express/postProduct`, {
+        method: "POST",
+        body: JSON.stringify(convertedProductData),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 }
 
@@ -232,7 +246,7 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 
 //**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
-  if (BUILDING !== "true") {
+  if (BUILDING === "false") {
     try {
       const response = await fetch(`${serverUrl}/express/getProducts`);
 
@@ -240,7 +254,7 @@ export const getProducts = async () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data: Product[] = await response.json();
 
       return { items: data };
     } catch (error) {
@@ -252,7 +266,7 @@ export const getProducts = async () => {
 
 //** 제품 상세 정보하기 (하나의 제품)*/ OK
 export const getProductDetail = async (id: number) => {
-  if (BUILDING !== "true") {
+  if (BUILDING === "false") {
     try {
       const response = await fetch(
         `${serverUrl}/express/getProductDetail/${id}`
@@ -274,7 +288,7 @@ export const getProductDetail = async (id: number) => {
 
 //** 제품 수정을 위한 정보 가져오기*/ OK
 export const getProduct = async () => {
-  if (BUILDING !== "true") {
+  if (BUILDING === "false") {
     try {
       const response = await fetch(`${serverUrl}/express/getEditProduct`);
 
@@ -298,22 +312,23 @@ export const postEditProduct = async (editData: ProductInfo) => {
     price: Number(editData.price),
     stock: Number(editData.stock),
   };
+  if (BUILDING === "false") {
+    try {
+      const response = await fetch(`${serverUrl}/express/postEditProduct`, {
+        method: "POST",
+        body: JSON.stringify(dataToPost),
+        headers: { "Content-Type": "application/json" },
+      });
 
-  try {
-    const response = await fetch(`${serverUrl}/express/postEditProduct`, {
-      method: "POST",
-      body: JSON.stringify(dataToPost),
-      headers: { "Content-Type": "application/json" },
-    });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      console.log(await response.json());
+    } catch (error) {
+      console.log(error + "업데이트 에러");
+      throw error;
     }
-
-    console.log(await response.json());
-  } catch (error) {
-    console.log(error + "업데이트 에러");
-    throw error;
   }
 };
 
@@ -353,7 +368,7 @@ export async function handleUpload(file: File, name: string) {
     return key;
   } catch (error) {
     console.error(error);
-    throw error;
+    return { error: error };
   }
 }
 

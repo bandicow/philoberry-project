@@ -1,6 +1,8 @@
+"use client";
+import withAdminAuth from "@/src/components/Auth/WithAdminAuth";
 import Sidebar from "../../src/components/layout/Sidebar";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-[100vh] w-full ">
       <Sidebar />
@@ -10,3 +12,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+export default withAdminAuth(Layout);
