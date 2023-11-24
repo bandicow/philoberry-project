@@ -5,14 +5,9 @@ import googleLogo from "@/public/images/google.png";
 import kakaologo from "@/public/images/kakao.png";
 import { signIn } from "next-auth/react";
 
-const isProduction = process.env.NODE_ENV === "production";
-const serverUrl = isProduction
-  ? process.env.NEXTAUTH_URL
-  : "http://localhost:3000";
-
 export function GoogleSignInButton() {
   const handleClick = () => {
-    signIn("google", { callbackUrl: `${serverUrl}` });
+    signIn("google");
   };
 
   return (
