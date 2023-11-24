@@ -11,8 +11,8 @@ import { CredentialsForm } from "@/src/components/sign/CredentialsForm";
 const isProduction = process.env.NODE_ENV === "production";
 
 const serverUrl = isProduction
-  ? process.env.NEXTAUTH_URL
-  : process.env.LOCAL_NEXTAUTH_URL;
+  ? process.env.NEXTAUTH_URL || "https://philoberry.com"
+  : process.env.LOCAL_NEXTAUTH_URL || "http://localhost:3000";
 
 export default async function SignInPage() {
   const session = await getServerSession(authConfig);

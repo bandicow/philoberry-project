@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react";
 
 const isProduction = process.env.NODE_ENV === "production";
 const serverUrl = isProduction
-  ? process.env.NEXT_PUBLIC_SERVER_URL
+  ? process.env.NEXTAUTH_URL
   : "http://localhost:3000";
 
 export function GoogleSignInButton() {
