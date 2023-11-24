@@ -41,12 +41,6 @@ export const authConfig: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      authorization: {
-        url: "https://accounts.google.com/o/oauth2/v2/auth",
-        params: {
-          scope: "email profile",
-        },
-      },
     }),
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID || "",
@@ -56,7 +50,7 @@ export const authConfig: NextAuthOptions = {
   debug: true,
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    error: "/api/error", // 커스텀 에러 페이지의 url
+    error: "/api/error",
   },
   callbacks: {
     async jwt({ token, user }) {
