@@ -19,7 +19,7 @@ type NewArtist = Omit<Artist, "artist_id">;
 //######################## 배경색 ##########################
 //** 배경색 가져오기 */ OK
 export const getBackgroundColor = async () => {
-  if (!BUILDING) {
+  if (BUILDING) {
     try {
       const response = await fetch(`${serverUrl}/express/getBackgroundColor`);
       if (!response.ok) {
@@ -124,7 +124,7 @@ async function isUrlExpired(url: string) {
 
 //** 작품 업로드를 위해 작가정보 가져오기 */ OK
 export const getArtist = async () => {
-  if (!BUILDING) {
+  if (BUILDING) {
     try {
       const response = await fetch(`${serverUrl}/express/getArtist`);
 
@@ -144,7 +144,7 @@ export const getArtist = async () => {
 
 //** 작품 가져오기*/ OK
 export async function getArtworks() {
-  if (!BUILDING) {
+  if (BUILDING) {
     try {
       let name = await getTodayArtist();
       if (!name) {
@@ -208,7 +208,7 @@ export async function postArtwork(artwork: UploadArtwork) {
 //########################## 제품 ##########################
 //** 제품 등록하기 */ OK
 export async function uploadProduct(productData: NewProduct) {
-  if (!BUILDING) {
+  if (BUILDING) {
     try {
       const convertedProductData = {
         ...productData,
@@ -236,7 +236,7 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 
 //**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
-  if (!BUILDING) {
+  if (BUILDING) {
     try {
       const response = await fetch(`${serverUrl}/express/getProducts`);
 
@@ -256,7 +256,7 @@ export const getProducts = async () => {
 
 //** 제품 상세 정보하기 (하나의 제품)*/ OK
 export const getProductDetail = async (id: number) => {
-  if (!BUILDING) {
+  if (BUILDING) {
     try {
       const response = await fetch(
         `${serverUrl}/express/getProductDetail/${id}`
@@ -278,7 +278,7 @@ export const getProductDetail = async (id: number) => {
 
 //** 제품 수정을 위한 정보 가져오기*/ OK
 export const getProduct = async () => {
-  if (!BUILDING) {
+  if (BUILDING) {
     try {
       const response = await fetch(`${serverUrl}/express/getEditProduct`);
 
@@ -302,7 +302,7 @@ export const postEditProduct = async (editData: ProductInfo) => {
     price: Number(editData.price),
     stock: Number(editData.stock),
   };
-  if (!BUILDING) {
+  if (BUILDING) {
     try {
       const response = await fetch(`${serverUrl}/express/postEditProduct`, {
         method: "POST",

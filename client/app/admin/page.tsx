@@ -1,8 +1,9 @@
 "use client";
 import { useSession } from "next-auth/react";
 
+import React from "react";
 import AdminInfo from "../../src/components/AdminSettings/AdminInfo";
-import Loading from "../loading";
+import Loading from "@/app/loading";
 import withAdminAuth from "@/src/components/Auth/WithAdminAuth";
 
 const Admin = () => {
