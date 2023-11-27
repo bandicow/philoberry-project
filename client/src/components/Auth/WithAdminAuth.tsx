@@ -1,22 +1,22 @@
-import Loading from "@/app/loading";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { ComponentType, PropsWithChildren, useEffect } from "react";
+import React, { ComponentType, useEffect } from "react";
+import Loading from "@/app/loading";
 
 export default function withAdminAuth<P extends object>(
   Component: ComponentType<P>
 ) {
   return function AdminAuthComponent(props: P) {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const router = useRouter();
 
     useEffect(() => {
-      if (!session) {
-        router.push("/");
+      if (status === "authenticated" && !session) {
+        router.push("/login");
       }
-    }, [session, router]);
+    }, [status, session, router]);
 
-    if (!session) {
+    if (status === "loading") {
       return <Loading />;
     }
 

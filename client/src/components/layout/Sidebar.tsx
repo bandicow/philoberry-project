@@ -23,11 +23,11 @@ const Sidebar = () => {
 
   const menuItems = [
     { icon: faHouse, text: "홈", href: "/admin" },
-    { icon: faRotate, text: "갤러리작가 변경", href: "/admin/pickartist" },
+    { icon: faRotate, text: "갤러리작가 변경", href: "/admin/colaboartist" },
     { icon: faPalette, text: "색상 변경", href: "/admin/changecolor" },
     { icon: faCloudArrowUp, text: "작가 등록", href: "/admin/uploadartist" },
     { icon: faCloudArrowUp, text: "작품 등록", href: "/admin/uploadartwork" },
-    { icon: faCloudArrowUp, text: "제품 등록", href: "/admin/uploadproduct" },
+    { icon: faCloudArrowUp, text: "제품 등록", href: "/admin/uploadproducts" },
     { icon: faRotate, text: "제품 정보 변경", href: "/admin/editproduct" },
   ];
 
