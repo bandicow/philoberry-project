@@ -1,11 +1,21 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import GalleryImage from "./GalleryImage";
 import { Artwork } from "@prisma/client";
 import { getArtworks } from "../../../lib/action";
 import Loading from "@/app/loading";
 
-const GalleryImageList = async () => {
-  const artworks = await getArtworks();
+const GalleryImageList = () => {
+  const [artworks, setArtworks] = useState<Artwork[] | null>(null);
+
+  useEffect(() => {
+    const fetchArtworks = async () => {
+      const data = await getArtworks();
+      setArtworks(data);
+    };
+
+    fetchArtworks();
+  }, []);
 
   if (!artworks) {
     return <Loading />;

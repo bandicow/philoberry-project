@@ -10,24 +10,19 @@ interface SaleProps {
 }
 
 const Sale = async () => {
-  try {
-    const products = await getProducts();
+  const products = await getProducts();
 
-    if (!products) {
-      return <Loading />;
-    }
-
-    const { items }: SaleProps = products;
-
-    return (
-      <div>
-        <ProductList items={items} />
-      </div>
-    );
-  } catch (error) {
-    console.log(error);
-    return <ErrorPage />;
+  if (!products) {
+    return <Loading />;
   }
+
+  const { items }: SaleProps = products;
+
+  return (
+    <div>
+      <ProductList items={items} />
+    </div>
+  );
 };
 
 export default Sale;

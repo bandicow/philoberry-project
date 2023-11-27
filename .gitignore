@@ -52,7 +52,7 @@ test.tsx
 /nginx
 
 #dist
-/dist
+/server/dist/*
 
 #Docker 
 ./client/Dockerfile.next
