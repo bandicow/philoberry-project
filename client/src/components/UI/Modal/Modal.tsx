@@ -1,9 +1,8 @@
 "use client";
 import Card from "../Card/GalleryCard";
 import React, { FormEvent, useState } from "react";
-import { Artwork } from "@prisma/client";
 import Button from "../Button/SubmitButton";
-import { ArtistInfo } from "../../../Types/Art";
+import { ArtistInfo, ArtistValueProps } from "../../../Types/Art";
 import { InputField } from "../Input/InputField";
 import DragAndDropUploader from "../../ImageUploader/soloDragandDrop";
 import { Carousel } from "react-responsive-carousel";
@@ -12,8 +11,7 @@ import { handleUpload, postArtwork } from "@/lib/action";
 import OnClickButton from "../Button/OnClickButton";
 import { useNotification } from "@/src/hooks/useNotification";
 import SlideUpMessage from "../Alert/Slideup";
-
-type UploadArtwork = Omit<Artwork, "artwork_id">;
+import { useArtworkStore } from "@/utils/store/artworkStore";
 
 interface ModalProps {
   artistInfo: ArtistInfo;
@@ -31,30 +29,26 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
     startSuccessNotification,
   } = useNotification();
 
-  const [artworks, setArtworks] = useState<UploadArtwork[]>([
-    {
-      title: "",
-      artist_name: name,
-      s3key: "",
-      description: "",
-      material: "",
-      size: "",
-      price: 0,
-      isSold: false,
-      order: 0,
-      createdAt: 0,
-    },
-  ]);
-  const [files, setFiles] = useState<File[]>([]);
+  // Zustand 스토어 , 상태 및 메소드
+  const {
+    artworks,
+    files,
+    addArtwork,
+    updateArtwork,
+    removeArtwork,
+    addFile,
+    updateFile,
+    removeFile,
+    resetArtwork,
+  } = useArtworkStore();
 
   const handleInputChange = (index: number) => (event: any) => {
-    const newFormData = artworks.map((item, i) => {
-      if (i !== index) return item;
+    const updatedArtwork = {
+      ...artworks[index],
+      [event.target.keyname]: event.target.value,
+    };
 
-      return { ...item, [event.target.keyname]: event.target.value };
-    });
-
-    setArtworks(newFormData);
+    updateArtwork(index, updatedArtwork); // Zustand 스토어의 updateArtwork 메서드 사용
   };
 
   const submitHandler = async (event: FormEvent) => {
@@ -73,6 +67,7 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
 
     let newFormData = artworks.map((item, index) => ({
       ...item,
+      artist_name: name,
       s3key: keys[index],
       order: index + 1,
     }));
@@ -85,7 +80,8 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
       startSuccessNotification();
       setTimeout(() => {
         closeModal();
-      }, 3000);
+        resetArtwork();
+      }, 1000);
     } catch (error) {
       startFailureNotification();
     }
@@ -93,34 +89,41 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
 
   /** 작품 폼 추가 */
   const addNewForm = () => {
-    setArtworks([
-      ...artworks,
-      {
-        title: "",
-        artist_name: name,
-        s3key: "",
-        description: "",
-        material: "",
-        size: "",
-        price: 0,
-        isSold: false,
-        order: 0,
-        createdAt: 0,
-      },
-    ]);
+    addArtwork({
+      // Zustand 스토어의 addArtwork 메서드 사용
+      title: "",
+      artist_name: name,
+      s3key: "",
+      description: "",
+      material: "",
+      size: "",
+      price: 0,
+      isSold: false,
+      order: artworks.length + 1,
+      createdAt: 0,
+    });
     setCurrentSlide(artworks.length);
   };
 
   /** 올라간 작품폼 제거 */
   const removeForm = (index: number) => {
-    setArtworks((prevArtworks) => prevArtworks.filter((_, i) => i !== index));
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    removeArtwork(index); // Zustand 스토어의 removeArtwork 메서드 사용
+    removeFile(index); // Zustand 스토어의 removeFile 메서드 사용
 
     // Update the current slide to the previous one
     if (currentSlide === index && currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
     }
   };
+
+  const fields = [
+    { label: "작품명", id: "title", type: "text" },
+    { label: "제작년도", id: "createdAt", type: "number" },
+    { label: "재료", id: "material", type: "text" },
+    { label: "크기", id: "size", type: "text" },
+    { label: "가격", id: "price", type: "number" },
+    { label: "작품설명", id: "description", type: "text" },
+  ];
 
   return (
     <div
@@ -149,89 +152,36 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
                     <DragAndDropUploader
                       setUploadedImages={(file: File | null) => {
                         if (file) {
-                          setFiles((prevFiles) => {
-                            const newFiles = [...prevFiles];
-                            newFiles[index] = file;
-                            return newFiles;
-                          });
+                          files[index]
+                            ? updateFile(index, file)
+                            : addFile(file);
                         }
                       }}
                       uploadedImages={files[index] || undefined}
                     />
                   </div>
                   <div className="flex-col items-center justify-center w-5/6 pb-1 m-1 h-2/3 tabletLandscape:w-full input_text">
-                    <InputField
-                      label="작품명"
-                      id="title"
-                      value={item.title}
-                      type="text"
-                      required={true}
-                      onChange={(value: string) =>
-                        handleInputChange(index)({
-                          target: { keyname: "title", value },
-                        })
-                      }
-                    />
-                    <InputField
-                      label="제작년도"
-                      id="createdAt"
-                      value={item.createdAt as number}
-                      type="number"
-                      required={true}
-                      onChange={(value: number) =>
-                        handleInputChange(index)({
-                          target: { keyname: "createdAt", value },
-                        })
-                      }
-                    />
-                    <InputField
-                      label="재료"
-                      id="material"
-                      value={item.material ? item.material : ""}
-                      type="text"
-                      required={true}
-                      onChange={(value: string) =>
-                        handleInputChange(index)({
-                          target: { keyname: "material", value },
-                        })
-                      }
-                    />
-                    <InputField
-                      label="크기"
-                      id="size"
-                      value={item.size ? item.size : ""}
-                      type="text"
-                      required={true}
-                      onChange={(value: string) =>
-                        handleInputChange(index)({
-                          target: { keyname: "size", value },
-                        })
-                      }
-                    />
-                    <InputField
-                      label="가격"
-                      id="price"
-                      value={item.price ? item.price : 0}
-                      type="number"
-                      required={true}
-                      onChange={(value: number) =>
-                        handleInputChange(index)({
-                          target: { keyname: "price", value },
-                        })
-                      }
-                    />
-                    <InputField
-                      label="작품설명"
-                      id="description"
-                      value={item.description ? item.description : ""}
-                      type="text"
-                      required={true}
-                      onChange={(value: string) =>
-                        handleInputChange(index)({
-                          target: { keyname: "description", value },
-                        })
-                      }
-                    />
+                    {fields.map((field) => (
+                      <InputField
+                        key={field.id}
+                        label={field.label}
+                        id={field.id}
+                        value={
+                          artworks[index] && field.id in artworks[index]
+                            ? artworks[index][
+                                field.id as keyof ArtistValueProps
+                              ] || ""
+                            : ""
+                        }
+                        type={field.type}
+                        required={true}
+                        onChange={(value: string | number) =>
+                          handleInputChange(index)({
+                            target: { keyname: field.id, value },
+                          })
+                        }
+                      />
+                    ))}
                   </div>
                   {artworks.length > 1 && (
                     <button

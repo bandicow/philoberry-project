@@ -1,4 +1,4 @@
-import { Artist } from "@prisma/client";
+import { Artist, Artwork } from "@prisma/client";
 
 export type ISODateString = string;
 export interface DefaultSession {
@@ -34,3 +34,23 @@ export interface ClientGalleyImageProps {
 interface getPickArtistProps {
   artistInfo: Artist[];
 }
+
+type UploadArtwork = Omit<Artwork, "artwork_id">;
+
+//** UploadArtwork props for Zustand */
+type ArtworkState = {
+  artworks: UploadArtwork[];
+  files: File[];
+  addArtwork: (artwork: UploadArtwork) => void;
+  updateArtwork: (index: number, updatedArtwork: UploadArtwork) => void;
+  removeArtwork: (index: number) => void;
+  addFile: (file: File) => void;
+  updateFile: (index: number, file: File) => void;
+  removeFile: (index: number) => void;
+  resetArtwork: () => void;
+};
+
+type ArtistValueProps = Pick<
+  UploadArtwork,
+  "title" | "createdAt" | "material" | "size" | "price" | "description"
+>;

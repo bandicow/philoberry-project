@@ -22,13 +22,13 @@ const Sidebar = () => {
   }, [pathname]);
 
   const menuItems = [
-    { icon: faHouse, text: "홈", href: "/admin" },
-    { icon: faRotate, text: "갤러리작가 변경", href: "/admin/colaboartist" },
-    { icon: faPalette, text: "색상 변경", href: "/admin/changecolor" },
-    { icon: faCloudArrowUp, text: "작가 등록", href: "/admin/uploadartist" },
-    { icon: faCloudArrowUp, text: "작품 등록", href: "/admin/uploadartwork" },
-    { icon: faCloudArrowUp, text: "제품 등록", href: "/admin/uploadproducts" },
-    { icon: faRotate, text: "제품 정보 변경", href: "/admin/editproduct" },
+    { icon: faHouse, text: "개인정보", href: "/admin" },
+    { icon: faRotate, text: "갤러리작가변경", href: "/admin/colaboartist" },
+    { icon: faPalette, text: "색상변경", href: "/admin/changecolor" },
+    { icon: faCloudArrowUp, text: "작가등록", href: "/admin/uploadartist" },
+    { icon: faCloudArrowUp, text: "작품등록", href: "/admin/uploadartwork" },
+    { icon: faCloudArrowUp, text: "제품등록", href: "/admin/uploadproducts" },
+    { icon: faRotate, text: "제품정보변경", href: "/admin/editproduct" },
   ];
 
   return (
