@@ -1,4 +1,5 @@
 // app/api/error/page.server.tsx
+"use client";
 import Link from "next/link";
 
 const ErrorPage = () => {

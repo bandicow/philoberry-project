@@ -1,13 +1,11 @@
-"use client";
-
 import NewProductForm from "../../../src/components/AdminSettings/NewProductForm";
 
-function MyApp() {
+const UploadProductPage = () => {
   return (
     <div className="flex justify-center item-center">
       <NewProductForm />
     </div>
   );
-}
+};
 
-export default MyApp;
+export default UploadProductPage;

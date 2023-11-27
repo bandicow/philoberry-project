@@ -23,7 +23,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { icon: faHouse, text: "홈", href: "/admin" },
-    { icon: faRotate, text: "갤러리작가 변경", href: "/admin/pickArtist" },
+    { icon: faRotate, text: "갤러리작가 변경", href: "/admin/pickartist" },
     { icon: faPalette, text: "색상 변경", href: "/admin/changecolor" },
     { icon: faCloudArrowUp, text: "작가 등록", href: "/admin/uploadartist" },
     { icon: faCloudArrowUp, text: "작품 등록", href: "/admin/uploadartwork" },

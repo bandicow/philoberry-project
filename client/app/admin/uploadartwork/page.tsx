@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { UploadArtwork } from "../../../src/components/AdminSettings/UploadArtwork";
 import { getArtist } from "../../../lib/action";
-import { ArtistInfo, getArtistProps } from "@/src/Types/Art";
+import { ArtistInfo } from "@/src/Types/Art";
 
 interface ArtistInfoProps {
   artistInfo: ArtistInfo[];
