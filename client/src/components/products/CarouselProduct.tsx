@@ -23,8 +23,16 @@ function CarouselProduct({ images }: CarouselProps) {
       scrollbar={{ draggable: true }}
     >
       {images.map((img, idx) => (
-        <SwiperSlide key={idx}>
-          <Image src={img} alt={`${idx}`} width={300} height={300} />
+        <SwiperSlide
+          key={idx}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "300px",
+          }}
+        >
+          <Image src={img} alt={`${idx}`} fill objectFit="contain" />
         </SwiperSlide>
       ))}
       <div className="pagination"></div>

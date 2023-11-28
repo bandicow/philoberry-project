@@ -1,21 +1,28 @@
 import React from "react";
 import Products from "./Products";
 import { Product } from "@prisma/client";
+import { getProducts } from "@/lib/action";
+import ErrorPlaceholder from "@/src/components/Static/default-error";
 
 interface SaleProps {
   items: Product[];
 }
-const ProductList = ({ items }: SaleProps) => {
-  return (
-    <ol className="grid grid-cols-1 m-0 tablet:grid-cols-2 tabletLandscape:grid-cols-3">
-      {items &&
-        items.map(
-          (
-            item // items 가 존재할 때만 map 함수를 호출하도록 수정하였습니다.
-          ) => <Products key={item.id} item={item} />
-        )}
-    </ol>
-  );
+
+const ProductList = async () => {
+  try {
+    const products = await getProducts();
+    const { items }: SaleProps = products;
+
+    return (
+      <ol className="grid grid-cols-1 m-0 tablet:grid-cols-2 tabletLandscape:grid-cols-3">
+        {items.map((item) => (
+          <Products key={item.id} item={item} />
+        ))}
+      </ol>
+    );
+  } catch (error) {
+    return <ErrorPlaceholder error={error as Error} />;
+  }
 };
 
 export default ProductList;

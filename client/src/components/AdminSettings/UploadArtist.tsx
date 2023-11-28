@@ -3,7 +3,7 @@ import React, { FormEvent, useState } from "react";
 import DragAndDropUploader from "../ImageUploader/soloDragandDrop";
 import { InputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
-import { artistUploadHandler, handleUpload } from "@/lib/action";
+import { postArtist, handleUpload } from "@/lib/action";
 import SlideUpMessage from "../UI/Alert/Slideup";
 import { useNotification } from "@/src/hooks/useNotification";
 import { useArtistStore } from "@/utils/store/artistStore";
@@ -51,7 +51,7 @@ export const UploadArtist = () => {
       };
 
       try {
-        await artistUploadHandler(artistData);
+        await postArtist(artistData);
         startSuccessNotification();
         setArtist("name", "");
         setArtist("major", "");

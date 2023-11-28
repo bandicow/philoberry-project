@@ -1,5 +1,6 @@
+import Loading from "@/app/loading";
 import MainNavBar from "./MainNavBar";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,10 +9,12 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <div>
-      <MainNavBar hideOnScroll={true} />
-      <main>{children}</main>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <div>
+        <MainNavBar hideOnScroll={true} />
+        <main>{children}</main>
+      </div>
+    </Suspense>
   );
 }
 

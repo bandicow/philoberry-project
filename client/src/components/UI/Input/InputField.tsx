@@ -22,6 +22,8 @@ export function InputField({
   disabled = false,
   required = true,
 }: InputFieldProps) {
+  const colorValue = type === "color" && value === "" ? "#000000" : value;
+
   // 0을 위해 일단 string으로 하고 api에서 number로 바꿔줌
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
@@ -39,7 +41,7 @@ export function InputField({
         placeholder={placeholder}
         required={required}
         id={id}
-        value={value}
+        value={colorValue}
         onChange={handleChange}
         className="w-4/5 tabletLandscape:w-full border rounded px-1 py-0.5 border-gray-300 bg-gray-100 focus:bg-gray-300 focus:border-gray-500"
       />

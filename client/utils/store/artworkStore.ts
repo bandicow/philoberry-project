@@ -20,10 +20,10 @@ const initialState: UploadArtwork[] = [
 const store = immer<ArtworkState>((set) => ({
   artworks: initialState,
   files: [],
-  //** 폼 추가 */
+  //** 폼 추가를 위한 작품탭 추가 */
   addArtwork: (artwork: UploadArtwork) =>
     set((state) => ({ artworks: [...state.artworks, artwork] })),
-  //**폼 업데이트 */
+  //**폼 업데이트 (작품 업데이트) */
   updateArtwork: (index: number, updatedArtwork: UploadArtwork) =>
     set((state) => {
       state.artworks[index] = updatedArtwork;
@@ -49,7 +49,7 @@ const store = immer<ArtworkState>((set) => ({
       state.files.splice(index, 1);
       return state;
     }),
-  //**폼 초기화 */
+  //**폼 및 파일 초기화 */
   resetArtwork: () => set(() => ({ artworks: initialState, files: [] })),
 }));
 

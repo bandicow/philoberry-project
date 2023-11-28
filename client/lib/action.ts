@@ -74,7 +74,7 @@ export const getTodayArtist = async () => {
 };
 
 //** 작가 등록하기 */ OK
-export async function artistUploadHandler(artistData: NewArtist) {
+export async function postArtist(artistData: NewArtist) {
   try {
     const response = await fetch(`${serverUrl}/express/postArtist`, {
       method: "POST",
@@ -116,7 +116,7 @@ export async function postTodayArtist(artist: PickArtist) {
 //########################## 작품 ##########################
 //** url 만료 확인 */
 async function isUrlExpired(url: string) {
-  const response = await fetch(url, { method: "HEAD" }); // HEAD request to get only the headers
+  const response = await fetch(url, { method: "GET" });
   return response.status === 403; // Change this to the status code that your server returns for expired URLs
 }
 
