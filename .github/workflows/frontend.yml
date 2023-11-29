@@ -5,7 +5,7 @@ on:
     types: [update-infrastructure]
 
 env:
-  AWS_REGION: ${{ secrets.AWS_RESION }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
   ECS_SERVICE: frontend-service-dev
   ECS_CLUSTER: philoberry-ecs-cluster
   ECS_TD: ./frontend.json.tpl
@@ -36,7 +36,7 @@ jobs:
           echo "KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET}" >> .env
           echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env
           echo "S3_BUCKET=${S3_BUCKET}" >> .env
-          echo "AWS_RESION=${AWS_RESION}" >> .env
+          echo "AWS_REGION=${AWS_RESION}" >> .env
           echo "DATABASE_URL=${DATABASE_URL}" >> .env
           echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env
           echo "NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL}" >> .env
