@@ -2,7 +2,7 @@ name: Update Philoberry frontend
 
 on:
   repository_dispatch:
-    types: [update-infrastructure]
+    types: [main]
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
