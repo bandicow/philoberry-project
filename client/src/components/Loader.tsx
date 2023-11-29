@@ -13,7 +13,7 @@ const Loader = () => {
       items-center 
       "
     >
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center w-full">
         <div className="w-20 h-20 mb-5 border-t-2 border-b-2 border-purple-500 rounded-full animate-spin"></div>
       </div>
       <div className="text-4xl reflect">

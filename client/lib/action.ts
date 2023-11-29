@@ -241,7 +241,7 @@ export const getProducts = async () => {
 
     const data: Product[] = await response.json();
 
-    return { items: data };
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
