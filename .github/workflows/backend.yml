@@ -1,0 +1,70 @@
+name: Update Philoberry backend
+
+on:
+  repository_dispatch:
+    types: [update-infrastructure]
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECS_SERVICE: backend-service-dev
+  ECS_CLUSTER: philoberry-ecs-cluster
+  ECS_TD: ./backend.json.tpl
+  CONTAINER_NAME: philoberry-repository_express
+  S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+  S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+
+jobs:
+  update_service:
+    runs-on: ubuntu-latest
+    name: Update ECS Service
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create .env File
+        run: |
+          echo "S3_ACCESS_KEY=${S3_ACCESS_KEY}" > .env
+          echo "S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}" >> .env
+          echo "S3_BUCKET=${S3_BUCKET}" >> .env
+          echo "DATABASE_URL=${DATABASE_URL}" >> .env
+          echo "NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}" >> .env
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_BACKEND_URL }}
+          ECR_REPOSITORY_NAME: "philoberry_express/service_dev"
+          IMAGE_TAG: latest
+        run: |
+          docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} . 
+          docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
+          echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TD }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TD }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: "true"
