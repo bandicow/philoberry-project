@@ -10,7 +10,7 @@ interface SaleProps {
 
 const ProductList = async () => {
   try {
-    const products = await getProducts();
+    const { products } = await getData();
     const { items }: SaleProps = products;
 
     return (
@@ -24,5 +24,11 @@ const ProductList = async () => {
     return <ErrorPlaceholder error={error as Error} />;
   }
 };
+
+async function getData() {
+  const products = await getProducts();
+
+  return { products };
+}
 
 export default ProductList;

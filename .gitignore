@@ -56,3 +56,7 @@ test.tsx
 
 #Docker 
 ./client/Dockerfile.next
+
+
+#github actions
+.github/workflows/*
