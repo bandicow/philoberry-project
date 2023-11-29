@@ -7,7 +7,7 @@ export default function Button({ goal }: buttonName) {
     <div className="flex justify-center mt-5 font-bold">
       <button
         type="submit"
-        className="px-6 py-2 font-normal text-white bg-blue-500 border border-red-800 rounded cursor-pointer hover:font-bold hover:border-red-900"
+        className="px-6 py-2 font-normal text-white bg-blue-500 border rounded cursor-pointer hover:font-bold "
       >
         {goal}
       </button>

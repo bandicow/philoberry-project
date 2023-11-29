@@ -35,7 +35,8 @@ const GalleryModal = ({ imageInfo, onModal, artworkId }: GalleryCardProps) => {
   const closeIcon: IconDefinition = faXmark;
 
   const DetailInfos: InfoProps[] = [
-    { label: "작품 정보", value: [imageInfo.size, imageInfo.material] },
+    { label: "규격", value: imageInfo.size },
+    { label: "재료", value: imageInfo.material },
     { label: "가격", value: imageInfo.price },
     { label: "작품 설명", value: imageInfo.description },
   ];
@@ -76,10 +77,12 @@ const GalleryModal = ({ imageInfo, onModal, artworkId }: GalleryCardProps) => {
               />
             </div>
           </div>
-          <div className="flex-col items-center justify-center w-full h-full p-5 ml-1 desktop:w-1/2 ">
+          <div className="flex-col items-center justify-center w-full h-full p-20 ml-1 desktop:w-1/3 ">
             <IsSold sold={imageInfo.isSold} />
 
-            <h1 className="mt-5 mb-3 text-2xl font-bold">{imageInfo.title}</h1>
+            <h1 className="mt-5 mb-3 text-2xl font-bold pb-1 border-b-2 border-b-gray-300">
+              {imageInfo.title}
+            </h1>
             {DetailInfos.map((info, index) => (
               <DetailInfo key={index} {...info} />
             ))}

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import SaleItemCard from "../UI/Card/Card";
 import Image from "next/image";
@@ -17,11 +16,11 @@ const Products = ({ item }: SaleItemProps) => {
     <li className="flex justify-center w-full h-full">
       {
         <SaleItemCard
-          extraClassName="hover:bg-red-100 active:bg-red-200"
+          extraClassName="hover:bg-red-500 active:bg-red-200"
           href={`/sale/${id}`}
           stock={stock}
         >
-          <div className="relative object-cover w-full h-full overflow-hidden">
+          <div className="relative object-cover hover:opacity-80 w-full h-full overflow-hidden">
             {mainImage ? (
               <Image
                 key={id}

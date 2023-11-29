@@ -1,6 +1,5 @@
 import React from "react";
 import Products from "./Products";
-import { Product } from "@prisma/client";
 import { getProducts } from "@/lib/action";
 import ErrorPlaceholder from "@/src/components/Static/default-error";
 
@@ -16,7 +15,6 @@ const ProductList = async () => {
       </ol>
     );
   } catch (error) {
-    console.log(error + "안되는 이유");
     return <ErrorPlaceholder error={error as Error} />;
   }
 };

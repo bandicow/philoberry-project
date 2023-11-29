@@ -91,7 +91,7 @@ export const UploadArtist = () => {
     <div className={`w-full h-full center ${shake ? "animate-shake" : ""}`}>
       <h1 className="mt-10 text-xl font-bold">작가 등록</h1>
       <form onSubmit={submitHandler} className="w-full mb-20">
-        <div className="justify-center w-full h-full ml-5 mr-5 rounded-md tabletLandscape:flex">
+        <div className="justify-center w-full h-full ml-5 mr-5 rounded-md tabletLandscape:flex tabletLandscape:p-10">
           <div className="w-5/6 m-5">
             <DragAndDropUploader
               setUploadedImages={setImage}

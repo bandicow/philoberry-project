@@ -5,7 +5,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const serverUrl = isProduction
   ? process.env.NEXT_PUBLIC_URL || "https://www.philoberry.com"
-  : process.env.NEXT_PUBLIC_EXPRESS_URL || "http://localhost:8000";
+  : "http://localhost:8000";
 
 const BUILDING = process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false";
 
