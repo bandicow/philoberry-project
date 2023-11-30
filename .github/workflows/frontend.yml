@@ -24,6 +24,7 @@ env:
 jobs:
   update_service:
     runs-on: ubuntu-latest
+    environment: Configure dev
     name: Update ECS Service
     steps:
       - name: Checkout code
