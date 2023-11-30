@@ -106,7 +106,7 @@ export const getCollaboArtist = async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data: Artist = await response.json();
 
     return data;
   } catch (error) {
