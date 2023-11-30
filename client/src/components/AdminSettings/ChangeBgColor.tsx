@@ -1,8 +1,9 @@
 "use client";
-import { SketchPicker, ColorResult } from "react-color";
+import { HexColorPicker, HexColorInput } from "react-colorful";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getBackgroundColor, setBackgroundColor } from "../../../lib/action";
 import Image from "next/image";
+
 import mainpage from "../../../public/images/mainpage.jpg";
 
 export default function ChangeBgColor() {
@@ -22,28 +23,28 @@ export default function ChangeBgColor() {
     },
   });
 
-  const handleColorChange = (ColorResult: ColorResult) => {
-    setBackgroundColorMutation.mutate({ backgroundColor: ColorResult.hex });
+  const handleColorChange = (color: string) => {
+    setBackgroundColorMutation.mutate({ backgroundColor: color });
   };
 
   return (
     <div className="flex flex-col items-center justify-center">
       {typeof backgroundColor === "string" && (
         <div className="relative">
-          <SketchPicker
+          <HexColorPicker
             color={backgroundColor}
-            onChangeComplete={handleColorChange}
-            styles={{
-              default: {
-                picker: {
-                  width: "95%",
-                  borderRadius: "4px",
-                  margin: "10px",
-                  boxSizing: "border-box",
-                },
-              },
-            }}
+            onChange={handleColorChange}
           />
+          <div className="flex justify-center w-64">
+            <label className="flex items-center space-x-2">
+              <span className="text-gray-800">HEX 색상:</span>
+              <HexColorInput
+                color={backgroundColor}
+                onChange={handleColorChange}
+                className="w-1/2 p-1 border-2 border-gray-200 rounded-md"
+              />
+            </label>
+          </div>
         </div>
       )}
       <div className=" flex-col w-[100%] h-[50vh] tabletLandscape:h-[90vh] rounded-2xl flex justify-center items-center">
