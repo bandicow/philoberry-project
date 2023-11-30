@@ -66,7 +66,7 @@ jobs:
           ECR_REPOSITORY_NAME: "philoberry_front/service_dev"
           IMAGE_TAG: latest
         run: |
-          docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} -f client/Dockerfile.next . 
+          docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} -f client/Dockerfile.next client 
           docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
           echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
 
