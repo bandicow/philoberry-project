@@ -55,6 +55,24 @@ export async function setBackgroundColor(data: { backgroundColor: string }) {
 }
 
 //########################## 작가 ##########################
+//** 작가 등록하기 */ OK
+export async function postArtist(artistData: NewArtist) {
+  try {
+    const response = await fetch(`${serverUrl}/express/postArtist`, {
+      method: "POST",
+      body: JSON.stringify(artistData),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 //** 작가 이름 가져오기*/ OK
 export const getTodayArtist = async () => {
   try {
@@ -73,23 +91,29 @@ export const getTodayArtist = async () => {
   }
 };
 
-//** 작가 등록하기 */ OK
-export async function postArtist(artistData: NewArtist) {
+//** 콜라보 작가 정보 가져오기*/ OK
+export const getCollaboArtist = async () => {
   try {
-    const response = await fetch(`${serverUrl}/express/postArtist`, {
-      method: "POST",
-      body: JSON.stringify(artistData),
+    const name = getTodayArtist();
+
+    const response = await fetch(`${serverUrl}/express/getCollaboArtist`, {
+      method: "GET",
+      body: JSON.stringify({ name }),
       headers: { "Content-Type": "application/json" },
     });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const data = await response.json();
+
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
   }
-}
+};
 
 // 작가 선택하기 post로 todayArtist 변경 OK
 export async function postTodayArtist(artist: PickArtist) {

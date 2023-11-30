@@ -1,10 +1,10 @@
-import ColaboArtist from "@/src/components/Artist/ColaboArtist";
+import CollaboArtist from "@/src/components/Artist/CollaboArtist";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <ColaboArtist />
+      <CollaboArtist />
     </div>
   );
 };

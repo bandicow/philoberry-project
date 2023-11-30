@@ -145,7 +145,53 @@ app.get("/express/getBackgroundColor", async (req: Request, res: Response) => {
 });
 
 //#################### 작가 ####################//
-//** 모든 작가 정보 가져오기 */
+
+//** 작가 등록하기 */
+app.post("/express/postArtist", async (req: Request, res: Response) => {
+  const artistData = req.body;
+  try {
+    // S3 이미지 업로드 후 Key받아오기(null 일때 s3 막 업로드된거 delete, create X)
+    const newArtist = await prisma.artist.create({
+      data: {
+        name: artistData.name,
+        major: artistData.major,
+        profile: artistData.profile,
+        website_url: artistData.website_url,
+        artist_image: artistData.artist_image,
+      },
+    });
+
+    return res.status(201).json(newArtist);
+  } catch (e) {
+    console.error(e);
+    if (artistData && artistData.artist_name) {
+      const folder = `${artistData.artist_name}/`;
+      await deleteS3Objects(folder);
+      console.log({ message: "Images deleted successfully from S3" });
+    }
+  }
+  return res.status(500).json({ message: "Server Error" });
+});
+
+//** 콜라보 작가 정보 가져오기 */
+app.get("/express/getCollaboArtist", async (req: Request, res: Response) => {
+  try {
+    const { artist_name } = req.body;
+
+    const todayArtist = await prisma.artist.findUnique({
+      where: {
+        name: artist_name,
+      },
+    });
+
+    return res.status(200).json(todayArtist);
+  } catch (error) {
+    console.log(error, "서버 에러");
+    return res.status(404).json({ message: "아티스트 정보 가져오기 실패" });
+  }
+});
+
+//** 모든 작가 이름 가져오기 */
 app.get("/express/getArtist", async (req: Request, res: Response) => {
   try {
     const artistInfo = await prisma.artist.findMany({
@@ -174,33 +220,6 @@ app.get("/express/getTodayArtist", async (req: Request, res: Response) => {
     console.log(error, "서버 에러");
     return res.status(404).json({ message: "아티스트 이름 불러오기 실패" });
   }
-});
-
-//** 작가 등록하기 */
-app.post("/express/postArtist", async (req: Request, res: Response) => {
-  const artistData = req.body;
-  try {
-    // S3 이미지 업로드 후 Key받아오기(null 일때 s3 막 업로드된거 delete, create X)
-    const newArtist = await prisma.artist.create({
-      data: {
-        name: artistData.name,
-        major: artistData.major,
-        profile: artistData.profile,
-        website_url: artistData.website_url,
-        artist_image: artistData.artist_image,
-      },
-    });
-
-    return res.status(201).json(newArtist);
-  } catch (e) {
-    console.error(e);
-    if (artistData && artistData.artist_name) {
-      const folder = `${artistData.artist_name}/`;
-      await deleteS3Objects(folder);
-      console.log({ message: "Images deleted successfully from S3" });
-    }
-  }
-  return res.status(500).json({ message: "Server Error" });
 });
 
 //** 작가 선택하기 */

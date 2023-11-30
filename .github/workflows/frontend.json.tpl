@@ -1,5 +1,5 @@
 {
-  "family": "${application_name}_frontend_family", 
+  "family": "${application_name}_frontend_family",
   "containerDefinitions": [
     {
       "name": "${application_name}_frontend",
@@ -38,6 +38,15 @@
       }],
       "memory": 4096,
       "volumesFrom": []
+    }
+  ],
+  "volumes": [
+    {
+      "name": "philoberry_home",
+      "efsVolumeConfiguration": {
+        "fileSystemId": "fs-06917acd513eaed38",
+        "rootDirectory": "/"
+      }
     }
   ]
 }
