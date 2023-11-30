@@ -61,7 +61,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
-          ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_BACKEND_URL }}
+          ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
           ECR_REPOSITORY_NAME: "philoberry_express/service_dev"
           IMAGE_TAG: latest
         run: |
