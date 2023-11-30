@@ -22,6 +22,13 @@ env:
   S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
   S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
   NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+  # 추가된 환경 변수
+  application_name: philoberry-repository
+  aws_front_repository: philoberry_front/service_dev
+  tag: latest
+  region: ap-northeast-2
+  service_type: dev
+  frontend_container_port: 3000
 
 jobs:
   update_service:
@@ -70,17 +77,29 @@ jobs:
           docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
           echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
 
+      - name: Prepare task definition
+        run: |
+          envsubst < ${ECS_TD} > front-task-definition.json
+        env:
+          ECS_TD: ${{ env.ECS_TD }}
+          application_name: ${{ env.application_name }}
+          aws_front_repository: ${{ env.aws_front_repository }}
+          tag: ${{ env.tag }}
+          region: ${{ env.region }}
+          service_type: ${{ env.service_type }}
+          frontend_container_port: ${{ env.frontend_container_port }}
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ env.ECS_TD }}
+          task-definition: front-task-definition.json
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ env.ECS_TD }}
+          task-definition: front-task-definition.json
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
