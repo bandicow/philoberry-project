@@ -30,18 +30,20 @@ export default function ChangeBgColor() {
   return (
     <div className="flex flex-col items-center justify-center">
       {typeof backgroundColor === "string" && (
-        <div className="relative">
+        <div className="center w-[100%]">
           <HexColorPicker
             color={backgroundColor}
             onChange={handleColorChange}
+            className="w-full"
+            style={{ height: "300px", width: "100%", maxWidth: "650px" }}
           />
-          <div className="flex justify-center w-64">
-            <label className="flex items-center space-x-2">
-              <span className="text-gray-800">HEX 색상:</span>
+          <div className="flex justify-center w-64 mt-3">
+            <label className="flex justify-center items-center space-x-2">
+              <span className="text-gray-800 font-bold">HEX : </span>
               <HexColorInput
                 color={backgroundColor}
                 onChange={handleColorChange}
-                className="w-1/2 p-1 border-2 border-gray-200 rounded-md"
+                className="w-1/2 p-1 border-2 border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-s-yellow-400 focus:border-transparent"
               />
             </label>
           </div>
