@@ -1,4 +1,5 @@
 {
+  "family": "${application_name}_frontend_family", 
   "containerDefinitions": [
     {
       "name": "${application_name}_frontend",
