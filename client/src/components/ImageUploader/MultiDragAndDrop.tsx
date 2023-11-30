@@ -95,11 +95,13 @@ const DragAndDropUploader = ({
                 <div
                   className="flex p-1"
                   onClick={(event) => event.stopPropagation()}
+                  onTouchEnd={(event) => event.stopPropagation()}
                 >
                   <Image
                     src={url}
                     alt={`Preview ${index}`}
                     onClick={() => upLoadedImageRemover(index)}
+                    onTouchEnd={() => upLoadedImageRemover(index)}
                     width={30}
                     height={30}
                   />
@@ -116,7 +118,10 @@ const DragAndDropUploader = ({
         {isDragActive && (
           <button
             type="button"
-            {...getRootProps({ onClick: (e) => e.stopPropagation() })}
+            {...getRootProps({
+              onClick: (e) => e.stopPropagation(),
+              onTouchEnd: (e) => e.stopPropagation(),
+            })}
           >
             Add More Images
           </button>

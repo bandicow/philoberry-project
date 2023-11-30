@@ -8,7 +8,7 @@ env:
   AWS_REGION: ap-northeast-2
   ECS_SERVICE: frontend-service-dev
   ECS_CLUSTER: philoberry-ecs-cluster
-  ECS_TD: ./frontend.json.tpl
+  ECS_TD: frontend.json.tpl
   CONTAINER_NAME: philoberry-repository_frontend
   GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}

@@ -62,11 +62,13 @@ const DragAndDropUploader = ({
             <div
               className="rounded-md h-52"
               onClick={(event) => event.stopPropagation()}
+              onTouchEnd={(event) => event.stopPropagation()}
             >
               <Image
                 src={imageURL}
                 alt={`업로드 에러`}
                 onClick={upLoadedImageRemover}
+                onTouchEnd={upLoadedImageRemover}
                 fill
               />
             </div>
