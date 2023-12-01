@@ -57,10 +57,11 @@ test.tsx
 /server/dist/*
 
 
-
 #Docker 
-# ./client/Dockerfile.next
+./client/Dockerfile.next
+./server/Dockerfile.express
+./client/DockerFile.next
+./server/DockerFile.express
 
-
-#github actions
-# .github/workflows/*
+#github actions 임시동결
+.github/workflows/*

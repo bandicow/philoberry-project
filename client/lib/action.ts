@@ -96,7 +96,8 @@ export const getCollaboArtist = async () => {
   try {
     const name = await getTodayArtist();
     const response = await fetch(
-      `${serverUrl}/express/getCollaboArtist/${name}`
+      `${serverUrl}/express/getCollaboArtist/${name}`,
+      { cache: "no-store" }
     );
 
     if (!response.ok) {

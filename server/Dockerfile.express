@@ -22,7 +22,6 @@ RUN npx prisma generate
 
 RUN npm run build
 
-#SET the port
 EXPOSE 8000
 
 #Start the app
