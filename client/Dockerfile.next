@@ -16,7 +16,6 @@ COPY client .
 COPY prisma ./prisma
 
 #Build the Next.js application
-WORKDIR /app/prisma
 RUN npx prisma generate
 
 RUN npm run build
