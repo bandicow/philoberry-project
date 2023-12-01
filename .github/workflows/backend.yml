@@ -73,7 +73,7 @@ jobs:
           ECR_REPOSITORY_NAME: "philoberry_epxress/service_dev"
           IMAGE_TAG: latest
         run: |
-          docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} -f server/Dockerfile.express . 
+          docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} -f server/DockerFile.express . 
           docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
           echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
 
@@ -90,7 +90,6 @@ jobs:
           express_container_port: ${{ env.express_container_port }}
 
       - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: backend-task-definition.json
