@@ -1,6 +1,11 @@
+
+
 {
-  
   "family": "backend-staging-dev",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
   "containerDefinitions": [
     {
       "name": "${application_name}_express",
@@ -26,9 +31,7 @@
         "timeout" :5,
         "retries" :3
       },
-      "cpu": 1,
-            "mountPoints": [],
-      "memory": 2048,
+      "mountPoints": [],
       "volumesFrom": []
     }
   ]

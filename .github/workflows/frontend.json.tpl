@@ -1,5 +1,9 @@
 {
   "family": "frontend-staging-dev",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "2048",
+  "memory": "4096",
   "containerDefinitions": [
     {
       "name": "${application_name}_frontend",
@@ -20,12 +24,11 @@
         }
       ],
       "healthCheck":{
-        "command":["CMD-SHELL","curl -f http://localhost:3000/ || exit 1"],
+        "command":["CMD-SHELL","curl -f http://localhost:3000 || exit 1"],
         "interval" :30,
         "timeout" :5,
         "retries" :3
       },
-      "cpu": 2,
       "environment": [
         {
           "name": "PORT",
@@ -40,13 +43,14 @@
       "volumesFrom": []
     }
   ],
-  "volumes": [
+  "volumes": [   
     {
       "name": "philoberry_home",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-0254bcae750f58e55",
-        "rootDirectory": "/"
+        "fileSystemId": "fs-06917acd513eaed38",  
+        "rootDirectory": "/"  
       }
     }
   ]
 }
+

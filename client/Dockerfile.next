@@ -1,6 +1,7 @@
 #Next Image
 FROM node:16.18.0 AS build
 
+#Set working directory
 WORKDIR /app
 
 #COPY package.json and package-lock.json

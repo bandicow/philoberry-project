@@ -19,8 +19,6 @@ interface InfoProps {
 
 export default function ProductDetail() {
   const pathname = usePathname();
-  // const splitPathname = pathname?.split("/");
-  // const stringid = splitPathname?.slice(-1)[0];
 
   const stringid = pathname?.split("/")?.slice(-1)[0];
 

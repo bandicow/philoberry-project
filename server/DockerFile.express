@@ -17,14 +17,13 @@ COPY server  .
 COPY prisma ./prisma
 
 
-#SET the port
-EXPOSE 8000
-
 #Npm run build
-WORKDIR /app/prisma
 RUN npx prisma generate
 
 RUN npm run build
+
+#SET the port
+EXPOSE 8000
 
 #Start the app
 CMD ["npm", "start"]
