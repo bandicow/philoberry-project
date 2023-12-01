@@ -94,13 +94,10 @@ export const getTodayArtist = async () => {
 //** 콜라보 작가 정보 가져오기*/ OK
 export const getCollaboArtist = async () => {
   try {
-    const name = getTodayArtist();
-
-    const response = await fetch(`${serverUrl}/express/getCollaboArtist`, {
-      method: "GET",
-      body: JSON.stringify({ name }),
-      headers: { "Content-Type": "application/json" },
-    });
+    const name = await getTodayArtist();
+    const response = await fetch(
+      `${serverUrl}/express/getCollaboArtist/${name}`
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

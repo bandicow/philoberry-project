@@ -10,7 +10,9 @@ const nextConfig = {
     NEXT_PUBLIC_BUILDING_IMAGE: process.env.NEXT_PUBLIC_BUILDING_IMAGE,
   },
   reactStrictMode: true,
-  experimental: { appDir: true },
+
+  // App router is available by default now, `experimental.appDir` option can be safely removed.
+  // experimental: { appDir: true },
 
   // babel 대신 swc 사용 , experimental 안에서 사용 : 실험적이라 문제있을수 있다.
   // experimental: { appDir: true, swcMinify: true },

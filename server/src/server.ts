@@ -14,7 +14,7 @@ import {
 
 import getProductDetail from "./routes/getProductDetail";
 import getArtwork from "./routes/getArtwork";
-import { Setting } from "@prisma/client";
+import { Artist, Setting } from "@prisma/client";
 
 // .env 파일을 읽어서 process.env로 설정합니다.
 dotenv.config();
@@ -165,7 +165,7 @@ app.post("/express/postArtist", async (req: Request, res: Response) => {
   } catch (e) {
     console.error(e);
     if (artistData && artistData.artist_name) {
-      const folder = `${artistData.artist_name}/`;
+      const folder = `${artistData.artist_name}`;
       await deleteS3Objects(folder);
       console.log({ message: "Images deleted successfully from S3" });
     }
@@ -174,22 +174,45 @@ app.post("/express/postArtist", async (req: Request, res: Response) => {
 });
 
 //** 콜라보 작가 정보 가져오기 */
-app.get("/express/getCollaboArtist", async (req: Request, res: Response) => {
-  try {
-    const { artist_name } = req.body;
+app.get(
+  "/express/getCollaboArtist/:name",
+  async (req: Request, res: Response) => {
+    try {
+      const artistName = req.params.name;
+      const collaboArtist = await prisma.artist.findUnique({
+        where: {
+          name: artistName,
+        },
+      });
 
-    const todayArtist = await prisma.artist.findUnique({
-      where: {
-        name: artist_name,
-      },
-    });
+      const s3_key = collaboArtist?.artist_image;
 
-    return res.status(200).json(todayArtist);
-  } catch (error) {
-    console.log(error, "서버 에러");
-    return res.status(404).json({ message: "아티스트 정보 가져오기 실패" });
+      if (!s3_key) return collaboArtist;
+
+      const artistImage = new GetObjectCommand({
+        Bucket: process.env.S3_BUCKET || "",
+        Key: s3_key,
+      });
+
+      let presignedUrl;
+
+      try {
+        presignedUrl = await getSignedUrl(s3Client, artistImage, {
+          expiresIn: 3600 * 24,
+        });
+      } catch (err) {
+        console.log("Error creating presigned URL", err);
+      }
+
+      const data = { ...collaboArtist, artist_image: presignedUrl };
+
+      return res.status(200).json(data);
+    } catch (error) {
+      console.log(error, "서버 에러");
+      return res.status(404).json({ message: "아티스트 정보 가져오기 실패" });
+    }
   }
-});
+);
 
 //** 모든 작가 이름 가져오기 */
 app.get("/express/getArtist", async (req: Request, res: Response) => {
