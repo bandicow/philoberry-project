@@ -1,5 +1,5 @@
 {
-  "family": "${application_name}_frontend_family",
+  "family": "frontend-staging-dev",
   "containerDefinitions": [
     {
       "name": "${application_name}_frontend",
@@ -44,7 +44,7 @@
     {
       "name": "philoberry_home",
       "efsVolumeConfiguration": {
-        "fileSystemId": "fs-06917acd513eaed38",
+        "fileSystemId": "fs-0254bcae750f58e55",
         "rootDirectory": "/"
       }
     }
