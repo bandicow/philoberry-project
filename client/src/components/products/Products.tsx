@@ -20,14 +20,15 @@ const Products = ({ item }: SaleItemProps) => {
           href={`/sale/${id}`}
           stock={stock}
         >
-          <div className="relative object-cover hover:opacity-80 w-full h-full overflow-hidden">
+          <div className="relative min-h-[350px] min-w-[350px] hover:opacity-80 w-full h-full overflow-hidden">
             {mainImage ? (
               <Image
                 key={id}
                 src={mainImage}
                 alt={`S3 Image ${name}`}
-                height={768}
-                width={768}
+                fill
+                object-fit="cover"
+                sizes="(max-width: 600px) 400px, (max-width: 900px) 600px, 800px"
               />
             ) : (
               <Image

@@ -8,7 +8,14 @@ const ProductList = async () => {
     const products = await getProducts();
 
     return (
-      <ol className="grid grid-cols-1 m-0 tablet:grid-cols-2 tabletLandscape:grid-cols-3">
+      <ol
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+          gridAutoRows: "350px",
+          gap: "0px",
+        }}
+      >
         {products.map((item) => (
           <Products key={item.id} item={item} />
         ))}
