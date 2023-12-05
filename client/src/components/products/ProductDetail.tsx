@@ -8,13 +8,9 @@ import { getProductDetail } from "../../../lib/action";
 import DetailInfo from "@/src/components/Gallery/DetailInfo";
 import CarouselProduct from "./CarouselProduct";
 import Loading from "@/app/loading";
+import { InfoProps } from "@/src/Types/Common";
 interface SaleItemProps extends Product {
   s3key: string[];
-}
-
-interface InfoProps {
-  label: string;
-  value: string | number | string[] | null;
 }
 
 export default function ProductDetail() {

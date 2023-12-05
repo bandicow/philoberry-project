@@ -14,5 +14,10 @@ export async function GET() {
     lastmod: new Date().toISOString(),
   }));
 
+  urls.push({
+    loc: `${url}/artist`,
+    lastmod: new Date().toISOString(),
+  });
+
   return getServerSideSitemap(urls);
 }

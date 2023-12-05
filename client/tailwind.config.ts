@@ -11,10 +11,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      spacing: {
+        "72": "18rem",
+        "84": "21rem",
+        "96": "24rem",
+      },
       boxShadow: {
         reflect:
           "0 0 1px rgba(0,0,0,0.5), 0 1px 1px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(255,255,255,0.2)",
+        bottom:
+          "2px 2px 0px -1px rgba(0, 0, 0, 0.1), 1px 3px 0px -1px rgba(0, 0, 0, 0.06)",
       },
+
       textShadow: {
         default: "2px 2px 4px rgba(0, 0, 0, 0.5)",
       },
@@ -72,5 +80,24 @@ module.exports = {
       textShadow: ["responsive", "hover", "focus"],
     },
   },
-  plugins: ["@tailwindcss/forms", require("tailwindcss-textshadow")],
+  plugins: [
+    "@tailwindcss/forms",
+    require("tailwindcss-textshadow"),
+    require("@tailwindcss/typography"),
+    function ({ addComponents }: { addComponents: (components: any) => void }) {
+      addComponents({
+        ".watermark::after": {
+          content: '"Artist"',
+          opacity: "0.1",
+          fontSize: "5rem",
+          position: "absolute",
+          top: "10%",
+          left: "10%",
+          transform: "translate(-50%, -50%)",
+          zIndex: "-1",
+          textTransform: "uppercase",
+        },
+      });
+    },
+  ],
 };
