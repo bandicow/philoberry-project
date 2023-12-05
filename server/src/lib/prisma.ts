@@ -1,20 +1,17 @@
 import { PrismaClient } from "@prisma/client";
 
-// Prevent multiple instances of Prisma Client in development
 declare global {
   var prisma: PrismaClient | undefined;
 }
-
-let prisma: PrismaClient;
 
 if (!global.prisma) {
   global.prisma = new PrismaClient();
 }
 
-prisma = global.prisma;
+const prismaClient = global.prisma;
 
 process.on("beforeExit", async () => {
-  await prisma.$disconnect();
+  await prismaClient.$disconnect();
 });
 
-export default prisma;
+export default prismaClient;

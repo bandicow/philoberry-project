@@ -1,17 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useEffect } from "react";
 
-interface ErrorPlaceholderProps {
-  error: Error;
-}
-
-export default function ErrorPlaceholder({ error }: ErrorPlaceholderProps) {
-  useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
-  }, [error]);
-
+export default function ErrorPlaceholder() {
   return (
     <div className="flex flex-col justify-center items-center h-screen text-center">
       <h1 className="text-4xl mb-2">Error</h1>

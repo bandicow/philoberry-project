@@ -1,17 +1,27 @@
+"use client";
 import { getCollaboArtist } from "@/lib/action";
+import { Artist } from "@prisma/client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const CollaboArtist = async () => {
-  try {
-    const artist = await getCollaboArtist();
+export default function CollaboArtist() {
+  const [artist, setArtist] = useState<Artist>();
+  useEffect(() => {
+    const fetchCollaboArtist = async () => {
+      const artistInfo = await getCollaboArtist();
 
-    return (
+      setArtist(artistInfo);
+    };
+    fetchCollaboArtist();
+  }, []);
+
+  return (
+    <>
       <div>
-        <p>{artist.artist_id}</p>
-        {artist.artist_image ? (
+        <p>{artist?.artist_id}</p>
+        {artist?.artist_image ? (
           <Image
-            src={artist.artist_image}
+            src={artist?.artist_image}
             alt={"작가사진"}
             height={500}
             width={500}
@@ -19,15 +29,11 @@ const CollaboArtist = async () => {
         ) : (
           <div>작가사진</div>
         )}
-        <p>{artist.name}</p>
-        <p>{artist.major}</p>
-        <p>{artist.profile}</p>
-        <p>{artist.website_url}</p>
+        <p>{artist?.name}</p>
+        <p>{artist?.major}</p>
+        <p>{artist?.profile}</p>
+        <p>{artist?.website_url}</p>
       </div>
-    );
-  } catch (error) {
-    return <div>Error</div>;
-  }
-};
-
-export default CollaboArtist;
+    </>
+  );
+}

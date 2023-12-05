@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import SaleItemCard from "../UI/Card/Card";
 import Image from "next/image";

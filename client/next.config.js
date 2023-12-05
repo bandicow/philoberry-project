@@ -15,7 +15,7 @@ const nextConfig = {
   // experimental: { appDir: true },
 
   // babel 대신 swc 사용 , experimental 안에서 사용 : 실험적이라 문제있을수 있다.
-  // experimental: { appDir: true, swcMinify: true },
+  experimental: { swcMinify: true },
 
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",

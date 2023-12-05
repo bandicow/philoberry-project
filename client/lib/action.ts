@@ -97,7 +97,7 @@ export const getCollaboArtist = async () => {
     const name = await getTodayArtist();
     const response = await fetch(
       `${serverUrl}/express/getCollaboArtist/${name}`,
-      { cache: "no-store" }
+      { cache: "no-cache" }
     );
 
     if (!response.ok) {
@@ -255,7 +255,9 @@ type UploadArtwork = Omit<Artwork, "artwork_id">;
 //**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
   try {
-    const response = await fetch(`${serverUrl}/express/getProducts`);
+    const response = await fetch(`${serverUrl}/express/getProducts`, {
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

@@ -71,6 +71,8 @@ export default function ProductDetail() {
                 alt="이미지설명"
                 width={500}
                 height={500}
+                objectFit="contain"
+                priority={true}
               />
             </div>
           ))}

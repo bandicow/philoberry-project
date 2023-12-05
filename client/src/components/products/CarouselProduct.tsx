@@ -32,7 +32,14 @@ function CarouselProduct({ images }: CarouselProps) {
             minHeight: "300px",
           }}
         >
-          <Image src={img} alt={`${idx}`} fill objectFit="contain" />
+          <Image
+            src={img}
+            alt={`${idx}`}
+            fill
+            objectFit="contain"
+            priority={true}
+            sizes="100%"
+          />
         </SwiperSlide>
       ))}
       <div className="pagination"></div>
