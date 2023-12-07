@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Product } from "@prisma/client";
+import { product } from "@prisma/client";
 import { EditProducts } from "../../../src/components/AdminSettings/EditProducts";
 import { getProduct } from "../../../lib/action";
 
 type ProductInfo = Pick<
-  Product,
+  product,
   "name" | "category" | "price" | "color" | "size" | "details" | "stock" | "id"
 >;
 

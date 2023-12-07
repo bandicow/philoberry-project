@@ -22,7 +22,7 @@ export const LinkWithHover = ({ href, children }: LinkWithHoverProps) => {
     <div className="">
       <Link href={href} passHref>
         <p
-          className={` float-left border-b border-white  transition-transform duration-500 ease-in-out ${
+          className={`text-center border-b border-gray-200  transition-transform duration-500 ease-in-out ${
             isHovered ? "transform scale-150" : ""
           }`}
           onMouseEnter={handleMouseEnter}

@@ -47,8 +47,8 @@ export default function CollaboArtist() {
             <div>작가사진</div>
           )}
         </div>
-        <div className=" m-3 w-full h-full flex-1 flex-col p-1">
-          <h2 className="tabletLandscape:text-2xl text-xl font-semibold">
+        <div className="m-3 tabletLandscape:ml-10 w-full h-full flex-1 flex-col p-1">
+          <h2 className="tabletLandscape:text-4xl text-2xl font-semibold mb-5 -ml-4">
             {artist?.name}
           </h2>
           {artist &&

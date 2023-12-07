@@ -8,7 +8,7 @@ interface InfoProps {
 }
 
 const DetailInfo = ({ label, value }: InfoProps) => (
-  <div className="flex mt-5 text-gray-600 font-semibold">
+  <div className="flex items-center mt-5 text-gray-600 font-semibold">
     <span className="flex-shrink-0 w-[100px] min-w-[100px] whitespace-nowrap text-xs tabletLandscape:text-base">
       {label}
     </span>
@@ -18,14 +18,24 @@ const DetailInfo = ({ label, value }: InfoProps) => (
       ) : (
         <div>
           {typeof value === "string" ? (
-            <div className="whitespace-normal">
-              {value}
-              {label === "웹사이트" && value && (
-                <a href={value} target="_blank" rel="noreferrer">
-                  <FontAwesomeIcon icon={faLink} />
-                </a>
-              )}
-            </div>
+            value.charAt(0) === "#" && value.length === 7 ? (
+              <div
+                style={{
+                  width: "15px",
+                  height: "15px",
+                  backgroundColor: value,
+                }}
+              />
+            ) : (
+              <div className="whitespace-normal">
+                {value}
+                {label === "웹사이트" && value && (
+                  <a href={value} target="_blank" rel="noreferrer">
+                    <FontAwesomeIcon icon={faLink} />
+                  </a>
+                )}
+              </div>
+            )
           ) : (
             <div className="whitespace-normal">
               {label === "가격" && value !== null

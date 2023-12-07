@@ -1,40 +1,48 @@
 generator client {
   provider = "prisma-client-js"
-  log    = ["query", "info", "warn", "error"]
+  log      = ["query", "info", "warn", "error"]
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 model Artist {
-  artist_id   Int       @id @default(autoincrement())
-  artist_image String?  // This field is optional
-  name        String  @unique // 이름
-  major       String? // 분야
-  profile     String? // 작가 소개
-  website_url String? // 작가 사이트
-  artworks    Artwork[] // Relation field
+  artist_id    Int       @id @default(autoincrement())
+  artist_image String?
+  name         String    @unique
+  major        String?
+  profile      String?
+  website_url  String?
+  Artwork      Artwork[]
 }
 
 model Artwork {
-  artwork_id    Int      @id @default(autoincrement())
-  artist_name     String     // 작가명
-  title         String // 작품명
-  s3key     String  // 작품 이미지 연결 key
-  description  String //작품설명 
-  createdAt     Int? // 생성일 ,필요한가?
-  material        String  // 재료
-  size    String  // 규격, 사이즈
-  price         Float   // 가격
-  isSold        Boolean // 판매 여부
-  order         Int // 작품순서
-  artist        Artist   @relation(fields: [artist_name], references: [name])
+  artwork_id  Int     @id @default(autoincrement())
+  artist_name String
+  title       String
+  s3key       String
+  description String
+  createdAt   Int?
+  material    String
+  size        String
+  price       Float
+  isSold      Boolean
+  order       Int
+  Artist      Artist  @relation(fields: [artist_name], references: [name])
+
+  @@index([artist_name], map: "Artwork_artist_name_fkey")
+}
+
+model PickArtist {
+  id          Int    @id @default(100)
+  artist_name String
 }
 
 model Product {
-  id           Int      @id @default(autoincrement())
-  name         String @unique
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
   category     String
   price        Float
   material     String?
@@ -42,39 +50,33 @@ model Product {
   size         String?
   details      String?
   precautions  String?
-  mainImage   String?   // Main image URL 
+  mainImage    String?
   seller       String
   stock        Int
   url          String?
-  createdAt    DateTime @default(now())
-  
- productImages     ProductImage[] // Relation field for additional images
+  createdAt    DateTime       @default(now())
+  ProductImage ProductImage[]
 }
 
 model ProductImage {
-    id          Int     @id @default(autoincrement())
-    s3key         String // URL of the additional image stored in S3 
-    productId   Int 
-    product     Product @relation(fields: [productId], references: [id])
+  id        Int     @id @default(autoincrement())
+  s3key     String
+  productId Int
+  Product   Product @relation(fields: [productId], references: [id])
+
+  @@index([productId], map: "ProductImage_productId_fkey")
 }
 
 model Setting {
-  id Int @id @default(100)
+  id              Int    @id @default(100)
   backgroundColor String
 }
-
-model PickArtist {
-  id Int @id @default(100)
-  artist_name String
-}
-
-// 고객 정보
 
 model User {
   id       Int     @id @default(autoincrement())
   name     String?
   email    String  @unique
   image    String?
-  password String? // bcrypt
-  isAdmin  Boolean  @default(false)
+  password String?
+  isAdmin  Boolean @default(false)
 }
