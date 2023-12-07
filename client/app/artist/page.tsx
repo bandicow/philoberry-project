@@ -10,28 +10,10 @@ type Props = {
 };
 
 export async function generateMetadata(
-  { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  let name, major, artist_image, profile, website_url;
-
-  try {
-    const result = await getCollaboArtist();
-
-    name = result.name;
-    major = result.major;
-    artist_image = result.artist_image;
-    profile = result.profile;
-    website_url = result.website_url;
-  } catch (error) {
-    console.error("Failed to get collabo artist:", error);
-    // If an error occurs, use default values
-    name = "Default";
-    major = "Default";
-    artist_image = "https://philoberry.com/images/35mm_logo.png";
-    profile = "Default profile";
-    website_url = "https://www.philoberry.com";
-  }
+  const { name, major, artist_image, profile, website_url } =
+    await getCollaboArtist();
 
   const previousImages = (await parent).openGraph?.images || [];
 
@@ -42,7 +24,7 @@ export async function generateMetadata(
 
     openGraph: {
       type: "website",
-      url: "https://www.philoberry.com",
+      url: "https://philoberry.com",
       title: `${name} | Philoberry`,
       description: profile ? profile : "작가의 프로필이 없습니다.",
       images: [
