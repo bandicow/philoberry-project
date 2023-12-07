@@ -63,7 +63,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_REPOSITORY_NAME: "philoberry_epxress/service_dev"
+          ECR_REPOSITORY_NAME: "philoberry_express/service_dev"
           IMAGE_TAG: latest
         run: |
           docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} -f server/Dockerfile.express . 
