@@ -76,4 +76,4 @@ jobs:
 
       - name: Upload backendimagedefinitions.json to S3
         run: |
-          aws s3 cp backendimagedefinitions.json s3://philoberry-cd-backend-bucket/backendimagedefinitions.json
+          aws s3 cp backendimagedefinitions.json s3://philoberry-cd-backend-bucket/source_out/backendimagedefinitions.json

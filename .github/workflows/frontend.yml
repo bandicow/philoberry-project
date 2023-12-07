@@ -76,4 +76,4 @@ jobs:
 
       - name: Upload frontimagedefinitions.json to S3
         run: |
-          aws s3 cp frontimagedefinitions.json s3://philoberry-cd-front-bucket/frontimagedefinitions.json
+          aws s3 cp frontimagedefinitions.json s3://philoberry-cd-front-bucket/source_out/frontimagedefinitions.json

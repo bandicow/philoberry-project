@@ -1,7 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
 
 const config = {
-  siteUrl: process.env.NEXTAUTH_URL || "http://localhost:3000",
+  siteUrl: process.env.NEXTAUTH_URL || "https://www.philoberry.com/",
   generateRobotsTxt: true,
   sitemapSize: 7000,
   changefreq: "daily",
