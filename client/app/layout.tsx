@@ -9,6 +9,8 @@ import { Metadata } from "next";
 // config.autoAddCss = false;
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.philoberry.com"),
+
   title: "Philoberry - 자체 제작 브랜드의 제품 판매 & 아티스트와의 협업",
   description:
     "Philoberry는 자체 제작 브랜드의 제품 판매와 아티스트와의 협업을 통해 새로운 문화를 만들어가는 브랜드입니다.",

@@ -2,9 +2,9 @@
 import { getServerSideSitemap } from "next-sitemap";
 import { getProducts } from "@/lib/action";
 
-const url = process.env.NEXTAUTH_URL
-  ? process.env.NEXTAUTH_URL
-  : "http://localhost:3000";
+const url = process.env.NEXT_PUBLIC_URL
+  ? process.env.NEXT_PUBLIC_URL
+  : "http://localhost:8000";
 
 export async function GET() {
   const products = await getProducts();
