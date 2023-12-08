@@ -5,8 +5,25 @@ import { Metadata } from "next";
 import { getCollaboArtist } from "@/lib/action";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { name, major, artist_image, profile, website_url } =
-    await getCollaboArtist();
+  let name, major, artist_image, profile, website_url;
+
+  try {
+    const data = await getCollaboArtist();
+    name = data.name;
+    major = data.major;
+    artist_image = data.artist_image;
+    profile = data.profile;
+    website_url = data.website_url;
+  } catch (error) {
+    console.error("Error fetching artist data:", error);
+
+    // 더미 데이터
+    name = "로딩중";
+    major = "로딩중";
+    artist_image = "https://philoberry.com/images/35mm_logo.png";
+    profile = "작가의 프로필이 없습니다.";
+    website_url = "https://www.philoberry.com";
+  }
 
   return {
     metadataBase: new URL("https://www.philoberry.com"),
