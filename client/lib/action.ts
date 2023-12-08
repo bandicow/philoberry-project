@@ -95,23 +95,64 @@ export const getTodayArtist = async () => {
 export const getCollaboArtist = async () => {
   try {
     const name = await getTodayArtist();
-    const response = await fetch(
+
+    const fetchPromise = fetch(
       `${serverUrl}/express/getCollaboArtist/${name}`,
       { cache: "no-cache" }
     );
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Request timed out")), 5000)
+    );
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    try {
+      const response = (await Promise.race([
+        fetchPromise,
+        timeoutPromise,
+      ])) as Response;
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: Artist = await response.json();
+
+      return data;
+    } catch (error) {
+      if ((error as Error).message === "Request timed out") {
+        console.log("Request to getCollaboArtist timed out");
+        // 타임아웃 발생 시 처리할 로직을 작성합니다.
+      } else {
+        console.log(error);
+      }
+
+      throw error;
     }
-
-    const data: Artist = await response.json();
-
-    return data;
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
+
+// export const getCollaboArtist = async () => {
+//   try {
+//     const name = await getTodayArtist();
+//     const response = await fetch(
+//       `${serverUrl}/express/getCollaboArtist/${name}`,
+//       { cache: "no-cache" },
+//     );
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+
+//     const data: Artist = await response.json();
+
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// };
 
 // 작가 선택하기 post로 todayArtist 변경 OK
 export async function postTodayArtist(artist: PickArtist) {

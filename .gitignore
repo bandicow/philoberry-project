@@ -65,3 +65,4 @@ test.tsx
 
 #github actions 임시동결
 # .github/workflows/*/
+ .github/workflows/backend.yml
