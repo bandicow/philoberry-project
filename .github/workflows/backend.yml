@@ -69,15 +69,3 @@ jobs:
           docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} -f server/Dockerfile.express . 
           docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
           echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
-
-      - name: Create backendimagedefinitions.json
-        run: |
-          echo '[{"name":"'${{ env.CONTAINER_NAME }}'","imageUri":"'${{ steps.build-image.outputs.image }}'"}]' > backendimagedefinitions.json
-
-      - name: Archive deployment files
-        run: |
-          zip -r source_output.zip backendimagedefinitions.json
-
-      - name: Upload deployment files to S3
-        run: |
-          aws s3 cp source_output.zip s3://philoberry-cd-backend-bucket/philoberry-backend-p/source_out/source_output.zip

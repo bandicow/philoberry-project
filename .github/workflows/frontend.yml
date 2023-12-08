@@ -69,11 +69,3 @@ jobs:
           docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} -f client/Dockerfile.next .
           docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
           echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
-
-      - name: Create frontimagedefinitions.json
-        run: |
-          echo '[{"name":"'${{ env.CONTAINER_NAME }}'","imageUri":"'${{ steps.build-image.outputs.image }}'"}]' > frontimagedefinitions.json
-
-      - name: Upload frontimagedefinitions.json to S3
-        run: |
-          aws s3 cp frontimagedefinitions.json s3://philoberry-cd-front-bucket/source_out/frontimagedefinitions.json
