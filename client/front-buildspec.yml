@@ -1,6 +1,9 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - cd client
   build:
     commands:
       - echo '[{"name":"'${CONTAINER_NAME}'","imageUri":"'${REPOSITORY_NAME}:${IMAGE_TAG}'"}]' > frontimagedefinitions.json

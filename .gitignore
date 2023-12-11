@@ -64,4 +64,4 @@ test.tsx
 # ./server/DockerFile.express
 
 #github actions 임시동결
-.github/workflows/*/
+# .github/workflows/*/
