@@ -15,6 +15,7 @@ import DetailInfo from "@/src/components/Gallery/DetailInfo";
 import IsSold from "../mix/IsSold";
 import IsFullScreen from "../mix/IsFullScreen";
 import "@/styles/tailwind.css";
+import GallerySwiper from "../../Gallery/GallerySwiper";
 
 interface GalleryCardProps {
   imageInfo: Artwork;
@@ -60,24 +61,17 @@ const GalleryModal = ({ imageInfo, onModal, artworkId }: GalleryCardProps) => {
             icon={closeIcon}
             onClick={() => onModal(artworkId)}
           />
-          <div className="relative flex items-center justify-center w-full h-auto pt-5 pb-5 mt-2 desktop:w-1/2 ">
+          <div className="relative flex items-center justify-center w-full h-auto tabletLandscape:w-2/3 ">
             <FontAwesomeIcon
-              className="absolute zoombtn"
+              className="absolute top-0 zoombtn"
               icon={zoomInIcon}
               onClick={openFullScreen}
             />
-            <div className="">
-              <Image
-                src={imageInfo.s3key}
-                alt={imageInfo.title}
-                width={1000}
-                height={1000}
-                object-fit="cover"
-                priority
-              />
+            <div className="relative w-5/6">
+              <GallerySwiper images={[imageInfo.s3key]} />
             </div>
           </div>
-          <div className="flex-col items-center justify-center w-full h-full p-20 ml-1 desktop:w-1/3 ">
+          <div className="flex-col items-center justify-center w-full h-full p-10 ml-1 tabletLandscape:w-1/3 ">
             <IsSold sold={imageInfo.isSold} />
 
             <h1 className="mt-5 mb-3 text-2xl font-bold pb-1 border-b-2 border-b-gray-300">

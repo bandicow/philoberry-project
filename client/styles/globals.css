@@ -181,6 +181,60 @@ body {
   opacity: 1;
 }
 
+.galleryimage {
+  @media (max-width: 1024px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    min-width: 300px;
+    min-height: 300px;
+    max-width: 800px;
+    max-height: 300px;
+    background-color: none;
+  }
+  @media (min-width: 1026px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    min-width: 300px;
+    min-height: 300px;
+    max-width: 600px;
+    max-height: 600px;
+    background-color: none;
+  }
+}
+
+.gallerythumbs {
+  @media (max-width: 1024px) {
+    display: none;
+    width: 100%;
+    height: 100%;
+    min-width: 300px;
+    min-height: 100px;
+    max-width: 1000px;
+    max-height: 300px;
+    padding: 0 10px;
+  }
+
+  @media (min-width: 1025px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    min-width: 50px;
+    min-height: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    margin: 0 10px 0 -50px !important;
+    padding: 0 10px;
+  }
+}
+
 .reflect {
   -webkit-box-reflect: below 5px
     linear-gradient(transparent, rgba(0, 0, 0, 0.3));
