@@ -17,7 +17,6 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch (error) {
     console.error("Error fetching artist data:", error);
 
-    // 더미 데이터
     name = "로딩중";
     major = "로딩중";
     artist_image = "https://philoberry.com/images/35mm_logo.png";
