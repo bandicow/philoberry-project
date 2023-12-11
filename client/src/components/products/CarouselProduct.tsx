@@ -70,7 +70,6 @@ function CarouselProduct({ images }: CarouselProps) {
         freeMode={true}
         watchSlidesProgress={true}
         onSwiper={setThumbsSwiper}
-        centeredSlides={true}
         style={{
           minHeight: "100px",
           minWidth: "500px",
