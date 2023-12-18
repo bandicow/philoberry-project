@@ -6,10 +6,9 @@ interface CardProps {
 
 const Card: React.FunctionComponent<CardProps> = (props) => {
   return (
-    <div className="hide-scollbar w-full p-10 bg-[#f5f5f5] rounded-2xl shadow-md">
-      <div className="w-full">{props.children}</div>
+    <div className="hide-scollbar w-full p-10 bg-[#f5f5f5] rounded-2xl shadow-md overflow-visible">
+      <div className="">{props.children}</div>
     </div>
   );
 };
-
 export default Card;

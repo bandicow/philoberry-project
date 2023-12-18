@@ -112,6 +112,7 @@ export const EditProducts = ({ productsInfo }: ProductInfoProps) => {
               key={field.id}
               label={field.label}
               id={field.id}
+              index={1}
               value={editProduct ? editProduct[field.id] || "" : ""}
               type={field.type}
               required={field.required}

@@ -23,7 +23,12 @@ export interface ImageData {
   productId: number;
 }
 
-type NewProduct = Omit<Product, "id" | "createdAt"> & {
+type NewProduct = Omit<Product, "id" | "createdAt" | "mainImage"> & {
+  productImages: File[];
+  mainImage: File | null;
+};
+
+type ApiProduct = Omit<Product, "id" | "createdAt"> & {
   productImages: string[];
 };
 

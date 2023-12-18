@@ -1,4 +1,4 @@
-import { Artist, Artwork } from "@prisma/client";
+import { Artist, Artwork, ArtworkImage } from "@prisma/client";
 
 export type ISODateString = string;
 export interface DefaultSession {
@@ -35,19 +35,29 @@ interface getPickArtistProps {
   artistInfo: Artist[];
 }
 
-type UploadArtwork = Omit<Artwork, "artwork_id">;
+type NewArtwork = Omit<Artwork, "artwork_id"> & {
+  artworkImages: File[];
+};
+
+type UploadArtwork = Omit<Artwork, "artwork_id"> & {
+  artworkImages: string[];
+};
 
 //** UploadArtwork props for Zustand */
 type ArtworkState = {
-  artworks: UploadArtwork[];
-  files: File[];
-  addArtwork: (artwork: UploadArtwork) => void;
-  updateArtwork: (index: number, updatedArtwork: UploadArtwork) => void;
+  artistName: string;
+  artworks: NewArtwork[];
+  files: File[][];
+  setArtistName: (name: string) => void;
+  addArtwork: (artwork: NewArtwork) => void;
+  updateArtwork: (index: number, updatedArtwork: NewArtwork) => void;
   removeArtwork: (index: number) => void;
-  addFile: (file: File) => void;
-  updateFile: (index: number, file: File) => void;
-  removeFile: (index: number) => void;
-  resetArtwork: () => void;
+  addFile: (index: number, file: File[]) => void;
+  updateFile: (formIndex: number, file: File[]) => void;
+  removeFile: (index: number, fileIndex: number) => void;
+  resetFiles: (index: number) => void;
+  resetArtwork: (index: number) => void;
+  resetAll: () => void;
 };
 
 type ArtistValueProps = Pick<

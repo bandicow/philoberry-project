@@ -9,7 +9,7 @@ type ProductState = {
     key: keyof NewProduct,
     value: NewProduct[keyof NewProduct]
   ) => void;
-  setImages: (images: string[]) => void;
+  setImages: (images: File[]) => void;
   resetProductData: () => void;
 };
 

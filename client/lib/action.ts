@@ -1,13 +1,12 @@
-import { NewProduct } from "@/src/Types/Product";
-import { Artist, Artwork, PickArtist, Product } from "@prisma/client";
+import { UploadArtwork } from "@/src/Types/Art";
+import { ApiProduct } from "@/src/Types/Product";
+import { Artist, PickArtist, Product } from "@prisma/client";
 
 const isProduction = process.env.NODE_ENV === "production";
 
 const serverUrl = isProduction
   ? process.env.NEXT_PUBLIC_URL || "https://www.philoberry.com"
   : "http://localhost:8000";
-
-const BUILDING = process.env.NEXT_PUBLIC_BUILDING_IMAGE === "false";
 
 type ProductInfo = Pick<
   Product,
@@ -234,6 +233,26 @@ export async function getArtworks() {
   }
 }
 
+//** 작품 상세 정보 가져오기 (하나의 작품)*/ OK
+export async function getArtworkDetail(id: number) {
+  try {
+    const response = await fetch(
+      `${serverUrl}/express/getArtwork/detail/${id}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 //** 작품 등록하기 */ OK
 export async function postArtwork(artwork: UploadArtwork) {
   try {
@@ -264,7 +283,7 @@ export async function postArtwork(artwork: UploadArtwork) {
 
 //########################## 제품 ##########################
 //** 제품 등록하기 */ OK
-export async function uploadProduct(productData: NewProduct) {
+export async function postProduct(productData: ApiProduct) {
   try {
     const convertedProductData = {
       ...productData,
@@ -290,8 +309,6 @@ export async function uploadProduct(productData: NewProduct) {
     throw error;
   }
 }
-
-type UploadArtwork = Omit<Artwork, "artwork_id">;
 
 //**모든 제품 정보 가져오기 */ OK
 export const getProducts = async () => {
@@ -376,13 +393,14 @@ export const postEditProduct = async (editData: ProductInfo) => {
 //########################## s3 ##########################
 
 //**s3에 이미지 업로드 */ OK
-export async function handleUpload(file: File, name: string) {
+export async function handleUpload(file: File, name: string, category: string) {
   try {
     const response = await fetch(`${serverUrl}/express/postS3Image`, {
       method: "POST",
       body: JSON.stringify({
         file: { name: file.name, type: file.type },
         name,
+        category,
       }),
       headers: { "Content-Type": "application/json" },
     });
@@ -416,10 +434,13 @@ export async function handleUpload(file: File, name: string) {
 //** 여러 이미지 등록하기 (제품) */ OK
 export async function handleMultipleUploads(
   files: File[],
-  name: string
+  name: string,
+  category: string
 ): Promise<string[]> {
   try {
-    const uploadPromises = files.map((file) => handleUpload(file, name));
+    const uploadPromises = files.map((file) =>
+      handleUpload(file, name, category)
+    );
     const keys = await Promise.all(uploadPromises);
 
     return keys;

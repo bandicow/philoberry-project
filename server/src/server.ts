@@ -57,9 +57,9 @@ app.post("/express/postS3Image", async (req: Request, res: Response) => {
   try {
     const productImage = req.body;
     const file = productImage.file;
+    const category = productImage.category;
 
-    const fileName = `${productImage.name}/${file.name}`;
-
+    const fileName = `${category}/${productImage.name}/${file.name}`;
     const params = {
       Bucket: process.env.S3_BUCKET,
       Key: fileName,
@@ -271,12 +271,13 @@ app.post("/express/postPickArtist", async (req: Request, res: Response) => {
 //** 작품 등록하기 */
 app.post("/express/postArtwork", async (req: Request, res: Response) => {
   const artworkData = req.body;
+
+  const uploadedImageUrls = artworkData.artworkImages;
+
   try {
     const artworkInfo = await prisma.artwork.create({
       data: {
         title: artworkData.title,
-        artist_name: artworkData.artist_name,
-        s3key: artworkData.s3key,
         description: artworkData.description,
         material: artworkData.material,
         size: artworkData.size,
@@ -284,14 +285,35 @@ app.post("/express/postArtwork", async (req: Request, res: Response) => {
         isSold: artworkData.isSold,
         createdAt: artworkData.createdAt,
         order: artworkData.order,
+        mainImage:
+          artworkData.mainImage && artworkData.mainImage.length > 0
+            ? artworkData.mainImage
+            : console.log("mainImage 없음"),
+        Artist: {
+          connect: {
+            name: artworkData.artist_name,
+          },
+        },
       },
     });
+
+    // 각각의 이미지 URL을 ArtworkImage 테이블에 저장합니다.
+    if (uploadedImageUrls && uploadedImageUrls.length > 0) {
+      for (let imageUrl of uploadedImageUrls) {
+        await prisma.artworkImage.create({
+          data: {
+            s3key: imageUrl,
+            artworkId: artworkInfo.artwork_id,
+          },
+        });
+      }
+    }
 
     return res.status(201).json(artworkInfo);
   } catch (err) {
     console.log(err);
     if (artworkData && artworkData.artist_name) {
-      const folder = `${artworkData.artist_name}/`;
+      const folder = `"작품"/${artworkData.artist_name}/`;
       await deleteS3Objects(folder);
       console.log({ message: "Images deleted successfully from S3" });
     }
@@ -348,7 +370,7 @@ app.post("/express/postProduct", async (req: Request, res: Response) => {
     console.error(error);
     if (productData && productData.name) {
       {
-        const folder = `${productData.name}/`;
+        const folder = `"제품"/${productData.name}/`;
         await deleteS3Objects(folder);
         console.log({ message: "Images deleted successfully from S3" });
       }

@@ -201,7 +201,13 @@ const Modal = ({ artistInfo, closeModal }: ModalProps) => {
               <Button goal="작품 등록" />
             </div>
             <div className="mx-1 mb-4">
-              <OnClickButton goal="작품 추가" onClick={addNewForm} />
+              <OnClickButton
+                goal="작품 추가"
+                onClick={() => {
+                  event.preventDefault();
+                  addNewForm;
+                }}
+              />
             </div>
             <div className="mx-1 mb-4">
               <OnClickButton goal="창 닫기" onClick={closeModal} />

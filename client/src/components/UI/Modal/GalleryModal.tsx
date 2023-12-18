@@ -3,7 +3,6 @@ import Card from "../Card/GalleryCard";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import Image from "next/image";
 import { Artwork } from "@prisma/client";
 import { useFullScreen } from "@/src/hooks/useFullScreen";
 import { useWindowSize } from "@/src/hooks/useWindowSize";
@@ -68,7 +67,7 @@ const GalleryModal = ({ imageInfo, onModal, artworkId }: GalleryCardProps) => {
               onClick={openFullScreen}
             />
             <div className="relative w-5/6">
-              <GallerySwiper images={[imageInfo.s3key]} />
+              <GallerySwiper images={[imageInfo.mainImage]} />
             </div>
           </div>
           <div className="flex-col items-center justify-center w-full h-full p-10 ml-1 tabletLandscape:w-1/3 ">
@@ -89,7 +88,7 @@ const GalleryModal = ({ imageInfo, onModal, artworkId }: GalleryCardProps) => {
       <IsFullScreen
         isFullScreen={isFullScreen}
         closeFullScreen={closeFullScreen}
-        image={imageInfo.s3key}
+        image={imageInfo.mainImage}
       />
     </div>
   );

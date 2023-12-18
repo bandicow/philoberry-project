@@ -33,7 +33,7 @@ export const UploadArtist = () => {
 
     if (image && ArtistData.name) {
       try {
-        key = await handleUpload(image, ArtistData.name);
+        key = await handleUpload(image, ArtistData.name, "작가");
       } catch (error) {
         alert("이미지 업로드 실패");
         return "";
@@ -105,6 +105,7 @@ export const UploadArtist = () => {
                   key={field.id}
                   label={field.label}
                   id={field.id}
+                  index={1}
                   value={ArtistData[field.id] || ""}
                   type={field.type}
                   required={true}

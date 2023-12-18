@@ -13,7 +13,7 @@ const config = {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/login", "/admin"],
+        disallow: ["/login", "/admin", "/admin/**"],
       },
     ],
   },

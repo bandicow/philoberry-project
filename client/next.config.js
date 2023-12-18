@@ -6,9 +6,7 @@ const nextConfig = {
       `${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com`,
     ],
   },
-  env: {
-    NEXT_PUBLIC_BUILDING_IMAGE: process.env.NEXT_PUBLIC_BUILDING_IMAGE,
-  },
+
   reactStrictMode: true,
 
   // App router is available by default now, `experimental.appDir` option can be safely removed.

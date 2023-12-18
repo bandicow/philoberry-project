@@ -5,20 +5,17 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { useProductStore } from "@/utils/store/productStore";
+import { useArtworkStore } from "@/utils/store/artworkStore";
 
 const arrowDown: IconDefinition = faFileArrowDown;
 
-const DragAndDropUploader = () => {
-  const store = useProductStore();
-  const { productData } = store;
-  // 의존성이 변치 않은 한 재사용으로 성능향상
-  // 추가적으로 파일이 이미지 파일만 가능하게 변경
+const DragAndDropUploader = ({ index }: { index: number }) => {
+  const store = useArtworkStore();
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      store.setImages(acceptedFiles);
+      store.updateFile(index, acceptedFiles);
     },
-    [store]
+    [store, index]
   );
 
   const { getRootProps, isDragActive } = useDropzone({
@@ -31,11 +28,9 @@ const DragAndDropUploader = () => {
   });
 
   // 이미지 삭제
-  const upLoadedImageRemover = (index: number) => {
-    const newImages = store.productData.productImages.filter(
-      (_, i) => i !== index
-    );
-    store.setImages(newImages);
+  const upLoadedImageRemover = (fileIndex: number) => {
+    // files 상태에서 파일 제거
+    store.removeFile(index, fileIndex);
   };
 
   //kb, mb 변환
@@ -62,7 +57,7 @@ const DragAndDropUploader = () => {
         } flex w-full p-1 border border-gray-300 bg-white rounded-md font-inherit h-full  items-center justify-center flex-col`}
         {...getRootProps()}
       >
-        {productData.productImages?.length < 1 && (
+        {(!store.files[index] || store.files[index].length < 1) && (
           <>
             <FontAwesomeIcon icon={arrowDown} className={"m-4"} size="2xl" />
             <p>이미지 업로드</p>
@@ -70,27 +65,31 @@ const DragAndDropUploader = () => {
         )}
 
         {/* 업로드된 이미지들의 미리보기 및 삭제 버튼 */}
-        {productData.productImages?.length > 0 && (
+        {store.files[index]?.length > 0 && (
           <div className="flex flex-col w-full">
-            {productData.productImages.map((file, index) => (
-              <div key={index} className="flex justify-between w-full px-3">
-                <div className="flex w-auto h-auto">
-                  <div className="relative w-7 h-7 p-3 m-3 bg-gray-200 rounded-md">
+            {store.files[index].map((file, index) => (
+              <div key={index} className="flex px-3 justify-between w-full">
+                <div className="flex">
+                  <div
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      console.log("clicked");
+                      upLoadedImageRemover(index);
+                    }}
+                    className="relative w-7 h-7 p-1 m-1 bg-gray-200 rounded-md"
+                  >
                     <Image
                       src={URL.createObjectURL(file)}
                       alt={`Preview ${index}`}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        upLoadedImageRemover(index);
-                      }}
                       fill
                       object-fit="contain"
+                      className="cursor-pointer"
                       priority={true}
                     />
                   </div>
-                  <p className="pt-3">{file.name}</p>
+                  <p>{file.name}</p>
                 </div>
-                <p className="pt-4  text-gray-500 text-sm tabletLandscape:text-base">
+                <p className="pt-1 text-gray-500 text-sm tabletLandscape:text-base ">
                   {formAtBytes(file.size)}
                 </p>
               </div>

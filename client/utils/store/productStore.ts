@@ -29,11 +29,10 @@ const store = immer<ProductState>((set) => ({
       state.productData[key] = value;
       return state;
     }),
-  setImages: (images) =>
+  setImages: (productImages: File[]) =>
     set((state) => {
-      state.productData.mainImage = images[0];
-      state.productData.productImages = images;
-      return state;
+      state.productData.mainImage = productImages[0];
+      state.productData.productImages = productImages;
     }),
   resetProductData: () => set(() => ({ productData: initialState })),
 }));

@@ -22,7 +22,7 @@ model Artwork {
   artwork_id  Int     @id @default(autoincrement())
   artist_name String
   title       String
-  s3key       String
+  mainImage   String
   description String
   createdAt   Int?
   material    String
@@ -31,8 +31,19 @@ model Artwork {
   isSold      Boolean
   order       Int
   Artist      Artist  @relation(fields: [artist_name], references: [name])
+  ArtworkImages ArtworkImage[]
+
 
   @@index([artist_name], map: "Artwork_artist_name_fkey")
+}
+
+model ArtworkImage {
+  id        Int     @id @default(autoincrement())
+  s3key     String
+  artworkId Int
+  Artwork   Artwork @relation(fields: [artworkId], references: [artwork_id])
+
+  @@index([artworkId], map: "ArtworkImages_artworkId_fkey")
 }
 
 model PickArtist {

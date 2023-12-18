@@ -5,7 +5,7 @@ import DragAndDropUploader from "../ImageUploader/MultiDragAndDrop";
 import { NewProduct } from "../../Types/Product";
 import { InputField } from "../UI/Input/InputField";
 import Button from "../UI/Button/SubmitButton";
-import { uploadProduct, handleMultipleUploads } from "@/lib/action";
+import { postProduct, handleMultipleUploads } from "@/lib/action";
 import { useProductStore } from "@/utils/store/productStore";
 import SlideUpMessage from "../UI/Alert/Slideup";
 import { useNotification } from "@/src/hooks/useNotification";
@@ -17,7 +17,6 @@ type InputField = {
 };
 
 function NewProductForm() {
-  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const {
     shake,
     showFailureMessage,
@@ -35,19 +34,19 @@ function NewProductForm() {
     let keys: string[] = [];
     try {
       keys = await handleMultipleUploads(
-        uploadedImages,
-        store.productData.name
+        store.productData.productImages,
+        store.productData.name,
+        "제품"
       );
       // 여기서 모든 파일들이 올라갔으며 uploadedImageKeys 도 갱신된 상태입니다.
       //Promise 이므로 await해야 에러 걸러냄
-      await uploadProduct({
+      await postProduct({
         ...store.productData,
         mainImage: keys && keys.length > 0 ? keys[0] : null,
         productImages: keys,
       });
       startSuccessNotification();
       store.resetProductData();
-      setUploadedImages([]);
     } catch (error) {
       startFailureNotification();
 
@@ -77,16 +76,14 @@ function NewProductForm() {
         onSubmit={submitHandler}
       >
         <div className="mb-5">
-          <DragAndDropUploader
-            setUploadedImages={setUploadedImages}
-            uploadedImages={uploadedImages}
-          />
+          <DragAndDropUploader />
         </div>
         {inputFields.map((field) => (
           <InputField
             key={field.id}
             label={field.label}
             id={field.id}
+            index={1}
             value={store.productData[field.id] || ""}
             type={field.type}
             required={true}
