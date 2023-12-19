@@ -42,7 +42,7 @@ router.get("/:name", async (req, res) => {
           console.log("Error creating presigned URL", err);
         }
 
-        return { ...artwork, s3key: presignedUrl };
+        return { ...artwork, mainImage: presignedUrl };
       })
     );
     return res.status(200).json(updatedArtworks);
@@ -82,11 +82,11 @@ router.get("/detail/:id", async (req, res) => {
           console.log("Error creating presigned URL", err);
         }
 
-        return { ...image, s3key: presignedUrl };
+        return presignedUrl;
       })
     );
 
-    return res.status(200).json({ ...artwork, s3key: updatedArtworks });
+    return res.status(200).json({ ...artwork, artworkImages: updatedArtworks });
   } catch (err) {
     console.error("Failed to generate S3 image URLs", err);
     return res.status(500).json({ message: "작품 불러오기 실패" });

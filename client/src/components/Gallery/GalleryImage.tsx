@@ -26,11 +26,7 @@ const ModalWrapper = ({
       style={{ zIndex: 1000 }}
     >
       <div onClick={(e) => e.stopPropagation()}>
-        <GalleryModal
-          artworkId={imageInfo.artwork_id}
-          imageInfo={imageInfo}
-          onModal={closeModal}
-        />
+        <GalleryModal artworkId={imageInfo.artwork_id} onModal={closeModal} />
       </div>
     </div>
   ) : null;
@@ -49,7 +45,7 @@ const GalleryImage = (props: Artwork) => {
         <Card>
           <div className="relative w-72 max-h-[600px] h-72 tablet:h-[400px] tablet:w-[400px] tabletLandscape:w-[600px] desktop:h-[600px] overflow-hidden object-cover">
             <Image
-              src={props.s3key}
+              src={props.mainImage}
               alt={props.title}
               fill
               object-fit="cover"

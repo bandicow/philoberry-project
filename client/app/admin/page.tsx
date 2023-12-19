@@ -9,8 +9,6 @@ import { redirect } from "next/navigation";
 const Admin = () => {
   const { data: session, status } = useSession();
 
-  console.log(session?.user);
-
   if (status === "loading") {
     return <Loading />;
   }

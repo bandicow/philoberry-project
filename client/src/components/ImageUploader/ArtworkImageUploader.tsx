@@ -50,7 +50,7 @@ const DragAndDropUploader = ({ index }: { index: number }) => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full max-h-[150px]  overflow-scroll hide-scrollbar">
       <div
         className={`dropzone ${
           isDragActive ? "active" : ""

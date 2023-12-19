@@ -58,7 +58,14 @@ export default function ChangeBgColor() {
           className="max-w-[650px] max-h-[600px] center rounded-md shadow-md w-[100%] my-3 border h-[100%] border-s-gray-400 test"
         >
           <div className="relative w-52 h-52 tabletLandscape:w-96 tabletLandscape:h-96">
-            <Image src={mainpage} alt={"예시 이미지"} fill object-fit="cover" />
+            <Image
+              src={mainpage}
+              alt={"예시 이미지"}
+              fill
+              object-fit="cover"
+              sizes="100%"
+              priority={true}
+            />
           </div>
         </div>
       </div>

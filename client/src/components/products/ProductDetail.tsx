@@ -60,20 +60,20 @@ export default function ProductDetail() {
       <div className="flex-col hidden m-0 tabletLandscape:w-7/12 tabletLandscape:flex">
         {product.s3key &&
           product.s3key.map((s3key) => (
-            <div className="w-full  item_img" key={s3key}>
+            <div className="w-full relative  item_img" key={s3key}>
               <Image
                 className="w-full item_img"
                 src={s3key}
                 alt="이미지설명"
                 width={500}
                 height={500}
-                objectFit="cover"
+                object-fit="contain"
                 priority={true}
               />
             </div>
           ))}
       </div>
-      <div className="hide-scrollbar static tabletLandscape:fixed tabletLandscape:overflow-scroll tabletLandscape:w-5/12  tabletLandscape:right-0 tabletLandscape:top-0 w-full  bg-opacity-40 h-[90vh] tabletLandscape:h-[100vh] min-w-[400px]">
+      <div className="hide-scrollbar tabletLandscape:fixed tabletLandscape:overflow-scroll tabletLandscape:w-5/12  tabletLandscape:right-0 tabletLandscape:top-0 w-full  bg-opacity-40 h-[90vh] tabletLandscape:h-[100vh] min-w-[400px]">
         <div className="flex-col p-10 pt-20 m-5 text-left h-5/6">
           {DetailInfos.map((info, index) => (
             <DetailInfo key={index} {...info} />

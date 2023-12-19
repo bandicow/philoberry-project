@@ -58,14 +58,14 @@ const store = immer<ArtworkState>((set) => ({
         state.files[index] = file;
       }
     }),
-  // 파일 업데이트
+  //**파일 업데이트 */
   updateFile: (index: number, file: File[]) =>
     set((state) => {
       state.files[index] = state.files[index]
         ? [...state.files[index], ...file]
         : file;
     }),
-  // 파일 제거
+  //**파일 제거 */
   removeFile: (index: number, fileIndex: number) =>
     set((state) => {
       if (state.files[index]) {

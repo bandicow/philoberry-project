@@ -8,7 +8,7 @@ type SlideProps = {
 const Slide = ({ key, image }: SlideProps) => {
   return (
     <div key={key} className="relative float-left w-full h-full">
-      <Image src={image} alt={`이미지 ${key}`} fill objectFit="contain" />
+      <Image src={image} alt={`이미지 ${key}`} fill object-fit="contain" />
     </div>
   );
 };

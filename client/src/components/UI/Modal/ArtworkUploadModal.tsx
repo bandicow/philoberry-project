@@ -43,10 +43,6 @@ const ArtworkUploadModal = ({ artistInfo, closeModal }: ModalProps) => {
           "작품"
         );
 
-        console.log(artwork.artist_name);
-        console.log(keys);
-        console.log(keys[0]);
-
         // 업로드된 이미지 키들을 이용하여 새로운 폼 데이터를 생성
         let newFormData = {
           ...artwork,
@@ -67,7 +63,7 @@ const ArtworkUploadModal = ({ artistInfo, closeModal }: ModalProps) => {
     }
   }
 
-  //
+  //**입력에 따라 특정 작품의 데이터를 업데이트하고, 이를 Zustand 스토어에 저장*/
   const handleInputChange = (index: number) => (event: any) => {
     const updatedArtwork = {
       ...artworks[index],

@@ -27,7 +27,7 @@ function CarouselProduct({ images }: CarouselProps) {
   return (
     <>
       <Swiper
-        className="mySwiper2 relative "
+        className="mySwiper2 relative  h-[50vh] w-full "
         modules={[Navigation, Pagination, Scrollbar, A11y, Keyboard, Thumbs]}
         pagination={{ clickable: true, type: "bullets" }}
         navigation
@@ -46,24 +46,26 @@ function CarouselProduct({ images }: CarouselProps) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              minHeight: "400px",
+              minHeight: "300px",
               minWidth: "200px",
             }}
           >
-            <Image
-              src={img}
-              alt={`${idx}`}
-              fill
-              objectFit="cover"
-              priority={true}
-              sizes="100%"
-              className="rounded-md"
-            />
+            <div className="w-full h-full relative">
+              <Image
+                src={img}
+                alt={`${idx}`}
+                fill
+                object-fit={"contain"}
+                priority={true}
+                sizes="100%"
+                className="rounded-md"
+              />
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
       <Swiper
-        className="mySwiper mt-3 h-32 relative rounded-md w-full"
+        className="mySwiper gallerythumbs mt-3 h-28 relative rounded-md w-full"
         modules={[FreeMode, Navigation, Thumbs]}
         spaceBetween={10}
         slidesPerView={4}
@@ -77,15 +79,14 @@ function CarouselProduct({ images }: CarouselProps) {
       >
         {images.map((img, idx) => (
           <SwiperSlide key={idx}>
-            <button>
+            <button className="h-full w-full relative">
               <Image
                 src={img}
                 alt={`${idx}`}
                 fill
-                objectFit="cover"
+                object-fit="cover"
                 priority={true}
                 sizes="100%"
-                className="h-full w-full block"
               />
             </button>
           </SwiperSlide>

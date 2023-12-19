@@ -218,7 +218,7 @@ export async function getArtworks() {
 
     // Check if any URL is expired
     for (const artwork of data) {
-      if (await isUrlExpired(artwork.s3key)) {
+      if (await isUrlExpired(artwork.mainImage)) {
         response = await fetch(`${serverUrl}/express/getArtwork/${name}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

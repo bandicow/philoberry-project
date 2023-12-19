@@ -10,5 +10,5 @@ phases:
 
 artifacts:
   files:
-    - client/frontimagedefinitions.json
-    - client/appspec.json
+    - appspec.json
+    - frontimagedefinitions.json
