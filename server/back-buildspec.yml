@@ -12,5 +12,4 @@ artifacts:
   files:
     - "appspec.json"
     - "backendimagedefinitions.json"
-    - "**/*"
   base-directory: "server"
