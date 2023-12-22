@@ -9,6 +9,11 @@ import Link from "next/link";
 export const Mainpage = () => {
   const { data: artistName } = useQuery(["artistName"], getTodayArtist);
 
+  console.log(process.env.GOOGLE_CLIENT_ID);
+  console.log(process.env.GOOGLE_CLIENT_SECRET);
+  console.log(process.env.NEXTAUTH_SECRET);
+  console.log(process.env.NEXTAUTH_URL);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-2xl text-white uppercase bg-black">
       <h1 className={"mb-5 font-bold text-white"}>PhiloBerry studio</h1>

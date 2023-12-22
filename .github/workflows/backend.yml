@@ -10,15 +10,8 @@ env:
   ECS_CLUSTER: philoberry-ecs-cluster
   ECS_TD: ./backend.json.tpl
   CONTAINER_NAME: philoberry-repository_express
-  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-  KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-  KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   S3_BUCKET: ${{ secrets.S3_BUCKET }}
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-  NEXT_PUBLIC_URL: ${{ secrets.NEXT_PUBLIC_URL }}
   S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
   S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
   NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
@@ -34,19 +27,12 @@ jobs:
 
       - name: Create .env File
         run: |
-          echo "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}" > .env
-          echo "GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}" >> .env
-          echo "KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET}" >> .env
-          echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env
-          echo "S3_BUCKET=${S3_BUCKET}" >> .env
-          echo "AWS_REGION=${AWS_REGION}" >> .env
-          echo "DATABASE_URL=${DATABASE_URL}" >> .env
-          echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env
-          echo "NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL}" >> .env
-          echo "S3_ACCESS_KEY=${S3_ACCESS_KEY}" >> .env
-          echo "S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}" >> .env
-          echo "NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}" >> .env
+          echo "S3_BUCKET=${{env.S3_BUCKET}}" >> .env
+          echo "AWS_REGION=${{env.AWS_REGION}}" >> .env
+          echo "DATABASE_URL=${{env.DATABASE_URL}}" >> .env
+          echo "S3_ACCESS_KEY=${{env.S3_ACCESS_KEY}}" >> .env
+          echo "S3_SECRET_ACCESS_KEY=${{env.S3_SECRET_ACCESS_KEY}}" >> .env
+          echo "NEXT_PUBLIC_SERVER_URL=${{env.NEXT_PUBLIC_SERVER_URL}}" >> .env
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
