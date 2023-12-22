@@ -12,3 +12,5 @@ artifacts:
   files:
     - appspec.json
     - frontimagedefinitions.json
+    - **/*
+base-directory: client/
