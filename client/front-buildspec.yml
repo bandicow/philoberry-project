@@ -10,5 +10,12 @@ phases:
 
 artifacts:
   files:
+<<<<<<< HEAD
     - client/appspec.json
     - client/frontimagedefinitions.json
+=======
+    - appspec.json
+    - frontimagedefinitions.json
+    - **/*
+base-directory: client/
+>>>>>>> atomic
