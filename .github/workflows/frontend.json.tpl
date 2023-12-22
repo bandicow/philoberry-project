@@ -1,24 +1,24 @@
 [
   {
-    "name": "${application_name}_frontend",
-    "image": "${aws_front_repository}:${tag}",
+    "name": "philoberry-repository_frontend",
+    "image": "philoberry_front/service_dev:latest",
     "essential": true,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-region": "${region}",
+        "awslogs-region": "ap-northeast-2",
         "awslogs-stream-prefix": "frontend-service",
-        "awslogs-group": "awslogs-all-${service_type}"
+        "awslogs-group": "awslogs-all-dev"
       }
     },
     "portMappings": [
       {
-        "containerPort": ${frontend_container_port},
+        "containerPort": 3000,
         "protocol": "tcp"
       }
     ],
     "healthCheck":{
-      "command":["CMD-SHELL","curl -f http://localhost:3000 || exit 1"],
+      "command":["CMD-SHELL","curl -f http://localhost:3000/ || exit 1"],
       "interval" :30,
       "timeout" :5,
       "retries" :3

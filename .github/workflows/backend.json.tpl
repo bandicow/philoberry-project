@@ -1,19 +1,19 @@
 [
   {
-    "name": "${application_name}_express",
-    "image": "${aws_express_repository}:${tag}",
+    "name": "philoberry-repository_express",
+    "image": "philoberry_express/service_dev:latest",
     "essential": true,
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-region": "${region}",
+        "awslogs-region": "ap-northeast-2",
         "awslogs-stream-prefix": "express-service",
-        "awslogs-group": "awslogs-all-${service_type}"
+        "awslogs-group": "awslogs-all-dev"
       }
     },
     "portMappings": [
       {
-        "containerPort": ${express_container_port},
+        "containerPort": 8000,
         "protocol": "tcp"
       }
     ],
