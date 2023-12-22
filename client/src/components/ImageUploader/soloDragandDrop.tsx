@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { on } from "events";
 
 const USER: IconDefinition = faUser;
 
@@ -24,13 +25,14 @@ const DragAndDropUploader = ({
     [setUploadedImages]
   );
 
-  const { getRootProps, isDragActive } = useDropzone({
+  const { getRootProps, isDragActive, open, getInputProps } = useDropzone({
     onDrop,
     accept: {
       "image/jpeg": [".jpeg", ".jpg"],
       "image/png": [".png"],
     }, // 이미지 파일만 선택가능
     multiple: false,
+    noClick: true, // 드래그앤드롭 클릭 시 파일 선택창이 뜨는 것을 방지
   });
 
   // 이미지 삭제
@@ -48,8 +50,12 @@ const DragAndDropUploader = ({
         className={`dropzone ${
           isDragActive ? "active" : ""
         } flex w-full p-1 border border-gray-300 bg-white rounded-md font-inherit h-full  items-center justify-center flex-col`}
-        {...getRootProps()}
+        {...getRootProps(
+          { onClick: open } // 추가된 코드
+        )}
       >
+        <input {...getInputProps()} />
+
         {!uploadedImages && (
           <>
             <FontAwesomeIcon icon={USER} className={"m-4"} size="2xl" />
