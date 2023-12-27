@@ -29,10 +29,10 @@ export const authConfig: NextAuthOptions = {
 
         if (
           dbUser &&
-          dbUser.password &&
-          (await bcrypt.compare(credentials.password, dbUser.password))
+          dbUser.hashedPassword &&
+          (await bcrypt.compare(credentials.password, dbUser.hashedPassword))
         ) {
-          const { password, ...dbUserWithoutPassword } = dbUser;
+          const { hashedPassword, ...dbUserWithoutPassword } = dbUser;
           return { ...dbUserWithoutPassword, id: String(dbUser.id) }; // Convert id to string.
         }
 
