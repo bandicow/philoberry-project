@@ -5,7 +5,7 @@
       "TargetService": {
         "Type": "AWS::ECS::Service",
         "Properties": {
-          "TaskDefinition": "backend-staging-dev",
+          "TaskDefinition": "TASK_DEFINITION_ARN",
           "LoadBalancerInfo": {
             "ContainerName": "philoberry-repository_express",
             "ContainerPort": 8000

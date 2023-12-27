@@ -3,6 +3,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import prisma from "@/lib/prisma";
 
@@ -64,4 +65,5 @@ export const authConfig: NextAuthOptions = {
       return session;
     },
   },
+  adapter: PrismaAdapter(prisma),
 };
