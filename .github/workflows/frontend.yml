@@ -2,7 +2,7 @@ name: Update Philoberry frontend
 
 on:
   push:
-    branches: ["atomic"]
+    branches: ["main"]
 
 env:
   AWS_REGION: ap-northeast-2
