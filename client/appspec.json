@@ -1,15 +1,11 @@
 {
-  "version": 0.2,
+  "version": "0.2",
   "Resources": [
     {
       "TargetService": {
         "Type": "AWS::ECS::Service",
         "Properties": {
-<<<<<<< HEAD
-          "TaskDefinition": "arn:aws:ecs:ap-northeast-2:666897452748:task-definition/backend-staging-dev:38",
-=======
           "TaskDefinition": "TASK_DEFINITION_ARN",
->>>>>>> atomic
           "LoadBalancerInfo": {
             "ContainerName": "philoberry-repository_frontend",
             "ContainerPort": 3000
