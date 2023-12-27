@@ -2,7 +2,7 @@ name: Update Philoberry backend
 
 on:
   push:
-    branches: ["main"]
+    branches: ["atomic"]
 
 env:
   AWS_REGION: ap-northeast-2
@@ -10,11 +10,6 @@ env:
   ECS_CLUSTER: philoberry-ecs-cluster
   ECS_TD: ./backend.json.tpl
   CONTAINER_NAME: philoberry-repository_express
-  S3_BUCKET: ${{ secrets.S3_BUCKET }}
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
-  S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
-  NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
 
 jobs:
   update_service:
@@ -27,12 +22,12 @@ jobs:
 
       - name: Create .env File
         run: |
-          echo "S3_BUCKET=${{env.S3_BUCKET}}" >> .env
+          echo "S3_BUCKET=${{secrets.S3_BUCKET}}" >> .env
           echo "AWS_REGION=${{env.AWS_REGION}}" >> .env
-          echo "DATABASE_URL=${{env.DATABASE_URL}}" >> .env
-          echo "S3_ACCESS_KEY=${{env.S3_ACCESS_KEY}}" >> .env
-          echo "S3_SECRET_ACCESS_KEY=${{env.S3_SECRET_ACCESS_KEY}}" >> .env
-          echo "NEXT_PUBLIC_SERVER_URL=${{env.NEXT_PUBLIC_SERVER_URL}}" >> .env
+          echo "DATABASE_URL=${{secrets.DATABASE_URL}}" >> .env
+          echo "S3_ACCESS_KEY=${{secrets.S3_ACCESS_KEY}}" >> .env
+          echo "S3_SECRET_ACCESS_KEY=${{secrets.S3_SECRET_ACCESS_KEY}}" >> .env
+          echo "NEXT_PUBLIC_SERVER_URL=${{secrets.NEXT_PUBLIC_SERVER_URL}}" >> .env
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -55,3 +50,14 @@ jobs:
           docker build -t ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG} -f server/Dockerfile.express . 
           docker push ${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}
           echo "::set-output name=image::${ECR_REGISTRY_URL}/${ECR_REPOSITORY_NAME}:${IMAGE_TAG}"
+
+      - name: Get Task Definition ARN from SSM
+        id: get-task-def
+        run: |
+          TASK_DEF=$(aws ssm get-parameter --name "/myapp/backend_task_definition_arn" --query "Parameter.Value" --output text)
+          echo "::set-output name=task_def::$TASK_DEF"
+
+      - name: Update appspec.json
+        run: |
+          TASK_DEF=${{ steps.get-task-def.outputs.task_def }}
+          jq '.Resources[0].TargetService.Properties.TaskDefinition = "'$TASK_DEF'"' server/appspec.json > temp.json && mv temp.json server/appspec.json

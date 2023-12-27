@@ -1,5 +1,5 @@
 #Next Image
-FROM node:16.18.0 AS build
+FROM node:18.16.0 AS build
 
 #Set working directory
 WORKDIR /app
