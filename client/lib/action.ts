@@ -474,3 +474,24 @@ export async function checkIsAdmin(email: string) {
     throw error;
   }
 }
+
+//회원가입
+export async function signUp(name: string, email: string, password: string) {
+  try {
+    const response = await fetch(`${serverUrl}/express/signUp`, {
+      method: "POST",
+      body: JSON.stringify({ name, email, password }),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

@@ -7,6 +7,7 @@ import {
   KaKaoSignInButton,
 } from "@/src/components/sign/authButtons";
 import { CredentialsForm } from "@/src/components/sign/CredentialsForm";
+import Link from "next/link";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -27,6 +28,12 @@ export default async function SignInPage() {
         <h1 className="mt-3 mb-4 text-4xl font-bold text-white">Sign In</h1>
 
         <CredentialsForm />
+        <div className="flex justify-between w-full mt-1">
+          <Link href={`/login/signup`} className="text-xs text-gray-400">
+            회원가입
+          </Link>
+          <span className="text-xs text-gray-400">아이디 찾기</span>
+        </div>
         <span className="mt-8 text-base font-semibold text-center text-white">
           - Or -
           <GoogleSignInButton />
