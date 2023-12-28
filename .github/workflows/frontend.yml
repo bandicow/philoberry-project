@@ -68,6 +68,6 @@ jobs:
       - name: Update appspec.json
         run: |
           TASK_DEF=${{ steps.get-task-def.outputs.task_def }}
-          jq '.Resources[0].TargetService.Properties.TaskDefinition = "'$TASK_DEF'"' client/appspec.json > temp.json 
-          cat temp.json
-          mv temp.json appspec.json
+          jq '.Resources[0].TargetService.Properties.TaskDefinition = "'$TASK_DEF'"' client/appspec.json > client/temp.json 
+          mv client/temp.json server/appspec.json
+          cat client/appspec.json
