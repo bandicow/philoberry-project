@@ -25,17 +25,17 @@ jobs:
       - name: Create .env File
         run: |
           echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" > .env
-          echo "GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}}" >> .env
-          echo "KAKAO_CLIENT_ID=${{secrets.KAKAO_CLIENT_ID}}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{secrets.KAKAO_CLIENT_SECRET}}" >> .env
-          echo "NEXTAUTH_SECRET=${{secrets.NEXTAUTH_SECRET}}" >> .env
-          echo "S3_BUCKET=${{secrets.S3_BUCKET}}" >> .env
-          echo "AWS_REGION=${{env.AWS_REGION}}" >> .env
-          echo "DATABASE_URL=${{secrets.DATABASE_URL}}" >> .env
-          echo "NEXTAUTH_URL=${{secrets.NEXTAUTH_URL}}" >> .env
-          echo "S3_ACCESS_KEY=${{secrets.S3_ACCESS_KEY}}" >> .env
-          echo "S3_SECRET_ACCESS_KEY=${{secrets.S3_SECRET_ACCESS_KEY}}" >> .env
-          echo "NEXT_PUBLIC_URL=${{secrets.NEXT_PUBLIC_URL}}" >> .env
+           echo "GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}}" >> .env
+           echo "KAKAO_CLIENT_ID=${{secrets.KAKAO_CLIENT_ID}}" >> .env
+           echo "KAKAO_CLIENT_SECRET=${{secrets.KAKAO_CLIENT_SECRET}}" >> .env
+           echo "NEXTAUTH_SECRET=${{secrets.NEXTAUTH_SECRET}}" >> .env
+           echo "S3_BUCKET=${{secrets.S3_BUCKET}}" >> .env
+           echo "AWS_REGION=${{env.AWS_REGION}}" >> .env
+           echo "DATABASE_URL=${{secrets.DATABASE_URL}}" >> .env
+           echo "NEXTAUTH_URL=${{secrets.NEXTAUTH_URL}}" >> .env
+           echo "S3_ACCESS_KEY=${{secrets.S3_ACCESS_KEY}}" >> .env
+           echo "S3_SECRET_ACCESS_KEY=${{secrets.S3_SECRET_ACCESS_KEY}}" >> .env
+           echo "NEXT_PUBLIC_URL=${{secrets.NEXT_PUBLIC_URL}}" >> .env
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -68,4 +68,6 @@ jobs:
       - name: Update appspec.json
         run: |
           TASK_DEF=${{ steps.get-task-def.outputs.task_def }}
-          jq '.Resources[0].TargetService.Properties.TaskDefinition = "'$TASK_DEF'"' client/appspec.json > temp.json && mv temp.json client/appspec.json
+          jq '.Resources[0].TargetService.Properties.TaskDefinition = "'$TASK_DEF'"' client/appspec.json > temp.json 
+          cat temp.json
+          mv temp.json appspec.json
