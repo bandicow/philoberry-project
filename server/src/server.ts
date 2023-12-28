@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import prisma from "./lib/prisma";
@@ -484,10 +485,45 @@ app.post("/express/checkIsAdmin", async (req: Request, res: Response) => {
       },
     });
 
-    return res.status(200).json(user?.isAdmin ?? false);
+    return res.status(200).json(user?.email ?? false);
   } catch (error) {
     console.log(error, "확인 실패");
     return res.status(404).json({ message: "관리자 확인 실패" });
+  }
+});
+
+//** 회원가입 */
+app.post("/express/signUp", async (req: Request, res: Response) => {
+  const NewUser = req.body;
+
+  try {
+    // 이메일 또는 비밀번호가 제공되지 않았다면 에러를 반환합니다.
+    if (!NewUser.email || !NewUser.password) {
+      throw new Error("이메일과 비밀번호는 필수 항목입니다.");
+    }
+    // 이미 동일한 이메일로 가입한 사용자가 있는지 확인합니다.
+    const existingUser = await prisma.user.findUnique({
+      where: { email: NewUser.email },
+    });
+
+    if (existingUser) {
+      throw new Error("이미 가입된 이메일 주소입니다.");
+    }
+
+    const hashedPassword = await bcrypt.hash(NewUser.password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        name: NewUser.name,
+        email: NewUser.email,
+        hashedPassword: hashedPassword,
+      },
+    });
+
+    return res.status(201).json(user);
+  } catch (error) {
+    console.log(error, "서버 에러");
+    return res.status(404).json({ message: "회원가입 실패" });
   }
 });
 
