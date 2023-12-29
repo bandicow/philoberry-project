@@ -68,4 +68,4 @@ jobs:
           git config --global user.email 'kjh45388117@gmail.com'
           git add server/appspec.json
           git commit -m "Update backend appspec.json"
-          git push https://${{secrets.GH_TOKEN }}@github.com/bandicow/philoberry-project.git
+          git push https://${{env.GH_TOKEN}}@github.com/bandicow/philoberry-project.git
