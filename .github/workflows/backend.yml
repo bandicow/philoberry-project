@@ -65,5 +65,5 @@ jobs:
           git config --global user.name 'bandicow'
           git config --global user.email 'kjh45388117@gmail.com'
           git add server/appspec.json
-          git commit
+          git commit -m "Update backend appspec.json"
           git push
