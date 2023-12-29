@@ -67,7 +67,7 @@ jobs:
 
       - name: Create appspec.json
         run: |
-          echo '{"version": "0.2", "Resources": [{"TargetService": {"Type": "AWS::ECS::Service", "Properties": {"TaskDefinition": "'${{ steps.get-task-def.outputs.task_def }}'", "LoadBalancerInfo": {"ContainerName": "philoberry-repository_frontend", "ContainerPort": 3000}}}}]}' > client/appspec.json
+          echo '{"version": "0.2", "Resources": [{"TargetService": {"Type": "AWS::ECS::Service", "Properties": {"TaskDefinition": "'${{ steps.get-task-def.outputs.task_def }}'", "LoadBalancerInfo": {"ContainerName": "philoberry-repository_frontend", "ContainerPort": 3000}}}}]}' | jq '.' > client/appspec.json
 
       - name: Commit and push appspec.json
         env:
@@ -75,6 +75,7 @@ jobs:
         run: |
           git config --global user.name 'bandicow'
           git config --global user.email 'kjh45388117@gmail.com'
+          git remote set-url origin https://${{env.GH_TOKEN}}@github.com/bandicow/philoberry-project.git
           git add client/appspec.json
           git commit -m "Update frontend appspec.json"
-          git push https://${{env.GH_TOKEN}}@github.com/bandicow/philoberry-project.git main
+          git push origin main
