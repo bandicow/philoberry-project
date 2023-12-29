@@ -69,4 +69,4 @@ jobs:
           git remote set-url origin https://${{env.GH_TOKEN}}@github.com/bandicow/philoberry-project.git     
           git add server/appspec.json
           git commit -m "Update backend appspec.json"
-          git push
+          git push origin main
