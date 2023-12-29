@@ -65,9 +65,14 @@ jobs:
           TASK_DEF=$(aws ssm get-parameter --name "/myapp/frontend_task_definition_arn" --query "Parameter.Value" --output text)
           echo "::set-output name=task_def::$TASK_DEF"
 
-      - name: Update appspec.json
+      - name: Create appspec.json
         run: |
-          TASK_DEF=${{ steps.get-task-def.outputs.task_def }}
-          jq '.Resources[0].TargetService.Properties.TaskDefinition = "'$TASK_DEF'"' client/appspec.json > client/temp.json 
-          mv client/temp.json server/appspec.json
-          cat client/appspec.json
+          echo '{"version": "0.2", "Resources": [{"TargetService": {"Type": "AWS::ECS::Service", "Properties": {"TaskDefinition": "'${{ steps.get-task-def.outputs.task_def }}'", "LoadBalancerInfo": {"ContainerName": "philoberry-repository_frontend", "ContainerPort": 3000}}}}]}' > client/appspec.json
+
+      - name: Commit and push appspec.json
+        run: |
+          git config --global user.name 'bandicow'
+          git config --global user.email 'kjh45388117@gmail.com'
+          git add client/appspec.json
+          git commit
+          git push
