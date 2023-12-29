@@ -75,6 +75,7 @@ jobs:
         run: |
           git config --global user.name 'bandicow'
           git config --global user.email 'kjh45388117@gmail.com'
+          git remote set-url origin https://${{secrets.GH_TOKEN}}@github.com/bandicow/philoberry-project.git
           git add client/appspec.json
           git commit -m "Update frontend appspec.json"
-          git push https://${{env.GH_TOKEN}}@github.com/bandicow/philoberry-project.git main
+          git push origin main
