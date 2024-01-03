@@ -1,11 +1,17 @@
 "use client";
 import { signUp } from "@/lib/action";
+import SlideUpMessage from "@/src/components/UI/Alert/Slideup";
+import { useNotification } from "@/src/hooks/useNotification";
+import { redirect } from "next/navigation";
 import { useState, FormEvent } from "react";
 
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { shake, showFailureMessage, startFailureNotification } =
+    useNotification();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -14,15 +20,20 @@ export default function SignUp() {
       const response = await signUp(name, email, password);
 
       if (response) {
-        console.log("회원가입 성공");
+        redirect("/signin");
       }
     } catch (error) {
+      startFailureNotification();
       return console.log("로그인 실패");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200">
+    <div
+      className={`${
+        shake ? "animate-shake" : ""
+      } flex items-center justify-center min-h-[calc(100vh-40px)] bg-gray-200`}
+    >
       <div className="p-8 bg-white rounded shadow">
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
@@ -81,6 +92,12 @@ export default function SignUp() {
           </button>
         </form>
       </div>
+      <SlideUpMessage
+        message="다시 작성해주세요."
+        show={showFailureMessage}
+        fail={true}
+        className="bottom-8"
+      />
     </div>
   );
 }

@@ -18,8 +18,6 @@ const serverUrl = isProduction
 export default async function SignInPage() {
   const session = await getServerSession(authConfig);
 
-  console.log("Session: ", session);
-
   if (session) return redirect(`${serverUrl}`);
 
   return (
@@ -29,7 +27,7 @@ export default async function SignInPage() {
 
         <CredentialsForm />
         <div className="flex justify-between w-full mt-1">
-          <Link href={`/login/signup`} className="text-xs text-gray-400">
+          <Link href={`/signup`} className="text-xs text-gray-400">
             회원가입
           </Link>
           <span className="text-xs text-gray-400">아이디 찾기</span>

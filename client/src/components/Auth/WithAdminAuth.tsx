@@ -13,6 +13,8 @@ export default function withAdminAuth<P extends object>(
     useEffect(() => {
       if (status === "authenticated" && !session) {
         router.push("/login");
+      } else if (session?.user.role !== "admin") {
+        router.push("/");
       }
     }, [status, session, router]);
 

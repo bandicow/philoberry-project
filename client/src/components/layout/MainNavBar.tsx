@@ -73,10 +73,14 @@ const MainNavBar: NextPage<navbarScrollProps> = ({ hideOnScroll = false }) => {
             </li>
             <li>
               {!loading &&
-                (!session ? (
-                  <Link href="/login">로그인</Link>
+                (session ? (
+                  session.user.role === "admin" ? (
+                    <Link href="/admin">관리자 설정</Link>
+                  ) : (
+                    <Link href="/profile">프로필</Link>
+                  )
                 ) : (
-                  <Link href="/admin">관리자 설정</Link>
+                  <Link href="/signin">로그인</Link>
                 ))}
             </li>
           </ul>
